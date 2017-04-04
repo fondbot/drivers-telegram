@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram;
 
+use FondBot\Drivers\ReceivedMessage\Attachment;
 use GuzzleHttp\Client;
 use FondBot\Drivers\User;
 use FondBot\Drivers\Driver;
@@ -60,7 +61,7 @@ class TelegramDriver extends Driver implements WebhookInstallation
      */
     public function installWebhook(string $url): void
     {
-        $this->guzzle->post($this->getBaseUrl() . '/setWebhook', [
+        $this->guzzle->post($this->getBaseUrl().'/setWebhook', [
             'form_params' => [
                 'url' => $url,
             ],
@@ -85,7 +86,7 @@ class TelegramDriver extends Driver implements WebhookInstallation
         $name = trim($name);
 
         return new User(
-            (string)$from['id'],
+            (string) $from['id'],
             $name,
             $from['username'] ?? null
         );
@@ -108,8 +109,8 @@ class TelegramDriver extends Driver implements WebhookInstallation
     /**
      * Send reply to participant.
      *
-     * @param User $sender
-     * @param string $text
+     * @param User          $sender
+     * @param string        $text
      * @param Keyboard|null $keyboard
      *
      * @return OutgoingMessage
@@ -118,15 +119,41 @@ class TelegramDriver extends Driver implements WebhookInstallation
     {
         $message = new TelegramOutgoingMessage($sender, $text, $keyboard);
 
-        $this->guzzle->post($this->getBaseUrl() . '/sendMessage', [
+        $this->guzzle->post($this->getBaseUrl().'/sendMessage', [
             'form_params' => $message->toArray(),
         ]);
 
         return $message;
     }
 
+    /**
+     * Send attachment to recipient.
+     *
+     * @param User       $recipient
+     * @param Attachment $attachment
+     */
+    public function sendAttachment(User $recipient, Attachment $attachment): void
+    {
+        switch ($attachment->getType()) {
+            case Attachment::TYPE_IMAGE:
+                $this->guzzle->post($this->getBaseUrl().'/sendPhoto', [
+                    'multipart' => [
+                        [
+                            'name' => 'chat_id',
+                            'contents' => $recipient->getId(),
+                        ],
+                        [
+                            'name' => 'photo',
+                            'contents' => fopen($attachment->getPath(), 'rb'),
+                        ],
+                    ],
+                ]);
+                break;
+        }
+    }
+
     private function getBaseUrl(): string
     {
-        return 'https://api.telegram.org/bot' . $this->getParameter('token');
+        return 'https://api.telegram.org/bot'.$this->getParameter('token');
     }
 }
