@@ -60,7 +60,7 @@ class TelegramDriver extends Driver implements WebhookInstallation
      */
     public function installWebhook(string $url): void
     {
-        $this->guzzle->post($this->getBaseUrl().'/setWebhook', [
+        $this->guzzle->post($this->getBaseUrl() . '/setWebhook', [
             'form_params' => [
                 'url' => $url,
             ],
@@ -80,10 +80,14 @@ class TelegramDriver extends Driver implements WebhookInstallation
             $from = $this->getRequest('message.from');
         }
 
+        $name = [$from['first_name'] ?? null, $from['last_name'] ?? null];
+        $name = implode(' ', $name);
+        $name = trim($name);
+
         return new User(
-            $from['id'],
-            $from['first_name'].' '.$from['last_name'],
-            $from['username']
+            (string)$from['id'],
+            $name,
+            $from['username'] ?? null
         );
     }
 
@@ -114,7 +118,7 @@ class TelegramDriver extends Driver implements WebhookInstallation
     {
         $message = new TelegramOutgoingMessage($sender, $text, $keyboard);
 
-        $this->guzzle->post($this->getBaseUrl().'/sendMessage', [
+        $this->guzzle->post($this->getBaseUrl() . '/sendMessage', [
             'form_params' => $message->toArray(),
         ]);
 
@@ -123,6 +127,6 @@ class TelegramDriver extends Driver implements WebhookInstallation
 
     private function getBaseUrl(): string
     {
-        return 'https://api.telegram.org/bot'.$this->getParameter('token');
+        return 'https://api.telegram.org/bot' . $this->getParameter('token');
     }
 }
