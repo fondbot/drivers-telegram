@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace FondBot\Drivers\Telegram;
 
 use GuzzleHttp\Client;
-use FondBot\Contracts\Channels\User;
-use FondBot\Contracts\Channels\Driver;
+use FondBot\Drivers\Driver;
+use FondBot\Contracts\Drivers\User;
 use FondBot\Contracts\Conversation\Keyboard;
-use FondBot\Contracts\Channels\OutgoingMessage;
-use FondBot\Contracts\Channels\ReceivedMessage;
-use FondBot\Channels\Exceptions\InvalidChannelRequest;
-use FondBot\Contracts\Channels\Extensions\WebhookInstallation;
+use FondBot\Contracts\Drivers\InvalidRequest;
+use FondBot\Contracts\Drivers\OutgoingMessage;
+use FondBot\Contracts\Drivers\ReceivedMessage;
+use FondBot\Contracts\Drivers\Extensions\WebhookInstallation;
 
 class TelegramDriver extends Driver implements WebhookInstallation
 {
@@ -37,7 +37,7 @@ class TelegramDriver extends Driver implements WebhookInstallation
     /**
      * Verify incoming request data.
      *
-     * @throws InvalidChannelRequest
+     * @throws InvalidRequest
      */
     public function verifyRequest(): void
     {
@@ -49,7 +49,7 @@ class TelegramDriver extends Driver implements WebhookInstallation
             !$this->hasRequest('message') ||
             !$this->hasRequest('message.from')
         ) {
-            throw new InvalidChannelRequest('Invalid payload');
+            throw new InvalidRequest('Invalid payload');
         }
     }
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram;
 
-use FondBot\Contracts\Channels\User;
+use FondBot\Contracts\Drivers\User;
 use FondBot\Conversation\Buttons\UrlButton;
 use FondBot\Contracts\Conversation\Keyboard;
-use FondBot\Contracts\Channels\OutgoingMessage;
+use FondBot\Contracts\Drivers\OutgoingMessage;
 use FondBot\Conversation\Buttons\PayloadButton;
 use FondBot\Drivers\Telegram\Buttons\RequestContactButton;
 

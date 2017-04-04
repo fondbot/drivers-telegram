@@ -8,14 +8,14 @@ use Tests\TestCase;
 use GuzzleHttp\Client;
 use FondBot\Helpers\Str;
 use FondBot\Conversation\Keyboard;
-use FondBot\Contracts\Channels\User;
+use FondBot\Contracts\Drivers\User;
 use FondBot\Contracts\Filesystem\File;
 use Psr\Http\Message\ResponseInterface;
 use FondBot\Drivers\Telegram\TelegramUser;
 use FondBot\Drivers\Telegram\TelegramDriver;
 use FondBot\Conversation\Buttons\ReplyButton;
-use FondBot\Contracts\Channels\Message\Location;
-use FondBot\Contracts\Channels\Message\Attachment;
+use FondBot\Contracts\Drivers\Message\Location;
+use FondBot\Contracts\Drivers\Message\Attachment;
 use FondBot\Drivers\Telegram\TelegramOutgoingMessage;
 use FondBot\Drivers\Telegram\TelegramReceivedMessage;
 
@@ -52,7 +52,7 @@ class TelegramDriverTest extends TestCase
     }
 
     /**
-     * @expectedException \FondBot\Channels\Exceptions\InvalidChannelRequest
+     * @expectedException \FondBot\Contracts\Drivers\InvalidRequest
      * @expectedExceptionMessage Invalid payload
      */
     public function test_verifyRequest_empty_message()
@@ -61,7 +61,7 @@ class TelegramDriverTest extends TestCase
     }
 
     /**
-     * @expectedException \FondBot\Channels\Exceptions\InvalidChannelRequest
+     * @expectedException \FondBot\Contracts\Drivers\InvalidRequest
      * @expectedExceptionMessage Invalid payload
      */
     public function test_verifyRequest_no_sender()

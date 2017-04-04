@@ -6,9 +6,9 @@ namespace FondBot\Drivers\Telegram;
 
 use GuzzleHttp\Client;
 use FondBot\Helpers\Arr;
-use FondBot\Contracts\Channels\ReceivedMessage;
-use FondBot\Contracts\Channels\Message\Location;
-use FondBot\Contracts\Channels\Message\Attachment;
+use FondBot\Contracts\Drivers\ReceivedMessage;
+use FondBot\Contracts\Drivers\Message\Location;
+use FondBot\Contracts\Drivers\Message\Attachment;
 
 class TelegramReceivedMessage implements ReceivedMessage
 {
