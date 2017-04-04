@@ -1,0 +1,41 @@
+{
+  "name": "fondbot/telegram-driver",
+  "description": "Telegram driver for FondBot",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Vladimir Yuldashev",
+      "email": "vladimir@fondbot.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "FondBot\\Drivers\\Telegram\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit --stop-on-failure --no-coverage",
+    "cs": "php-cs-fixer fix --allow-risky=yes"
+  },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require-dev": {
+    "fondbot/fondbot": "self.version",
+    "fzaninotto/faker": "^1.6",
+    "mockery/mockery": "^0.9.9",
+    "phpunit/phpunit": "^6.0"
+  }
+}
