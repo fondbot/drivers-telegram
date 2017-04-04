@@ -7,14 +7,13 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use GuzzleHttp\Client;
 use FondBot\Helpers\Str;
+use FondBot\Drivers\User;
 use FondBot\Conversation\Keyboard;
-use FondBot\Contracts\Drivers\User;
 use Psr\Http\Message\ResponseInterface;
-use FondBot\Drivers\Telegram\TelegramUser;
 use FondBot\Drivers\Telegram\TelegramDriver;
 use FondBot\Conversation\Buttons\ReplyButton;
-use FondBot\Contracts\Drivers\Message\Location;
-use FondBot\Contracts\Drivers\Message\Attachment;
+use FondBot\Drivers\ReceivedMessage\Location;
+use FondBot\Drivers\ReceivedMessage\Attachment;
 use FondBot\Drivers\Telegram\TelegramOutgoingMessage;
 use FondBot\Drivers\Telegram\TelegramReceivedMessage;
 
@@ -51,7 +50,7 @@ class TelegramDriverTest extends TestCase
     }
 
     /**
-     * @expectedException \FondBot\Contracts\Drivers\InvalidRequest
+     * @expectedException \FondBot\Drivers\Exceptions\InvalidRequest
      * @expectedExceptionMessage Invalid payload
      */
     public function test_verifyRequest_empty_message()
@@ -60,7 +59,7 @@ class TelegramDriverTest extends TestCase
     }
 
     /**
-     * @expectedException \FondBot\Contracts\Drivers\InvalidRequest
+     * @expectedException \FondBot\Drivers\Exceptions\InvalidRequest
      * @expectedExceptionMessage Invalid payload
      */
     public function test_verifyRequest_no_sender()
@@ -83,7 +82,7 @@ class TelegramDriverTest extends TestCase
         $url = $this->faker()->url;
 
         $this->guzzle->shouldReceive('post')->with(
-            'https://api.telegram.org/bot' . $this->parameters['token'] . '/setWebhook',
+            'https://api.telegram.org/bot'.$this->parameters['token'].'/setWebhook',
             [
                 'form_params' => [
                     'url' => $url,
@@ -109,9 +108,8 @@ class TelegramDriverTest extends TestCase
 
         $sender = $this->driver->getUser();
         $this->assertInstanceOf(User::class, $sender);
-        $this->assertInstanceOf(TelegramUser::class, $sender);
         $this->assertSame($response['id'], $sender->getId());
-        $this->assertSame($response['first_name'] . ' ' . $response['last_name'], $sender->getName());
+        $this->assertSame($response['first_name'].' '.$response['last_name'], $sender->getName());
         $this->assertSame($response['username'], $sender->getUsername());
     }
 
@@ -171,7 +169,7 @@ class TelegramDriverTest extends TestCase
 
         $this->guzzle->shouldReceive('post')
             ->with(
-                'https://api.telegram.org/bot' . $this->parameters['token'] . '/getFile',
+                'https://api.telegram.org/bot'.$this->parameters['token'].'/getFile',
                 [
                     'form_params' => [
                         'file_id' => $id,
@@ -187,7 +185,7 @@ class TelegramDriverTest extends TestCase
         $this->assertTrue($message->hasAttachment());
 
         $attachment = $message->getAttachment();
-        $path = 'https://api.telegram.org/file/bot' . $this->parameters['token'] . '/' . $path;
+        $path = 'https://api.telegram.org/file/bot'.$this->parameters['token'].'/'.$path;
 
         $this->assertInstanceOf(Attachment::class, $attachment);
         $this->assertSame($type, $attachment->getType());
@@ -359,15 +357,15 @@ class TelegramDriverTest extends TestCase
         $replyMarkup = json_encode([
             'keyboard' => [
                 [
-                    (object)['text' => $keyboard->getButtons()[0]->getLabel()],
-                    (object)['text' => $keyboard->getButtons()[1]->getLabel()],
+                    (object) ['text' => $keyboard->getButtons()[0]->getLabel()],
+                    (object) ['text' => $keyboard->getButtons()[1]->getLabel()],
                 ],
             ],
             'one_time_keyboard' => true,
         ]);
 
         $this->guzzle->shouldReceive('post')->with(
-            'https://api.telegram.org/bot' . $this->parameters['token'] . '/sendMessage',
+            'https://api.telegram.org/bot'.$this->parameters['token'].'/sendMessage',
             [
                 'form_params' => [
                     'chat_id' => $recipientId,
@@ -393,7 +391,7 @@ class TelegramDriverTest extends TestCase
         $recipient->shouldReceive('getId')->andReturn($recipientId = $this->faker()->uuid)->atLeast()->once();
 
         $this->guzzle->shouldReceive('post')->with(
-            'https://api.telegram.org/bot' . $this->parameters['token'] . '/sendMessage',
+            'https://api.telegram.org/bot'.$this->parameters['token'].'/sendMessage',
             [
                 'form_params' => [
                     'chat_id' => $recipientId,

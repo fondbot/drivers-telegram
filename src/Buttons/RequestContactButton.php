@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Buttons;
 
-use FondBot\Contracts\Conversation\Button;
+use FondBot\Conversation\Buttons\Button;
 
 class RequestContactButton implements Button
 {

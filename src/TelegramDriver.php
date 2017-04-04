@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace FondBot\Drivers\Telegram;
 
 use GuzzleHttp\Client;
+use FondBot\Drivers\User;
 use FondBot\Drivers\Driver;
-use FondBot\Contracts\Drivers\User;
-use FondBot\Contracts\Conversation\Keyboard;
-use FondBot\Contracts\Drivers\InvalidRequest;
-use FondBot\Contracts\Drivers\OutgoingMessage;
-use FondBot\Contracts\Drivers\ReceivedMessage;
-use FondBot\Contracts\Drivers\Extensions\WebhookInstallation;
+use FondBot\Conversation\Keyboard;
+use FondBot\Drivers\OutgoingMessage;
+use FondBot\Drivers\ReceivedMessage;
+use FondBot\Drivers\Exceptions\InvalidRequest;
+use FondBot\Drivers\Extensions\WebhookInstallation;
 
 class TelegramDriver extends Driver implements WebhookInstallation
 {
@@ -80,7 +80,11 @@ class TelegramDriver extends Driver implements WebhookInstallation
             $from = $this->getRequest('message.from');
         }
 
-        return new TelegramUser($from);
+        return new User(
+            $from['id'],
+            $from['first_name'].' '.$from['last_name'],
+            $from['username']
+        );
     }
 
     /**

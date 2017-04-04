@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use FondBot\Drivers\User;
 use FondBot\Conversation\Keyboard;
-use FondBot\Contracts\Drivers\User;
 use FondBot\Conversation\Buttons\UrlButton;
 use FondBot\Conversation\Buttons\ReplyButton;
 use FondBot\Conversation\Buttons\PayloadButton;
