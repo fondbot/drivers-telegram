@@ -12,9 +12,8 @@ use FondBot\Drivers\OutgoingMessage;
 use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\Exceptions\InvalidRequest;
 use FondBot\Drivers\ReceivedMessage\Attachment;
-use FondBot\Drivers\Extensions\WebhookInstallation;
 
-class TelegramDriver extends Driver implements WebhookInstallation
+class TelegramDriver extends Driver
 {
     private $guzzle;
 
@@ -52,20 +51,6 @@ class TelegramDriver extends Driver implements WebhookInstallation
         ) {
             throw new InvalidRequest('Invalid payload');
         }
-    }
-
-    /**
-     * Initialize webhook in the external service.
-     *
-     * @param string $url
-     */
-    public function installWebhook(string $url): void
-    {
-        $this->guzzle->post($this->getBaseUrl().'/setWebhook', [
-            'form_params' => [
-                'url' => $url,
-            ],
-        ]);
     }
 
     /**
