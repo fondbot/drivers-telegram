@@ -11,10 +11,10 @@
   ],
   "require": {
     "php": ">=7.1",
+    "fondbot/fondbot": "1.0.*",
     "guzzlehttp/guzzle": "^6.2"
   },
   "require-dev": {
-    "fondbot/fondbot": "1.0.*",
     "fzaninotto/faker": "^1.6",
     "mockery/mockery": "^0.9.9",
     "phpunit/phpunit": "^6.0"

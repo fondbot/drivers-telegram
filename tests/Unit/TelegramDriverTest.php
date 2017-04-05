@@ -77,22 +77,6 @@ class TelegramDriverTest extends TestCase
         $this->driver->verifyRequest();
     }
 
-    public function test_installWebhook()
-    {
-        $url = $this->faker()->url;
-
-        $this->guzzle->shouldReceive('post')->with(
-            'https://api.telegram.org/bot'.$this->parameters['token'].'/setWebhook',
-            [
-                'form_params' => [
-                    'url' => $url,
-                ],
-            ]
-        )->once();
-
-        $this->driver->installWebhook($url);
-    }
-
     public function test_getSender()
     {
         $this->driver->fill($this->parameters, [
