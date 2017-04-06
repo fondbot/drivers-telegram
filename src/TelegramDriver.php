@@ -7,9 +7,10 @@ namespace FondBot\Drivers\Telegram;
 use GuzzleHttp\Client;
 use FondBot\Drivers\User;
 use FondBot\Drivers\Driver;
-use FondBot\Conversation\Keyboard;
-use FondBot\Drivers\OutgoingMessage;
+use FondBot\Drivers\Command;
 use FondBot\Drivers\ReceivedMessage;
+use FondBot\Drivers\Commands\SendMessage;
+use FondBot\Drivers\Commands\SendAttachment;
 use FondBot\Drivers\Exceptions\InvalidRequest;
 use FondBot\Drivers\ReceivedMessage\Attachment;
 
@@ -92,44 +93,51 @@ class TelegramDriver extends Driver
     }
 
     /**
-     * Send reply to participant.
+     * Handle command.
      *
-     * @param User          $sender
-     * @param string        $text
-     * @param Keyboard|null $keyboard
-     *
-     * @return OutgoingMessage
+     * @param Command $command
      */
-    public function sendMessage(User $sender, string $text, Keyboard $keyboard = null): OutgoingMessage
+    public function handle(Command $command): void
     {
-        $message = new TelegramOutgoingMessage($sender, $text, $keyboard);
+        if ($command instanceof SendMessage) {
+            $this->handleSendMessageCommand($command);
+        } elseif ($command instanceof SendAttachment) {
+            $this->handleSendAttachmentCommand($command);
+        }
+    }
+
+    /**
+     * Send message to recipient.
+     *
+     * @param SendMessage $command
+     */
+    private function handleSendMessageCommand(SendMessage $command): void
+    {
+        $message = new TelegramOutgoingMessage($command->recipient, $command->text, $command->keyboard);
 
         $this->guzzle->post($this->getBaseUrl().'/sendMessage', [
             'form_params' => $message->toArray(),
         ]);
-
-        return $message;
     }
 
     /**
      * Send attachment to recipient.
      *
-     * @param User       $recipient
-     * @param Attachment $attachment
+     * @param SendAttachment $command
      */
-    public function sendAttachment(User $recipient, Attachment $attachment): void
+    private function handleSendAttachmentCommand(SendAttachment $command): void
     {
-        switch ($attachment->getType()) {
+        switch ($command->attachment->getType()) {
             case Attachment::TYPE_IMAGE:
                 $this->guzzle->post($this->getBaseUrl().'/sendPhoto', [
                     'multipart' => [
                         [
                             'name' => 'chat_id',
-                            'contents' => $recipient->getId(),
+                            'contents' => $command->recipient->getId(),
                         ],
                         [
                             'name' => 'photo',
-                            'contents' => fopen($attachment->getPath(), 'rb'),
+                            'contents' => fopen($command->attachment->getPath(), 'rb'),
                         ],
                     ],
                 ]);

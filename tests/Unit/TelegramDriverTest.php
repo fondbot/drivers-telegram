@@ -8,13 +8,10 @@ use Tests\TestCase;
 use GuzzleHttp\Client;
 use FondBot\Helpers\Str;
 use FondBot\Drivers\User;
-use FondBot\Conversation\Keyboard;
 use Psr\Http\Message\ResponseInterface;
 use FondBot\Drivers\Telegram\TelegramDriver;
-use FondBot\Conversation\Buttons\ReplyButton;
 use FondBot\Drivers\ReceivedMessage\Location;
 use FondBot\Drivers\ReceivedMessage\Attachment;
-use FondBot\Drivers\Telegram\TelegramOutgoingMessage;
 use FondBot\Drivers\Telegram\TelegramReceivedMessage;
 
 /**
@@ -325,66 +322,6 @@ class TelegramDriverTest extends TestCase
         $this->assertSame($title, $venue['title']);
         $this->assertSame($address, $venue['address']);
         $this->assertNull($venue['foursquare_id']);
-    }
-
-    public function test_sendMessage_with_reply_keyboard()
-    {
-        $text = $this->faker()->text;
-
-        $recipient = $this->mock(User::class);
-        $recipient->shouldReceive('getId')->andReturn($recipientId = $this->faker()->uuid)->atLeast()->once();
-        $keyboard = new Keyboard([
-            new ReplyButton($this->faker()->word),
-            new ReplyButton($this->faker()->word),
-        ]);
-
-        $replyMarkup = json_encode([
-            'keyboard' => [
-                [
-                    (object) ['text' => $keyboard->getButtons()[0]->getLabel()],
-                    (object) ['text' => $keyboard->getButtons()[1]->getLabel()],
-                ],
-            ],
-            'one_time_keyboard' => true,
-        ]);
-
-        $this->guzzle->shouldReceive('post')->with(
-            'https://api.telegram.org/bot'.$this->parameters['token'].'/sendMessage',
-            [
-                'form_params' => [
-                    'chat_id' => $recipientId,
-                    'text' => $text,
-                    'reply_markup' => $replyMarkup,
-                ],
-            ]
-        )->once();
-
-        $result = $this->driver->sendMessage($recipient, $text, $keyboard);
-
-        $this->assertInstanceOf(TelegramOutgoingMessage::class, $result);
-        $this->assertSame($recipient, $result->getRecipient());
-        $this->assertSame($text, $result->getText());
-        $this->assertSame($keyboard, $result->getKeyboard());
-    }
-
-    public function test_sendMessage_without_keyboard()
-    {
-        $text = $this->faker()->text;
-
-        $recipient = $this->mock(User::class);
-        $recipient->shouldReceive('getId')->andReturn($recipientId = $this->faker()->uuid)->atLeast()->once();
-
-        $this->guzzle->shouldReceive('post')->with(
-            'https://api.telegram.org/bot'.$this->parameters['token'].'/sendMessage',
-            [
-                'form_params' => [
-                    'chat_id' => $recipientId,
-                    'text' => $text,
-                ],
-            ]
-        )->once();
-
-        $this->driver->sendMessage($recipient, $text);
     }
 
     public function attachments(): array
