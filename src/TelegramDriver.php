@@ -26,18 +26,6 @@ class TelegramDriver extends Driver
     }
 
     /**
-     * Configuration parameters.
-     *
-     * @return array
-     */
-    public function getConfig(): array
-    {
-        return [
-            'token',
-        ];
-    }
-
-    /**
      * Verify incoming request data.
      *
      * @throws InvalidRequest

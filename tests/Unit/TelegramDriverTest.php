@@ -31,13 +31,6 @@ class TelegramDriverTest extends TestCase
         $this->driver->fill($this->parameters = ['token' => Str::random()]);
     }
 
-    public function test_getConfig()
-    {
-        $expected = ['token'];
-
-        $this->assertEquals($expected, $this->driver->getConfig());
-    }
-
     public function test_getHeaders()
     {
         $this->driver->fill($this->parameters, [], $headers = ['Token' => $this->faker()->uuid]);
