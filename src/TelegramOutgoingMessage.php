@@ -4,57 +4,21 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram;
 
-use FondBot\Drivers\User;
-use FondBot\Conversation\Keyboard;
-use FondBot\Drivers\OutgoingMessage;
+use FondBot\Drivers\Commands\SendMessage;
 use FondBot\Conversation\Buttons\UrlButton;
 use FondBot\Conversation\Buttons\PayloadButton;
 use FondBot\Drivers\Telegram\Buttons\RequestContactButton;
 
-class TelegramOutgoingMessage implements OutgoingMessage
+class TelegramOutgoingMessage
 {
     private const KEYBOARD_REPLY = 'keyboard';
     private const KEYBOARD_INLINE = 'inline_keyboard';
 
-    private $recipient;
-    private $text;
-    private $keyboard;
+    private $command;
 
-    public function __construct(User $recipient, string $text, Keyboard $keyboard = null)
+    public function __construct(SendMessage $command)
     {
-        $this->recipient = $recipient;
-        $this->text = $text;
-        $this->keyboard = $keyboard;
-    }
-
-    /**
-     * Get recipient.
-     *
-     * @return User
-     */
-    public function getRecipient(): User
-    {
-        return $this->recipient;
-    }
-
-    /**
-     * Get message text.
-     *
-     * @return string
-     */
-    public function getText(): string
-    {
-        return $this->text;
-    }
-
-    /**
-     * Get keyboard.
-     *
-     * @return Keyboard|null
-     */
-    public function getKeyboard(): ?Keyboard
-    {
-        return $this->keyboard;
+        $this->command = $command;
     }
 
     /**
@@ -65,8 +29,8 @@ class TelegramOutgoingMessage implements OutgoingMessage
     public function toArray(): array
     {
         $payload = [
-            'chat_id' => $this->recipient->getId(),
-            'text' => $this->text,
+            'chat_id' => $this->command->chat->getId(),
+            'text' => $this->command->text,
         ];
 
         if ($replyMarkup = $this->getReplyMarkup()) {
@@ -78,7 +42,7 @@ class TelegramOutgoingMessage implements OutgoingMessage
 
     private function getReplyMarkup(): ?array
     {
-        if ($this->keyboard !== null) {
+        if ($this->command->keyboard !== null) {
             $type = $this->detectKeyboardType();
 
             $keyboard = [];
@@ -105,7 +69,7 @@ class TelegramOutgoingMessage implements OutgoingMessage
     private function compileReplyKeyboard(): array
     {
         $buttons = [];
-        foreach ($this->keyboard->getButtons() as $button) {
+        foreach ($this->command->keyboard->getButtons() as $button) {
             $parameters = ['text' => $button->getLabel()];
 
             if ($button instanceof RequestContactButton) {
@@ -129,7 +93,7 @@ class TelegramOutgoingMessage implements OutgoingMessage
     private function compileInlineKeyboard(): array
     {
         $buttons = [];
-        foreach ($this->keyboard->getButtons() as $button) {
+        foreach ($this->command->keyboard->getButtons() as $button) {
             $parameters = ['text' => $button->getLabel()];
 
             if ($button instanceof UrlButton) {
@@ -148,7 +112,7 @@ class TelegramOutgoingMessage implements OutgoingMessage
 
     private function detectKeyboardType(): string
     {
-        $button = collect($this->keyboard->getButtons())->first();
+        $button = collect($this->command->keyboard->getButtons())->first();
 
         if ($button instanceof PayloadButton || $button instanceof UrlButton) {
             return self::KEYBOARD_INLINE;

@@ -3,6 +3,7 @@
 
 .DS_Store
 Thumbs.db
+.discovery
 .idea
 .php_cs.cache
 
@@ -11,6 +12,7 @@ composer.lock
 _ide_helper.php
 _ide_helper_models.php
 .phpstorm.meta.php
+studio.json
 
 *.sublime-project
 *.sublime-workspace

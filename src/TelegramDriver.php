@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace FondBot\Drivers\Telegram;
 
 use GuzzleHttp\Client;
+use FondBot\Drivers\Chat;
 use FondBot\Drivers\User;
 use FondBot\Drivers\Driver;
 use FondBot\Drivers\Command;
 use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\Commands\SendMessage;
+use GuzzleHttp\Exception\ClientException;
 use FondBot\Drivers\Commands\SendAttachment;
 use FondBot\Drivers\Exceptions\InvalidRequest;
 use FondBot\Drivers\ReceivedMessage\Attachment;
@@ -55,6 +57,22 @@ class TelegramDriver extends Driver
     }
 
     /**
+     * Get chat.
+     *
+     * @return Chat
+     */
+    public function getChat(): Chat
+    {
+        $chat = $this->getRequest('message.chat');
+
+        return new Chat(
+            (string) $chat['id'],
+            $chat['title'] ?? '',
+            $chat['type']
+        );
+    }
+
+    /**
      * Get message sender.
      *
      * @return User
@@ -96,13 +114,21 @@ class TelegramDriver extends Driver
      * Handle command.
      *
      * @param Command $command
+     *
+     * @throws InvalidRequest
      */
     public function handle(Command $command): void
     {
-        if ($command instanceof SendMessage) {
-            $this->handleSendMessageCommand($command);
-        } elseif ($command instanceof SendAttachment) {
-            $this->handleSendAttachmentCommand($command);
+        try {
+            if ($command instanceof SendMessage) {
+                $this->handleSendMessageCommand($command);
+            } elseif ($command instanceof SendAttachment) {
+                $this->handleSendAttachmentCommand($command);
+            }
+        } catch (ClientException $exception) {
+            if ($exception->getCode() === 400) {
+                throw new InvalidRequest($exception->getMessage());
+            }
         }
     }
 
@@ -113,7 +139,7 @@ class TelegramDriver extends Driver
      */
     private function handleSendMessageCommand(SendMessage $command): void
     {
-        $message = new TelegramOutgoingMessage($command->recipient, $command->text, $command->keyboard);
+        $message = new TelegramOutgoingMessage($command);
 
         $this->guzzle->post($this->getBaseUrl().'/sendMessage', [
             'form_params' => $message->toArray(),
@@ -133,7 +159,7 @@ class TelegramDriver extends Driver
                     'multipart' => [
                         [
                             'name' => 'chat_id',
-                            'contents' => $command->recipient->getId(),
+                            'contents' => $command->chat->getId(),
                         ],
                         [
                             'name' => 'photo',
