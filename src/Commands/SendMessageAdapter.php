@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace FondBot\Drivers\Telegram;
+namespace FondBot\Drivers\Telegram\Commands;
 
 use FondBot\Drivers\Commands\SendMessage;
 use FondBot\Conversation\Buttons\UrlButton;
 use FondBot\Conversation\Buttons\PayloadButton;
 use FondBot\Drivers\Telegram\Buttons\RequestContactButton;
 
-class TelegramOutgoingMessage
+class SendMessageAdapter
 {
     private const KEYBOARD_REPLY = 'keyboard';
     private const KEYBOARD_INLINE = 'inline_keyboard';

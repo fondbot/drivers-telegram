@@ -12,7 +12,7 @@ use FondBot\Drivers\Commands\SendMessage;
 use FondBot\Conversation\Buttons\UrlButton;
 use FondBot\Conversation\Buttons\ReplyButton;
 use FondBot\Conversation\Buttons\PayloadButton;
-use FondBot\Drivers\Telegram\TelegramOutgoingMessage;
+use FondBot\Drivers\Telegram\Commands\SendMessageAdapter;
 use FondBot\Drivers\Telegram\Buttons\RequestContactButton;
 
 class TelegramOutgoingMessageTest extends TestCase
@@ -24,7 +24,7 @@ class TelegramOutgoingMessageTest extends TestCase
         $text = $this->faker()->text;
 
         $command = new SendMessage($chat, $user, $text);
-        $message = new TelegramOutgoingMessage($command);
+        $message = new SendMessageAdapter($command);
 
         $expected = [
             'chat_id' => $chatId,
@@ -47,7 +47,7 @@ class TelegramOutgoingMessageTest extends TestCase
         ]);
 
         $command = new SendMessage($chat, $user, $text, $keyboard);
-        $message = new TelegramOutgoingMessage($command);
+        $message = new SendMessageAdapter($command);
 
         $expected = [
             'chat_id' => $chatId,
@@ -80,7 +80,7 @@ class TelegramOutgoingMessageTest extends TestCase
         ]);
 
         $command = new SendMessage($chat, $user, $text, $keyboard);
-        $message = new TelegramOutgoingMessage($command);
+        $message = new SendMessageAdapter($command);
 
         $expected = [
             'chat_id' => $chatId,

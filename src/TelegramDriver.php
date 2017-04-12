@@ -15,6 +15,7 @@ use GuzzleHttp\Exception\ClientException;
 use FondBot\Drivers\Commands\SendAttachment;
 use FondBot\Drivers\Exceptions\InvalidRequest;
 use FondBot\Drivers\ReceivedMessage\Attachment;
+use FondBot\Drivers\Telegram\Commands\SendMessageAdapter;
 
 class TelegramDriver extends Driver
 {
@@ -127,7 +128,7 @@ class TelegramDriver extends Driver
      */
     private function handleSendMessageCommand(SendMessage $command): void
     {
-        $message = new TelegramOutgoingMessage($command);
+        $message = new SendMessageAdapter($command);
 
         $this->guzzle->post($this->getBaseUrl().'/sendMessage', [
             'form_params' => $message->toArray(),

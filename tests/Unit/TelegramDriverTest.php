@@ -31,14 +31,6 @@ class TelegramDriverTest extends TestCase
         $this->driver->fill($this->parameters = ['token' => Str::random()]);
     }
 
-    public function test_getHeaders()
-    {
-        $this->driver->fill($this->parameters, [], $headers = ['Token' => $this->faker()->uuid]);
-
-        $this->assertSame($headers['Token'], $this->driver->getHeader('Token'));
-        $this->assertSame($headers, $this->driver->getHeaders());
-    }
-
     /**
      * @expectedException \FondBot\Drivers\Exceptions\InvalidRequest
      * @expectedExceptionMessage Invalid payload
