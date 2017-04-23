@@ -7,15 +7,15 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use FondBot\Drivers\Chat;
 use FondBot\Drivers\User;
-use FondBot\Conversation\Keyboard;
 use FondBot\Drivers\Commands\SendMessage;
-use FondBot\Conversation\Buttons\UrlButton;
-use FondBot\Conversation\Buttons\ReplyButton;
-use FondBot\Conversation\Buttons\PayloadButton;
+use FondBot\Conversation\Templates\Keyboard;
+use FondBot\Conversation\Templates\Keyboard\UrlButton;
+use FondBot\Conversation\Templates\Keyboard\ReplyButton;
 use FondBot\Drivers\Telegram\Commands\SendMessageAdapter;
-use FondBot\Drivers\Telegram\Buttons\RequestContactButton;
+use FondBot\Conversation\Templates\Keyboard\PayloadButton;
+use FondBot\Drivers\Telegram\Templates\Keyboard\Buttons\RequestContactButton;
 
-class TelegramOutgoingMessageTest extends TestCase
+class SendMessageAdapterTest extends TestCase
 {
     public function test_toArray_without_keyboard()
     {

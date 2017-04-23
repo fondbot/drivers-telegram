@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace FondBot\Drivers\Telegram\Commands;
 
 use FondBot\Drivers\Commands\SendMessage;
-use FondBot\Conversation\Buttons\UrlButton;
-use FondBot\Conversation\Buttons\PayloadButton;
-use FondBot\Drivers\Telegram\Buttons\RequestContactButton;
+use FondBot\Conversation\Templates\Keyboard;
+use FondBot\Conversation\Templates\Keyboard\UrlButton;
+use FondBot\Conversation\Templates\Keyboard\PayloadButton;
+use FondBot\Drivers\Telegram\Templates\Keyboard\Buttons\RequestContactButton;
 
 class SendMessageAdapter
 {
@@ -42,20 +43,23 @@ class SendMessageAdapter
 
     private function getReplyMarkup(): ?array
     {
-        if ($this->command->keyboard !== null) {
-            $type = $this->detectKeyboardType();
+        if ($this->command->template instanceof Keyboard) {
+            /** @var Keyboard $keyboard */
+            $keyboard = $this->command->template;
 
-            $keyboard = [];
+            $type = $this->detectKeyboardType($keyboard);
+
+            $payload = [];
             switch ($type) {
                 case self::KEYBOARD_REPLY:
-                    $keyboard = $this->compileReplyKeyboard();
+                    $payload = $this->compileReplyKeyboard($keyboard);
                     break;
                 case self::KEYBOARD_INLINE:
-                    $keyboard = $this->compileInlineKeyboard();
+                    $payload = $this->compileInlineKeyboard($keyboard);
                     break;
             }
 
-            return $keyboard;
+            return $payload;
         }
 
         return null;
@@ -64,12 +68,15 @@ class SendMessageAdapter
     /**
      * Compile reply keyboard markup.
      *
+     * @param Keyboard $keyboard
+     *
      * @return array
      */
-    private function compileReplyKeyboard(): array
+    private function compileReplyKeyboard(Keyboard $keyboard): array
     {
         $buttons = [];
-        foreach ($this->command->keyboard->getButtons() as $button) {
+
+        foreach ($keyboard->getButtons() as $button) {
             $parameters = ['text' => $button->getLabel()];
 
             if ($button instanceof RequestContactButton) {
@@ -88,12 +95,14 @@ class SendMessageAdapter
     /**
      * Compile inline keyboard markup.
      *
+     * @param Keyboard $keyboard
+     *
      * @return array
      */
-    private function compileInlineKeyboard(): array
+    private function compileInlineKeyboard(Keyboard $keyboard): array
     {
         $buttons = [];
-        foreach ($this->command->keyboard->getButtons() as $button) {
+        foreach ($keyboard->getButtons() as $button) {
             $parameters = ['text' => $button->getLabel()];
 
             if ($button instanceof UrlButton) {
@@ -110,9 +119,9 @@ class SendMessageAdapter
         ];
     }
 
-    private function detectKeyboardType(): string
+    private function detectKeyboardType(Keyboard $keyboard): string
     {
-        $button = collect($this->command->keyboard->getButtons())->first();
+        $button = collect($keyboard->getButtons())->first();
 
         if ($button instanceof PayloadButton || $button instanceof UrlButton) {
             return self::KEYBOARD_INLINE;

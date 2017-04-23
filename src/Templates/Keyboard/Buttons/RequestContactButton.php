@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace FondBot\Drivers\Telegram\Buttons;
+namespace FondBot\Drivers\Telegram\Templates\Keyboard\Buttons;
 
-use FondBot\Conversation\Buttons\Button;
+use FondBot\Conversation\Templates\Keyboard\Button;
 
 class RequestContactButton implements Button
 {
