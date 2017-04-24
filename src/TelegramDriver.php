@@ -14,8 +14,8 @@ use FondBot\Drivers\Commands\SendMessage;
 use GuzzleHttp\Exception\ClientException;
 use FondBot\Drivers\Commands\SendAttachment;
 use FondBot\Drivers\Exceptions\InvalidRequest;
-use FondBot\Drivers\ReceivedMessage\Attachment;
 use FondBot\Drivers\Telegram\Commands\SendMessageAdapter;
+use FondBot\Drivers\Telegram\Commands\SendAttachmentAdapter;
 
 class TelegramDriver extends Driver
 {
@@ -142,22 +142,13 @@ class TelegramDriver extends Driver
      */
     private function handleSendAttachmentCommand(SendAttachment $command): void
     {
-        switch ($command->attachment->getType()) {
-            case Attachment::TYPE_IMAGE:
-                $this->guzzle->post($this->getBaseUrl().'/sendPhoto', [
-                    'multipart' => [
-                        [
-                            'name' => 'chat_id',
-                            'contents' => $command->chat->getId(),
-                        ],
-                        [
-                            'name' => 'photo',
-                            'contents' => fopen($command->attachment->getPath(), 'rb'),
-                        ],
-                    ],
-                ]);
-                break;
+        $adapter = new SendAttachmentAdapter($command);
+
+        if (!$adapter->isSupported()) {
+            return;
         }
+
+        $this->guzzle->post($this->getBaseUrl().'/'.$adapter->getUri(), $adapter->toArray());
     }
 
     private function getBaseUrl(): string

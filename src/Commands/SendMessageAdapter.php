@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Commands;
 
+use FondBot\Contracts\Arrayable;
 use FondBot\Drivers\Commands\SendMessage;
 use FondBot\Conversation\Templates\Keyboard;
 use FondBot\Conversation\Templates\Keyboard\UrlButton;
 use FondBot\Conversation\Templates\Keyboard\PayloadButton;
 use FondBot\Drivers\Telegram\Templates\Keyboard\Buttons\RequestContactButton;
 
-class SendMessageAdapter
+class SendMessageAdapter implements Arrayable
 {
     private const KEYBOARD_REPLY = 'keyboard';
     private const KEYBOARD_INLINE = 'inline_keyboard';
