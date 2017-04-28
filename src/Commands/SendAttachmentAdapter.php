@@ -39,6 +39,10 @@ class SendAttachmentAdapter implements Arrayable
                 return 'sendPhoto';
             case Attachment::TYPE_AUDIO:
                 return 'sendAudio';
+            case Attachment::TYPE_FILE:
+                return 'sendDocument';
+            case Attachment::TYPE_VIDEO:
+                return 'sendVideo';
         }
 
         return null;
@@ -73,7 +77,33 @@ class SendAttachmentAdapter implements Arrayable
                             'contents' => $this->command->chat->getId(),
                         ],
                         [
-                            'name' => 'photo',
+                            'name' => 'audio',
+                            'contents' => fopen($this->command->attachment->getPath(), 'rb'),
+                        ],
+                    ],
+                ];
+            case Attachment::TYPE_FILE:
+                return [
+                    'multipart' => [
+                        [
+                            'name' => 'chat_id',
+                            'contents' => $this->command->chat->getId(),
+                        ],
+                        [
+                            'name' => 'document',
+                            'contents' => fopen($this->command->attachment->getPath(), 'rb'),
+                        ],
+                    ],
+                ];
+            case Attachment::TYPE_VIDEO:
+                return [
+                    'multipart' => [
+                        [
+                            'name' => 'chat_id',
+                            'contents' => $this->command->chat->getId(),
+                        ],
+                        [
+                            'name' => 'video',
                             'contents' => fopen($this->command->attachment->getPath(), 'rb'),
                         ],
                     ],
