@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Commands;
 
+use FondBot\Templates\Keyboard;
 use FondBot\Contracts\Arrayable;
 use FondBot\Drivers\Commands\SendMessage;
-use FondBot\Conversation\Templates\Keyboard;
-use FondBot\Conversation\Templates\Keyboard\UrlButton;
-use FondBot\Conversation\Templates\Keyboard\PayloadButton;
+use FondBot\Templates\Keyboard\UrlButton;
+use FondBot\Templates\Keyboard\PayloadButton;
 use FondBot\Drivers\Telegram\Templates\Keyboard\Buttons\RequestContactButton;
 
 class SendMessageAdapter implements Arrayable

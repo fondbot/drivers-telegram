@@ -6,9 +6,9 @@ namespace FondBot\Drivers\Telegram;
 
 use GuzzleHttp\Client;
 use FondBot\Helpers\Arr;
+use FondBot\Templates\Location;
+use FondBot\Templates\Attachment;
 use FondBot\Drivers\ReceivedMessage;
-use FondBot\Drivers\ReceivedMessage\Location;
-use FondBot\Drivers\ReceivedMessage\Attachment;
 
 class TelegramReceivedMessage implements ReceivedMessage
 {
@@ -123,8 +123,7 @@ class TelegramReceivedMessage implements ReceivedMessage
 
         return new Attachment(
             Attachment::TYPE_AUDIO,
-            $this->getFilePath($this->payload['message']['audio']['file_id']),
-            $this->guzzle
+            $this->getFilePath($this->payload['message']['audio']['file_id'])
         );
     }
 
@@ -141,8 +140,7 @@ class TelegramReceivedMessage implements ReceivedMessage
 
         return new Attachment(
             'document',
-            $this->getFilePath($this->payload['message']['document']['file_id']),
-            $this->guzzle
+            $this->getFilePath($this->payload['message']['document']['file_id'])
         );
     }
 
@@ -162,8 +160,7 @@ class TelegramReceivedMessage implements ReceivedMessage
 
         return new Attachment(
             'photo',
-            $this->getFilePath($photo['file_id']),
-            $this->guzzle
+            $this->getFilePath($photo['file_id'])
         );
     }
 
@@ -180,8 +177,7 @@ class TelegramReceivedMessage implements ReceivedMessage
 
         return new Attachment(
             'sticker',
-            $this->getFilePath($this->payload['message']['sticker']['file_id']),
-            $this->guzzle
+            $this->getFilePath($this->payload['message']['sticker']['file_id'])
         );
     }
 
@@ -198,8 +194,7 @@ class TelegramReceivedMessage implements ReceivedMessage
 
         return new Attachment(
             Attachment::TYPE_VIDEO,
-            $this->getFilePath($this->payload['message']['video']['file_id']),
-            $this->guzzle
+            $this->getFilePath($this->payload['message']['video']['file_id'])
         );
     }
 
@@ -216,8 +211,7 @@ class TelegramReceivedMessage implements ReceivedMessage
 
         return new Attachment(
             'voice',
-            $this->getFilePath($this->payload['message']['voice']['file_id']),
-            $this->guzzle
+            $this->getFilePath($this->payload['message']['voice']['file_id'])
         );
     }
 

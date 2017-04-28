@@ -7,12 +7,12 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use FondBot\Drivers\Chat;
 use FondBot\Drivers\User;
+use FondBot\Templates\Keyboard;
 use FondBot\Drivers\Commands\SendMessage;
-use FondBot\Conversation\Templates\Keyboard;
-use FondBot\Conversation\Templates\Keyboard\UrlButton;
-use FondBot\Conversation\Templates\Keyboard\ReplyButton;
+use FondBot\Templates\Keyboard\UrlButton;
+use FondBot\Templates\Keyboard\ReplyButton;
+use FondBot\Templates\Keyboard\PayloadButton;
 use FondBot\Drivers\Telegram\Commands\SendMessageAdapter;
-use FondBot\Conversation\Templates\Keyboard\PayloadButton;
 use FondBot\Drivers\Telegram\Templates\Keyboard\Buttons\RequestContactButton;
 
 class SendMessageAdapterTest extends TestCase

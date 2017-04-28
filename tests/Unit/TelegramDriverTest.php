@@ -8,10 +8,10 @@ use Tests\TestCase;
 use GuzzleHttp\Client;
 use FondBot\Helpers\Str;
 use FondBot\Drivers\User;
+use FondBot\Templates\Location;
+use FondBot\Templates\Attachment;
 use Psr\Http\Message\ResponseInterface;
 use FondBot\Drivers\Telegram\TelegramDriver;
-use FondBot\Drivers\ReceivedMessage\Location;
-use FondBot\Drivers\ReceivedMessage\Attachment;
 use FondBot\Drivers\Telegram\TelegramReceivedMessage;
 
 /**
