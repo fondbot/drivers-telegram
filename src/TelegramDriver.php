@@ -144,7 +144,7 @@ class TelegramDriver extends Driver
     {
         $adapter = new SendAttachmentAdapter($command);
 
-        $this->guzzle->post($this->getBaseUrl().'/'.$adapter->getMethod(), $adapter->toArray());
+        $this->guzzle->post($this->getBaseUrl().'/'.$adapter->getEndpoint(), $adapter->toArray());
     }
 
     private function getBaseUrl(): string

@@ -18,24 +18,22 @@ class SendAttachmentAdapter implements Arrayable
     }
 
     /**
-     * Get API method name.
+     * Get API endpoint.
      *
      * @return null|string
      */
-    public function getMethod(): ?string
+    public function getEndpoint(): ?string
     {
         switch ($this->command->attachment->getType()) {
             case Attachment::TYPE_IMAGE:
                 return 'sendPhoto';
             case Attachment::TYPE_AUDIO:
                 return 'sendAudio';
-            case Attachment::TYPE_FILE:
-                return 'sendDocument';
             case Attachment::TYPE_VIDEO:
                 return 'sendVideo';
+            default:
+                return 'sendDocument';
         }
-
-        return null;
     }
 
     /**
