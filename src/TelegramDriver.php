@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram;
 
+use FondBot\Drivers\Commands\SendRequest;
+use FondBot\Drivers\Telegram\Commands\SendRequestAdapter;
 use GuzzleHttp\Client;
 use FondBot\Drivers\Chat;
 use FondBot\Drivers\User;
@@ -113,6 +115,8 @@ class TelegramDriver extends Driver
                 $this->handleSendMessageCommand($command);
             } elseif ($command instanceof SendAttachment) {
                 $this->handleSendAttachmentCommand($command);
+            } elseif ($command instanceof SendRequest) {
+                $this->handleSendRequestCommand($command);
             }
         } catch (ClientException $exception) {
             if ($exception->getCode() === 400) {
@@ -143,6 +147,18 @@ class TelegramDriver extends Driver
     private function handleSendAttachmentCommand(SendAttachment $command): void
     {
         $adapter = new SendAttachmentAdapter($command);
+
+        $this->guzzle->post($this->getBaseUrl().'/'.$adapter->getEndpoint(), $adapter->toArray());
+    }
+
+    /**
+     * Send request to Telegram.
+     *
+     * @param SendRequest $command
+     */
+    private function handleSendRequestCommand(SendRequest $command): void
+    {
+        $adapter = new SendRequestAdapter($command);
 
         $this->guzzle->post($this->getBaseUrl().'/'.$adapter->getEndpoint(), $adapter->toArray());
     }
