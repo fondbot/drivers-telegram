@@ -18,21 +18,11 @@ class SendAttachmentAdapter implements Arrayable
     }
 
     /**
-     * Determine if attachment type is supported.
-     *
-     * @return bool
-     */
-    public function isSupported(): bool
-    {
-        return $this->command->attachment->getType() === Attachment::TYPE_IMAGE;
-    }
-
-    /**
-     * Get API URI.
+     * Get API method name.
      *
      * @return null|string
      */
-    public function getUri(): ?string
+    public function getMethod(): ?string
     {
         switch ($this->command->attachment->getType()) {
             case Attachment::TYPE_IMAGE:
@@ -55,61 +45,31 @@ class SendAttachmentAdapter implements Arrayable
      */
     public function toArray(): array
     {
+        return [
+            'multipart' => [
+                [
+                    'name' => 'chat_id',
+                    'contents' => $this->command->chat->getId(),
+                ],
+                [
+                    'name' => $this->getKeyName(),
+                    'contents' => fopen($this->command->attachment->getPath(), 'rb'),
+                ],
+            ],
+        ];
+    }
+
+    private function getKeyName(): string
+    {
         switch ($this->command->attachment->getType()) {
             case Attachment::TYPE_IMAGE:
-                return [
-                    'multipart' => [
-                        [
-                            'name' => 'chat_id',
-                            'contents' => $this->command->chat->getId(),
-                        ],
-                        [
-                            'name' => 'photo',
-                            'contents' => fopen($this->command->attachment->getPath(), 'rb'),
-                        ],
-                    ],
-                ];
+                return 'photo';
             case Attachment::TYPE_AUDIO:
-                return [
-                    'multipart' => [
-                        [
-                            'name' => 'chat_id',
-                            'contents' => $this->command->chat->getId(),
-                        ],
-                        [
-                            'name' => 'audio',
-                            'contents' => fopen($this->command->attachment->getPath(), 'rb'),
-                        ],
-                    ],
-                ];
-            case Attachment::TYPE_FILE:
-                return [
-                    'multipart' => [
-                        [
-                            'name' => 'chat_id',
-                            'contents' => $this->command->chat->getId(),
-                        ],
-                        [
-                            'name' => 'document',
-                            'contents' => fopen($this->command->attachment->getPath(), 'rb'),
-                        ],
-                    ],
-                ];
+                return 'audio';
             case Attachment::TYPE_VIDEO:
-                return [
-                    'multipart' => [
-                        [
-                            'name' => 'chat_id',
-                            'contents' => $this->command->chat->getId(),
-                        ],
-                        [
-                            'name' => 'video',
-                            'contents' => fopen($this->command->attachment->getPath(), 'rb'),
-                        ],
-                    ],
-                ];
+                return 'video';
+            default:
+                return 'document';
         }
-
-        return [];
     }
 }
