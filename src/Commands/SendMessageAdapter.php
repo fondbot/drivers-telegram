@@ -10,6 +10,7 @@ use FondBot\Drivers\Commands\SendMessage;
 use FondBot\Templates\Keyboard\UrlButton;
 use FondBot\Templates\Keyboard\PayloadButton;
 use FondBot\Drivers\Telegram\Templates\Keyboard\Buttons\RequestContactButton;
+use FondBot\Drivers\Telegram\Templates\Keyboard\Buttons\RequestLocationButton;
 
 class SendMessageAdapter implements Arrayable
 {
@@ -82,6 +83,8 @@ class SendMessageAdapter implements Arrayable
 
             if ($button instanceof RequestContactButton) {
                 $parameters['request_contact'] = true;
+            } elseif ($buttons instanceof RequestLocationButton) {
+                $parameters['request_location'] = true;
             }
 
             $buttons[] = $parameters;

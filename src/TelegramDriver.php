@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram;
 
-use FondBot\Drivers\Commands\SendRequest;
-use FondBot\Drivers\Telegram\Commands\SendRequestAdapter;
 use GuzzleHttp\Client;
 use FondBot\Drivers\Chat;
 use FondBot\Drivers\User;
@@ -13,10 +11,12 @@ use FondBot\Drivers\Driver;
 use FondBot\Drivers\Command;
 use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\Commands\SendMessage;
+use FondBot\Drivers\Commands\SendRequest;
 use GuzzleHttp\Exception\ClientException;
 use FondBot\Drivers\Commands\SendAttachment;
 use FondBot\Drivers\Exceptions\InvalidRequest;
 use FondBot\Drivers\Telegram\Commands\SendMessageAdapter;
+use FondBot\Drivers\Telegram\Commands\SendRequestAdapter;
 use FondBot\Drivers\Telegram\Commands\SendAttachmentAdapter;
 
 class TelegramDriver extends Driver
