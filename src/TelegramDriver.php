@@ -35,14 +35,11 @@ class TelegramDriver extends Driver
      */
     public function verifyRequest(): void
     {
-        if ($this->hasRequest('callback_query')) {
+        if ($this->request->hasParameters('callback_query')) {
             return;
         }
 
-        if (
-            !$this->hasRequest('message') ||
-            !$this->hasRequest('message.from')
-        ) {
+        if (!$this->request->hasParameters(['message', 'message.from'])) {
             throw new InvalidRequest('Invalid payload');
         }
     }
@@ -54,7 +51,7 @@ class TelegramDriver extends Driver
      */
     public function getChat(): Chat
     {
-        $chat = $this->getRequest('message.chat');
+        $chat = $this->request->getParameter('message.chat');
 
         return new Chat(
             (string) $chat['id'],
@@ -70,10 +67,10 @@ class TelegramDriver extends Driver
      */
     public function getUser(): User
     {
-        if ($this->hasRequest('callback_query')) {
-            $from = $this->getRequest('callback_query.from');
+        if ($this->request->hasParameters('callback_query')) {
+            $from = $this->request->getParameter('callback_query.from');
         } else {
-            $from = $this->getRequest('message.from');
+            $from = $this->request->getParameter('message.from');
         }
 
         $name = [$from['first_name'] ?? null, $from['last_name'] ?? null];
@@ -97,7 +94,7 @@ class TelegramDriver extends Driver
         return new TelegramReceivedMessage(
             $this->guzzle,
             $this->getParameter('token'),
-            $this->getRequest()
+            $this->request->getParameters()
         );
     }
 

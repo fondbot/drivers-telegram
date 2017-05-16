@@ -8,6 +8,7 @@ use Tests\TestCase;
 use GuzzleHttp\Client;
 use FondBot\Helpers\Str;
 use FondBot\Drivers\User;
+use FondBot\Http\Request;
 use FondBot\Templates\Location;
 use FondBot\Templates\Attachment;
 use Psr\Http\Message\ResponseInterface;
@@ -16,26 +17,26 @@ use FondBot\Drivers\Telegram\TelegramReceivedMessage;
 
 /**
  * @property mixed|\Mockery\Mock|\Mockery\MockInterface $guzzle
- * @property array $parameters
- * @property TelegramDriver $driver
+ * @property array                                      $parameters
+ * @property TelegramDriver                             $driver
  */
 class TelegramDriverTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->guzzle = $this->mock(Client::class);
 
         $this->driver = new TelegramDriver($this->guzzle);
-        $this->driver->fill($this->parameters = ['token' => Str::random()]);
+        $this->driver->fill($this->parameters = ['token' => Str::random()], new Request([], []));
     }
 
     /**
      * @expectedException \FondBot\Drivers\Exceptions\InvalidRequest
      * @expectedExceptionMessage Invalid payload
      */
-    public function test_verifyRequest_empty_message()
+    public function test_verifyRequest_empty_message(): void
     {
         $this->driver->verifyRequest();
     }
@@ -44,33 +45,38 @@ class TelegramDriverTest extends TestCase
      * @expectedException \FondBot\Drivers\Exceptions\InvalidRequest
      * @expectedExceptionMessage Invalid payload
      */
-    public function test_verifyRequest_no_sender()
+    public function test_verifyRequest_no_sender(): void
     {
-        $this->driver->fill($this->parameters, ['message' => []]);
+        $this->driver->fill($this->parameters, new Request(['message' => []], []));
 
         $this->driver->verifyRequest();
     }
 
-    public function test_verifyRequest()
+    public function test_verifyRequest(): void
     {
-        $this->driver->fill($this->parameters,
-            ['message' => ['from' => $this->faker()->name, 'text' => $this->faker()->word]]);
+        $this->driver->fill(
+            $this->parameters,
+            new Request(['message' => ['from' => $this->faker()->name, 'text' => $this->faker()->word]], [])
+        );
 
         $this->driver->verifyRequest();
     }
 
-    public function test_getSender()
+    public function test_getSender(): void
     {
-        $this->driver->fill($this->parameters, [
-            'message' => [
-                'from' => $response = [
-                    'id' => Str::random(),
-                    'first_name' => $this->faker()->firstName,
-                    'last_name' => $this->faker()->lastName,
-                    'username' => $this->faker()->userName,
+        $this->driver->fill(
+            $this->parameters,
+            new Request([
+                'message' => [
+                    'from' => $response = [
+                        'id' => Str::random(),
+                        'first_name' => $this->faker()->firstName,
+                        'last_name' => $this->faker()->lastName,
+                        'username' => $this->faker()->userName,
+                    ],
                 ],
-            ],
-        ]);
+            ], [])
+        );
 
         $sender = $this->driver->getUser();
         $this->assertInstanceOf(User::class, $sender);
@@ -79,13 +85,16 @@ class TelegramDriverTest extends TestCase
         $this->assertSame($response['username'], $sender->getUsername());
     }
 
-    public function test_getMessage()
+    public function test_getMessage(): void
     {
-        $this->driver->fill($this->parameters, [
-            'message' => [
-                'text' => $text = $this->faker()->text,
-            ],
-        ]);
+        $this->driver->fill(
+            $this->parameters,
+            new Request([
+                'message' => [
+                    'text' => $text = $this->faker()->text,
+                ],
+            ], [])
+        );
 
         /** @var TelegramReceivedMessage $message */
         $message = $this->driver->getMessage();
@@ -107,9 +116,9 @@ class TelegramDriverTest extends TestCase
      * @dataProvider attachments
      *
      * @param string $type
-     * @param array $result
+     * @param array  $result
      */
-    public function test_getMessage_with_attachments(string $type, array $result = null)
+    public function test_getMessage_with_attachments(string $type, array $result = null): void
     {
         if ($result === null) {
             $result = [
@@ -119,7 +128,7 @@ class TelegramDriverTest extends TestCase
             $id = collect($result)->pluck('file_id')->last();
         }
 
-        $this->driver->fill($this->parameters, ['message' => [$type => $result]]);
+        $this->driver->fill($this->parameters, new Request(['message' => [$type => $result]], []));
 
         // Get file path from Telegram
         $response = $this->mock(ResponseInterface::class);
@@ -159,18 +168,21 @@ class TelegramDriverTest extends TestCase
         $this->assertSame(['type' => $type, 'path' => $path], $attachment->toArray());
     }
 
-    public function test_getMessage_with_contact_full()
+    public function test_getMessage_with_contact_full(): void
     {
-        $this->driver->fill($this->parameters, [
-            'message' => [
-                'contact' => $contact = [
-                    'phone_number' => $phoneNumber = $this->faker()->phoneNumber,
-                    'first_name' => $firstName = $this->faker()->firstName,
-                    'last_name' => $lastName = $this->faker()->lastName,
-                    'user_id' => $userId = $this->faker()->uuid,
+        $this->driver->fill(
+            $this->parameters,
+            new Request([
+                'message' => [
+                    'contact' => $contact = [
+                        'phone_number' => $phoneNumber = $this->faker()->phoneNumber,
+                        'first_name' => $firstName = $this->faker()->firstName,
+                        'last_name' => $lastName = $this->faker()->lastName,
+                        'user_id' => $userId = $this->faker()->uuid,
+                    ],
                 ],
-            ],
-        ]);
+            ], [])
+        );
 
         /** @var TelegramReceivedMessage $message */
         $message = $this->driver->getMessage();
@@ -184,16 +196,19 @@ class TelegramDriverTest extends TestCase
         $this->assertSame($userId, $contact['user_id']);
     }
 
-    public function test_getMessage_with_contact_partial()
+    public function test_getMessage_with_contact_partial(): void
     {
-        $this->driver->fill($this->parameters, [
-            'message' => [
-                'contact' => $contact = [
-                    'phone_number' => $phoneNumber = $this->faker()->phoneNumber,
-                    'first_name' => $firstName = $this->faker()->firstName,
+        $this->driver->fill(
+            $this->parameters,
+            new Request([
+                'message' => [
+                    'contact' => $contact = [
+                        'phone_number' => $phoneNumber = $this->faker()->phoneNumber,
+                        'first_name' => $firstName = $this->faker()->firstName,
+                    ],
                 ],
-            ],
-        ]);
+            ], [])
+        );
 
         $contact = array_merge($contact, ['last_name' => null, 'user_id' => null]);
 
@@ -209,20 +224,23 @@ class TelegramDriverTest extends TestCase
         $this->assertNull($contact['user_id']);
     }
 
-    public function test_getMessage_with_location()
+    public function test_getMessage_with_location(): void
     {
         $latitude = $this->faker()->latitude;
         $longitude = $this->faker()->longitude;
 
-        $this->driver->fill($this->parameters, [
-            'message' => [
-                'text' => $this->faker()->text,
-                'location' => [
-                    'latitude' => $latitude,
-                    'longitude' => $longitude,
+        $this->driver->fill(
+            $this->parameters,
+            new Request([
+                'message' => [
+                    'text' => $this->faker()->text,
+                    'location' => [
+                        'latitude' => $latitude,
+                        'longitude' => $longitude,
+                    ],
                 ],
-            ],
-        ]);
+            ], [])
+        );
 
         $message = $this->driver->getMessage();
         $this->assertInstanceOf(TelegramReceivedMessage::class, $message);
@@ -233,25 +251,28 @@ class TelegramDriverTest extends TestCase
         $this->assertSame($longitude, $location->getLongitude());
     }
 
-    public function test_getMessage_with_venue_full()
+    public function test_getMessage_with_venue_full(): void
     {
         $latitude = $this->faker()->latitude;
         $longitude = $this->faker()->longitude;
 
-        $this->driver->fill($this->parameters, [
-            'message' => [
-                'text' => $this->faker()->text,
-                'venue' => $venue = [
-                    'location' => [
-                        'latitude' => $latitude,
-                        'longitude' => $longitude,
+        $this->driver->fill(
+            $this->parameters,
+            new Request([
+                'message' => [
+                    'text' => $this->faker()->text,
+                    'venue' => $venue = [
+                        'location' => [
+                            'latitude' => $latitude,
+                            'longitude' => $longitude,
+                        ],
+                        'title' => $title = $this->faker()->title,
+                        'address' => $address = $this->faker()->address,
+                        'foursquare_id' => $foursquareId = $this->faker()->uuid,
                     ],
-                    'title' => $title = $this->faker()->title,
-                    'address' => $address = $this->faker()->address,
-                    'foursquare_id' => $foursquareId = $this->faker()->uuid,
                 ],
-            ],
-        ]);
+            ], [])
+        );
 
         $venue['location'] = new Location($venue['location']['latitude'], $venue['location']['longitude']);
 
@@ -271,24 +292,27 @@ class TelegramDriverTest extends TestCase
         $this->assertSame($foursquareId, $venue['foursquare_id']);
     }
 
-    public function test_getMessage_with_venue_partial()
+    public function test_getMessage_with_venue_partial(): void
     {
         $latitude = $this->faker()->latitude;
         $longitude = $this->faker()->longitude;
 
-        $this->driver->fill($this->parameters, [
-            'message' => [
-                'text' => $this->faker()->text,
-                'venue' => $venue = [
-                    'location' => [
-                        'latitude' => $latitude,
-                        'longitude' => $longitude,
+        $this->driver->fill(
+            $this->parameters,
+            new Request([
+                'message' => [
+                    'text' => $this->faker()->text,
+                    'venue' => $venue = [
+                        'location' => [
+                            'latitude' => $latitude,
+                            'longitude' => $longitude,
+                        ],
+                        'title' => $title = $this->faker()->title,
+                        'address' => $address = $this->faker()->address,
                     ],
-                    'title' => $title = $this->faker()->title,
-                    'address' => $address = $this->faker()->address,
                 ],
-            ],
-        ]);
+            ], [])
+        );
 
         $venue['location'] = new Location($venue['location']['latitude'], $venue['location']['longitude']);
         $venue['foursquare_id'] = null;
