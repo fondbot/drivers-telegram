@@ -17,7 +17,7 @@ use FondBot\Drivers\Telegram\Templates\Keyboard\Buttons\RequestContactButton;
 
 class SendMessageAdapterTest extends TestCase
 {
-    public function test_toArray_without_keyboard()
+    public function test_toArray_without_keyboard(): void
     {
         $chat = new Chat($chatId = $this->faker()->uuid, $this->faker()->title);
         $user = new User($this->faker()->uuid);
@@ -34,7 +34,7 @@ class SendMessageAdapterTest extends TestCase
         $this->assertSame($expected, $message->toArray());
     }
 
-    public function test_toArray_with_reply_keyboard()
+    public function test_toArray_with_reply_keyboard(): void
     {
         $chat = new Chat($chatId = $this->faker()->uuid, $this->faker()->title);
         $user = new User($this->faker()->uuid);
@@ -60,6 +60,7 @@ class SendMessageAdapterTest extends TestCase
                         ['text' => $button3->getLabel(), 'request_contact' => true],
                     ],
                 ],
+                'resize_keyboard' => true,
                 'one_time_keyboard' => true,
             ]),
         ];
@@ -67,7 +68,7 @@ class SendMessageAdapterTest extends TestCase
         $this->assertSame($expected, $message->toArray());
     }
 
-    public function test_toArray_with_inline_keyboard()
+    public function test_toArray_with_inline_keyboard(): void
     {
         $chat = new Chat($chatId = $this->faker()->uuid, $this->faker()->title);
         $user = new User($this->faker()->uuid);

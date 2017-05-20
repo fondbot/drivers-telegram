@@ -92,6 +92,7 @@ class SendMessageAdapter implements Arrayable
 
         return [
             'keyboard' => [$buttons],
+            'resize_keyboard' => true,
             'one_time_keyboard' => true,
         ];
     }
