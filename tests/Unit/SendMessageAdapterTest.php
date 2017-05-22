@@ -54,11 +54,9 @@ class SendMessageAdapterTest extends TestCase
             'text' => $text,
             'reply_markup' => json_encode([
                 'keyboard' => [
-                    [
-                        ['text' => $button1->getLabel()],
-                        ['text' => $button2->getLabel()],
-                        ['text' => $button3->getLabel(), 'request_contact' => true],
-                    ],
+                    [$button1->getLabel()],
+                    [$button2->getLabel()],
+                    [['text' => $button3->getLabel(), 'request_contact' => true]],
                 ],
                 'resize_keyboard' => true,
                 'one_time_keyboard' => true,

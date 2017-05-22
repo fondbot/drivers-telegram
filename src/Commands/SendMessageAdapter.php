@@ -8,6 +8,7 @@ use FondBot\Templates\Keyboard;
 use FondBot\Contracts\Arrayable;
 use FondBot\Drivers\Commands\SendMessage;
 use FondBot\Templates\Keyboard\UrlButton;
+use FondBot\Templates\Keyboard\ReplyButton;
 use FondBot\Templates\Keyboard\PayloadButton;
 use FondBot\Drivers\Telegram\Templates\Keyboard\Buttons\RequestContactButton;
 use FondBot\Drivers\Telegram\Templates\Keyboard\Buttons\RequestLocationButton;
@@ -79,19 +80,17 @@ class SendMessageAdapter implements Arrayable
         $buttons = [];
 
         foreach ($keyboard->getButtons() as $button) {
-            $parameters = ['text' => $button->getLabel()];
-
-            if ($button instanceof RequestContactButton) {
-                $parameters['request_contact'] = true;
-            } elseif ($buttons instanceof RequestLocationButton) {
-                $parameters['request_location'] = true;
+            if ($button instanceof ReplyButton) {
+                $buttons[] = [$button->getLabel()];
+            } elseif ($button instanceof RequestContactButton) {
+                $buttons[] = [['text' => $button->getLabel(), 'request_contact' => true]];
+            } elseif ($button instanceof RequestLocationButton) {
+                $buttons[] = [['text' => $button->getLabel(), 'request_location' => true]];
             }
-
-            $buttons[] = $parameters;
         }
 
         return [
-            'keyboard' => [$buttons],
+            'keyboard' => $buttons,
             'resize_keyboard' => true,
             'one_time_keyboard' => true,
         ];
