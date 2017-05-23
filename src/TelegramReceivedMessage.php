@@ -139,7 +139,7 @@ class TelegramReceivedMessage implements ReceivedMessage
         }
 
         return new Attachment(
-            'document',
+            Attachment::TYPE_FILE,
             $this->getFilePath($this->payload['message']['document']['file_id'])
         );
     }
@@ -159,7 +159,7 @@ class TelegramReceivedMessage implements ReceivedMessage
         $photo = collect($this->payload['message']['photo'])->sortByDesc('file_size')->first();
 
         return new Attachment(
-            'photo',
+            Attachment::TYPE_IMAGE,
             $this->getFilePath($photo['file_id'])
         );
     }
@@ -176,7 +176,7 @@ class TelegramReceivedMessage implements ReceivedMessage
         }
 
         return new Attachment(
-            'sticker',
+            Attachment::TYPE_IMAGE,
             $this->getFilePath($this->payload['message']['sticker']['file_id'])
         );
     }
@@ -210,7 +210,7 @@ class TelegramReceivedMessage implements ReceivedMessage
         }
 
         return new Attachment(
-            'voice',
+            Attachment::TYPE_AUDIO,
             $this->getFilePath($this->payload['message']['voice']['file_id'])
         );
     }

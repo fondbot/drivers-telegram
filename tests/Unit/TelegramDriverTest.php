@@ -162,10 +162,26 @@ class TelegramDriverTest extends TestCase
         $attachment = $message->getAttachment();
         $path = 'https://api.telegram.org/file/bot'.$this->parameters['token'].'/'.$path;
 
+        switch ($type) {
+            case 'photo':
+            case 'sticker':
+                $genericType = Attachment::TYPE_IMAGE;
+                break;
+            case 'document':
+                $genericType = Attachment::TYPE_FILE;
+                break;
+            case 'voice':
+                $genericType = Attachment::TYPE_AUDIO;
+                break;
+            default:
+                $genericType = $type;
+                break;
+        }
+
         $this->assertInstanceOf(Attachment::class, $attachment);
-        $this->assertSame($type, $attachment->getType());
+        $this->assertSame($genericType, $attachment->getType());
         $this->assertSame($path, $attachment->getPath());
-        $this->assertSame(['type' => $type, 'path' => $path], $attachment->toArray());
+        $this->assertSame(['type' => $genericType, 'path' => $path], $attachment->toArray());
     }
 
     public function test_getMessage_with_contact_full(): void
