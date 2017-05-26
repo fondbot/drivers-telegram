@@ -48,10 +48,9 @@ class TelegramReceivedMessage implements ReceivedMessage
             return null;
         }
 
-        return new Location(
-            $this->payload['message']['location']['latitude'],
-            $this->payload['message']['location']['longitude']
-        );
+        return (new Location)
+            ->setLatitude($this->payload['message']['location']['latitude'])
+            ->setLongitude($this->payload['message']['location']['longitude']);
     }
 
     /**
@@ -121,10 +120,9 @@ class TelegramReceivedMessage implements ReceivedMessage
             return null;
         }
 
-        return new Attachment(
-            Attachment::TYPE_AUDIO,
-            $this->getFilePath($this->payload['message']['audio']['file_id'])
-        );
+        return (new Attachment)
+            ->setType(Attachment::TYPE_AUDIO)
+            ->setPath($this->getFilePath($this->payload['message']['audio']['file_id']));
     }
 
     /**
@@ -138,10 +136,9 @@ class TelegramReceivedMessage implements ReceivedMessage
             return null;
         }
 
-        return new Attachment(
-            Attachment::TYPE_FILE,
-            $this->getFilePath($this->payload['message']['document']['file_id'])
-        );
+        return (new Attachment)
+            ->setType(Attachment::TYPE_FILE)
+            ->setPath($this->getFilePath($this->payload['message']['document']['file_id']));
     }
 
     /**
@@ -158,10 +155,9 @@ class TelegramReceivedMessage implements ReceivedMessage
         /** @var array $photo */
         $photo = collect($this->payload['message']['photo'])->sortByDesc('file_size')->first();
 
-        return new Attachment(
-            Attachment::TYPE_IMAGE,
-            $this->getFilePath($photo['file_id'])
-        );
+        return (new Attachment)
+            ->setType(Attachment::TYPE_IMAGE)
+            ->setPath($this->getFilePath($photo['file_id']));
     }
 
     /**
@@ -175,10 +171,9 @@ class TelegramReceivedMessage implements ReceivedMessage
             return null;
         }
 
-        return new Attachment(
-            Attachment::TYPE_IMAGE,
-            $this->getFilePath($this->payload['message']['sticker']['file_id'])
-        );
+        return (new Attachment)
+            ->setType(Attachment::TYPE_IMAGE)
+            ->setPath($this->getFilePath($this->payload['message']['sticker']['file_id']));
     }
 
     /**
@@ -192,10 +187,9 @@ class TelegramReceivedMessage implements ReceivedMessage
             return null;
         }
 
-        return new Attachment(
-            Attachment::TYPE_VIDEO,
-            $this->getFilePath($this->payload['message']['video']['file_id'])
-        );
+        return (new Attachment)
+            ->setType(Attachment::TYPE_VIDEO)
+            ->setPath($this->getFilePath($this->payload['message']['video']['file_id']));
     }
 
     /**
@@ -209,10 +203,9 @@ class TelegramReceivedMessage implements ReceivedMessage
             return null;
         }
 
-        return new Attachment(
-            Attachment::TYPE_AUDIO,
-            $this->getFilePath($this->payload['message']['voice']['file_id'])
-        );
+        return (new Attachment)
+            ->setType(Attachment::TYPE_AUDIO)
+            ->setPath($this->getFilePath($this->payload['message']['voice']['file_id']));
     }
 
     /**
@@ -253,10 +246,9 @@ class TelegramReceivedMessage implements ReceivedMessage
         }
 
         $venue = $this->payload['message']['venue'];
-        $location = new Location(
-            $this->payload['message']['venue']['location']['latitude'],
-            $this->payload['message']['venue']['location']['longitude']
-        );
+        $location = (new Location)
+            ->setLatitude($this->payload['message']['venue']['location']['latitude'])
+            ->setLongitude($this->payload['message']['venue']['location']['longitude']);
 
         $title = $venue['title'];
         $address = $venue['address'];

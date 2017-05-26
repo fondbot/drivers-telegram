@@ -40,11 +40,10 @@ class SendMessageAdapterTest extends TestCase
         $user = new User($this->faker()->uuid);
         $text = $this->faker()->text;
 
-        $keyboard = new Keyboard([
-            $button1 = new ReplyButton($this->faker()->word),
-            $button2 = new ReplyButton($this->faker()->word),
-            $button3 = new RequestContactButton($this->faker()->word),
-        ]);
+        $keyboard = (new Keyboard)
+            ->addButton($button1 = (new ReplyButton)->setLabel('foo1'))
+            ->addButton($button2 = (new ReplyButton)->setLabel('foo2'))
+            ->addButton($button3 = (new RequestContactButton)->setLabel('foo3'));
 
         $command = new SendMessage($chat, $user, $text, $keyboard);
         $message = new SendMessageAdapter($command);
@@ -72,11 +71,22 @@ class SendMessageAdapterTest extends TestCase
         $user = new User($this->faker()->uuid);
         $text = $this->faker()->text;
 
-        $keyboard = new Keyboard([
-            $button1 = new UrlButton($this->faker()->word, 'https://fondbot.com'),
-            $button2 = new PayloadButton($this->faker()->word, 'do-something'),
-            $button3 = new PayloadButton($this->faker()->word, ['action' => 'something']),
-        ]);
+        $keyboard = (new Keyboard)
+            ->addButton(
+                $button1 = (new UrlButton)
+                    ->setLabel('foo1')
+                    ->setUrl('https://fondbot.com')
+            )
+            ->addButton(
+                $button2 = (new PayloadButton)
+                    ->setLabel('foo2')
+                    ->setPayload('bar')
+            )
+            ->addButton(
+                $button3 = (new PayloadButton)
+                    ->setLabel('foo3')
+                    ->setPayload(['foo' => 'bar'])
+            );
 
         $command = new SendMessage($chat, $user, $text, $keyboard);
         $message = new SendMessageAdapter($command);

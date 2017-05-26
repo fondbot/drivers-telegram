@@ -181,7 +181,6 @@ class TelegramDriverTest extends TestCase
         $this->assertInstanceOf(Attachment::class, $attachment);
         $this->assertSame($genericType, $attachment->getType());
         $this->assertSame($path, $attachment->getPath());
-        $this->assertSame(['type' => $genericType, 'path' => $path], $attachment->toArray());
     }
 
     public function test_getMessage_with_contact_full(): void
@@ -290,7 +289,9 @@ class TelegramDriverTest extends TestCase
             ], [])
         );
 
-        $venue['location'] = new Location($venue['location']['latitude'], $venue['location']['longitude']);
+        $venue['location'] = (new Location)
+            ->setLatitude($venue['location']['latitude'])
+            ->setLongitude($venue['location']['longitude']);
 
         /** @var TelegramReceivedMessage $message */
         $message = $this->driver->getMessage();
@@ -330,7 +331,10 @@ class TelegramDriverTest extends TestCase
             ], [])
         );
 
-        $venue['location'] = new Location($venue['location']['latitude'], $venue['location']['longitude']);
+        $venue['location'] = (new Location)
+            ->setLatitude($venue['location']['latitude'])
+            ->setLongitude($venue['location']['longitude']);
+
         $venue['foursquare_id'] = null;
 
         /** @var TelegramReceivedMessage $message */
