@@ -107,19 +107,15 @@ class SendMessageAdapter implements Arrayable
     {
         $buttons = [];
         foreach ($keyboard->getButtons() as $button) {
-            $parameters = ['text' => $button->getLabel()];
-
             if ($button instanceof UrlButton) {
-                $parameters['url'] = $button->getUrl();
+                $buttons[] = [['text' => $button->getLabel(), 'url' => $button->getUrl()]];
             } elseif ($button instanceof PayloadButton) {
-                $parameters['callback_data'] = $button->getPayload();
+                $buttons[] = [['text' => $button->getLabel(), 'callback_data' => $button->getPayload()]];
             }
-
-            $buttons[] = $parameters;
         }
 
         return [
-            'inline_keyboard' => [$buttons],
+            'inline_keyboard' => $buttons,
         ];
     }
 

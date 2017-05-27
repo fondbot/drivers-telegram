@@ -96,11 +96,9 @@ class SendMessageAdapterTest extends TestCase
             'text' => $text,
             'reply_markup' => json_encode([
                 'inline_keyboard' => [
-                    [
-                        ['text' => $button1->getLabel(), 'url' => $button1->getUrl()],
-                        ['text' => $button2->getLabel(), 'callback_data' => $button2->getPayload()],
-                        ['text' => $button3->getLabel(), 'callback_data' => $button3->getPayload()],
-                    ],
+                    [['text' => $button1->getLabel(), 'url' => $button1->getUrl()]],
+                    [['text' => $button2->getLabel(), 'callback_data' => $button2->getPayload()]],
+                    [['text' => $button3->getLabel(), 'callback_data' => $button3->getPayload()]],
                 ],
             ]),
         ];
