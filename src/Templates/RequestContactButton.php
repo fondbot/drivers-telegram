@@ -2,13 +2,23 @@
 
 declare(strict_types=1);
 
-namespace FondBot\Drivers\Telegram\Templates\Keyboard\Buttons;
+namespace FondBot\Drivers\Telegram\Templates;
 
 use FondBot\Templates\Keyboard\Button;
 
-class RequestLocationButton implements Button
+class RequestContactButton implements Button
 {
     private $label;
+
+    /**
+     * Get name.
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return 'RequestContactButton';
+    }
 
     /**
      * Get label.
@@ -25,9 +35,9 @@ class RequestLocationButton implements Button
      *
      * @param string $label
      *
-     * @return RequestLocationButton
+     * @return RequestContactButton
      */
-    public function setLabel(string $label): RequestLocationButton
+    public function setLabel(string $label): RequestContactButton
     {
         $this->label = $label;
 

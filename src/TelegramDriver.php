@@ -8,16 +8,10 @@ use GuzzleHttp\Client;
 use FondBot\Drivers\Chat;
 use FondBot\Drivers\User;
 use FondBot\Drivers\Driver;
-use FondBot\Drivers\Command;
+use FondBot\Drivers\CommandHandler;
 use FondBot\Drivers\ReceivedMessage;
-use FondBot\Drivers\Commands\SendMessage;
-use FondBot\Drivers\Commands\SendRequest;
-use GuzzleHttp\Exception\ClientException;
-use FondBot\Drivers\Commands\SendAttachment;
+use FondBot\Drivers\TemplateCompiler;
 use FondBot\Drivers\Exceptions\InvalidRequest;
-use FondBot\Drivers\Telegram\Commands\SendMessageAdapter;
-use FondBot\Drivers\Telegram\Commands\SendRequestAdapter;
-use FondBot\Drivers\Telegram\Commands\SendAttachmentAdapter;
 
 class TelegramDriver extends Driver
 {
@@ -26,6 +20,31 @@ class TelegramDriver extends Driver
     public function __construct(Client $guzzle)
     {
         $this->guzzle = $guzzle;
+    }
+
+    public function getBaseUrl(): string
+    {
+        return 'https://api.telegram.org/bot'.$this->getParameter('token');
+    }
+
+    /**
+     * Get template compiler instance.
+     *
+     * @return TemplateCompiler
+     */
+    public function getTemplateCompiler(): TemplateCompiler
+    {
+        return new TelegramTemplateCompiler;
+    }
+
+    /**
+     * Get request builder instance.
+     *
+     * @return CommandHandler
+     */
+    public function getCommandHandler(): CommandHandler
+    {
+        return new TelegramCommandHandler($this, $this->guzzle);
     }
 
     /**
@@ -96,72 +115,5 @@ class TelegramDriver extends Driver
             $this->getParameter('token'),
             $this->request->getParameters()
         );
-    }
-
-    /**
-     * Handle command.
-     *
-     * @param Command $command
-     *
-     * @throws InvalidRequest
-     */
-    public function handle(Command $command): void
-    {
-        try {
-            if ($command instanceof SendMessage) {
-                $this->handleSendMessageCommand($command);
-            } elseif ($command instanceof SendAttachment) {
-                $this->handleSendAttachmentCommand($command);
-            } elseif ($command instanceof SendRequest) {
-                $this->handleSendRequestCommand($command);
-            }
-        } catch (ClientException $exception) {
-            if ($exception->getCode() === 400) {
-                throw new InvalidRequest($exception->getMessage());
-            }
-        }
-    }
-
-    /**
-     * Send message to recipient.
-     *
-     * @param SendMessage $command
-     */
-    private function handleSendMessageCommand(SendMessage $command): void
-    {
-        $message = new SendMessageAdapter($command);
-
-        $this->guzzle->post($this->getBaseUrl().'/sendMessage', [
-            'form_params' => $message->toArray(),
-        ]);
-    }
-
-    /**
-     * Send attachment to recipient.
-     *
-     * @param SendAttachment $command
-     */
-    private function handleSendAttachmentCommand(SendAttachment $command): void
-    {
-        $adapter = new SendAttachmentAdapter($command);
-
-        $this->guzzle->post($this->getBaseUrl().'/'.$adapter->getEndpoint(), $adapter->toArray());
-    }
-
-    /**
-     * Send request to Telegram.
-     *
-     * @param SendRequest $command
-     */
-    private function handleSendRequestCommand(SendRequest $command): void
-    {
-        $adapter = new SendRequestAdapter($command);
-
-        $this->guzzle->post($this->getBaseUrl().'/'.$adapter->getEndpoint(), $adapter->toArray());
-    }
-
-    private function getBaseUrl(): string
-    {
-        return 'https://api.telegram.org/bot'.$this->getParameter('token');
     }
 }
