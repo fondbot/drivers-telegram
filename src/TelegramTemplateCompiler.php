@@ -30,6 +30,13 @@ class TelegramTemplateCompiler extends TemplateCompiler
         ],
     ];
 
+    /**
+     * Compile keyboard.
+     *
+     * @param Keyboard $keyboard
+     *
+     * @return mixed
+     */
     public function compileKeyboard(Keyboard $keyboard): ?array
     {
         $type = $this->detectKeyboardType($keyboard);
@@ -59,31 +66,72 @@ class TelegramTemplateCompiler extends TemplateCompiler
         return null;
     }
 
+    /**
+     * Compile payload button.
+     *
+     * @param PayloadButton $button
+     *
+     * @return mixed
+     */
     public function compilePayloadButton(PayloadButton $button): array
     {
         return [['text' => $button->getLabel(), 'callback_data' => $button->getPayload()]];
     }
 
+    /**
+     * Compile reply button.
+     *
+     * @param ReplyButton $button
+     *
+     * @return mixed
+     */
     public function compileReplyButton(ReplyButton $button): array
     {
         return [$button->getLabel()];
     }
 
+    /**
+     * Compile url button.
+     *
+     * @param UrlButton $button
+     *
+     * @return mixed
+     */
     public function compileUrlButton(UrlButton $button): array
     {
         return [['text' => $button->getLabel(), 'url' => $button->getUrl()]];
     }
 
+    /**
+     * Compile request contact button.
+     *
+     * @param RequestContactButton $button
+     *
+     * @return mixed
+     */
     public function compileRequestContactButton(RequestContactButton $button): array
     {
         return [['text' => $button->getLabel(), 'request_contact' => true]];
     }
 
+    /**
+     * Compile request location button.
+     *
+     * @param RequestLocationButton $button
+     *
+     * @return mixed
+     */
     public function compileRequestLocationButton(RequestLocationButton $button): array
     {
         return [['text' => $button->getLabel(), 'request_location' => true]];
     }
 
+    /**
+     * Determine keyboard type by buttons.
+     *
+     * @param Keyboard $keyboard
+     * @return string
+     */
     private function detectKeyboardType(Keyboard $keyboard): string
     {
         $button = collect($keyboard->getButtons())->first();

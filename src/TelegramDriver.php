@@ -30,9 +30,9 @@ class TelegramDriver extends Driver
     /**
      * Get template compiler instance.
      *
-     * @return TemplateCompiler
+     * @return TemplateCompiler|null
      */
-    public function getTemplateCompiler(): TemplateCompiler
+    public function getTemplateCompiler(): ?TemplateCompiler
     {
         return new TelegramTemplateCompiler;
     }
