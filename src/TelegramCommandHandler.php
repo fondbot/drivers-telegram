@@ -16,6 +16,9 @@ class TelegramCommandHandler extends CommandHandler
 {
     private $guzzle;
 
+    /** @var TelegramDriver */
+    protected $driver;
+
     public function __construct(Driver $driver, Client $guzzle)
     {
         parent::__construct($driver);
@@ -33,7 +36,7 @@ class TelegramCommandHandler extends CommandHandler
             $payload['reply_markup'] = $this->driver->getTemplateCompiler()->compile($command->getTemplate());
         }
 
-        $this->guzzle->post('sendMessage', ['form_params' => $payload]);
+        $this->guzzle->post($this->driver->getBaseUrl().'/sendMessage', ['form_params' => $payload]);
     }
 
     public function handleSendAttachment(SendAttachment $command): void
@@ -70,11 +73,10 @@ class TelegramCommandHandler extends CommandHandler
             ],
         ];
 
-        $this->guzzle->post($endpoint, $payload);
+        $this->guzzle->post($this->driver->getBaseUrl().'/'.$endpoint, $payload);
     }
 
     public function handleSendRequest(SendRequest $command): void
     {
-        //        return new Request('POST', $command->endpoint, json_encode($command->parameters));
     }
 }

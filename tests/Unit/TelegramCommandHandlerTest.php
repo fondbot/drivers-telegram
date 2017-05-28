@@ -32,6 +32,7 @@ class TelegramCommandHandlerTest extends TestCase
         $chat->shouldReceive('getId')->andReturn('foo')->once();
         $driver->shouldReceive('getTemplateCompiler')->andReturn($templateCompiler)->once();
         $templateCompiler->shouldReceive('compile')->with($template)->andReturn('template payload')->once();
+        $driver->shouldReceive('getBaseUrl')->andReturn('http://telegram.api')->once();
 
         $payload = [
             'chat_id' => 'foo',
@@ -39,7 +40,7 @@ class TelegramCommandHandlerTest extends TestCase
             'reply_markup' => 'template payload',
         ];
 
-        $guzzle->shouldReceive('post')->with('sendMessage', ['form_params' => $payload])->once();
+        $guzzle->shouldReceive('post')->with('http://telegram.api/sendMessage', ['form_params' => $payload])->once();
 
         (new TelegramCommandHandler($driver, $guzzle))->handle($command);
     }
@@ -80,6 +81,7 @@ class TelegramCommandHandlerTest extends TestCase
         $attachment->shouldReceive('getType')->andReturn($genericType)->once();
         $chat->shouldReceive('getId')->andReturn('foo')->once();
         $attachment->shouldReceive('getPath')->andReturn('path_to_attachment')->once();
+        $driver->shouldReceive('getBaseUrl')->andReturn('http://telegram.api')->once();
 
         $payload = [
             'multipart' => [
@@ -94,7 +96,7 @@ class TelegramCommandHandlerTest extends TestCase
             ],
         ];
 
-        $guzzle->shouldReceive('post')->with($endpoint, $payload)->once();
+        $guzzle->shouldReceive('post')->with('http://telegram.api/'.$endpoint, $payload)->once();
 
         (new TelegramCommandHandler($driver, $guzzle))->handle($command);
     }
