@@ -26,7 +26,7 @@ class TelegramCommandHandler extends CommandHandler
             $payload['reply_markup'] = $this->driver->getTemplateCompiler()->compile($command->getTemplate());
         }
 
-        $this->driver->getHttp()->post($this->driver->getBaseUrl().'/sendMessage', ['form_params' => $payload]);
+        $this->driver->getHttp()->post($this->driver->getBaseUrl().'/sendMessage', ['json' => $payload]);
     }
 
     protected function handleSendAttachment(SendAttachment $command): void
