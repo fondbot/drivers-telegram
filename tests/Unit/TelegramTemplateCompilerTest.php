@@ -13,7 +13,7 @@ use FondBot\Drivers\Telegram\TelegramTemplateCompiler;
 use FondBot\Drivers\Telegram\Templates\RequestContactButton;
 use FondBot\Drivers\Telegram\Templates\RequestLocationButton;
 
-class TemplateCompilerTest extends TestCase
+class TelegramTemplateCompilerTest extends TestCase
 {
     public function test_reply_keyboard(): void
     {

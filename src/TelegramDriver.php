@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram;
 
-use GuzzleHttp\Client;
 use FondBot\Drivers\Chat;
 use FondBot\Drivers\User;
 use FondBot\Drivers\Driver;
@@ -15,13 +14,6 @@ use FondBot\Drivers\Exceptions\InvalidRequest;
 
 class TelegramDriver extends Driver
 {
-    private $guzzle;
-
-    public function __construct(Client $guzzle)
-    {
-        $this->guzzle = $guzzle;
-    }
-
     public function getBaseUrl(): string
     {
         return 'https://api.telegram.org/bot'.$this->getParameter('token');
@@ -44,7 +36,7 @@ class TelegramDriver extends Driver
      */
     public function getCommandHandler(): CommandHandler
     {
-        return new TelegramCommandHandler($this, $this->guzzle);
+        return new TelegramCommandHandler($this);
     }
 
     /**
@@ -111,7 +103,7 @@ class TelegramDriver extends Driver
     public function getMessage(): ReceivedMessage
     {
         return new TelegramReceivedMessage(
-            $this->guzzle,
+            $this->http,
             $this->getParameter('token'),
             $this->request->getParameters()
         );

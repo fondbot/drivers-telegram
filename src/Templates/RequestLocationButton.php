@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Templates;
 
+use FondBot\Contracts\Arrayable;
 use FondBot\Templates\Keyboard\Button;
 
-class RequestLocationButton implements Button
+class RequestLocationButton extends Button implements Arrayable
 {
-    private $label;
-
     /**
      * Get name.
      *
@@ -21,26 +20,17 @@ class RequestLocationButton implements Button
     }
 
     /**
-     * Get label.
+     * Get the instance as an array.
      *
-     * @return string
+     * @return array
      */
-    public function getLabel(): string
+    public function toArray(): array
     {
-        return $this->label;
-    }
-
-    /**
-     * Set label.
-     *
-     * @param string $label
-     *
-     * @return RequestLocationButton
-     */
-    public function setLabel(string $label): RequestLocationButton
-    {
-        $this->label = $label;
-
-        return $this;
+        return [
+            [
+                'text' => $this->label,
+                'request_location' => true,
+            ],
+        ];
     }
 }

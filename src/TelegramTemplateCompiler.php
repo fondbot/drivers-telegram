@@ -10,8 +10,6 @@ use FondBot\Templates\Keyboard\Button;
 use FondBot\Templates\Keyboard\UrlButton;
 use FondBot\Templates\Keyboard\ReplyButton;
 use FondBot\Templates\Keyboard\PayloadButton;
-use FondBot\Drivers\Telegram\Templates\RequestContactButton;
-use FondBot\Drivers\Telegram\Templates\RequestLocationButton;
 
 class TelegramTemplateCompiler extends TemplateCompiler
 {
@@ -34,10 +32,11 @@ class TelegramTemplateCompiler extends TemplateCompiler
      * Compile keyboard.
      *
      * @param Keyboard $keyboard
+     * @param array $args
      *
      * @return mixed
      */
-    public function compileKeyboard(Keyboard $keyboard): ?array
+    protected function compileKeyboard(Keyboard $keyboard, array $args): ?array
     {
         $type = $this->detectKeyboardType($keyboard);
 
@@ -70,10 +69,11 @@ class TelegramTemplateCompiler extends TemplateCompiler
      * Compile payload button.
      *
      * @param PayloadButton $button
+     * @param array $args
      *
      * @return mixed
      */
-    public function compilePayloadButton(PayloadButton $button): array
+    public function compilePayloadButton(PayloadButton $button, array $args): array
     {
         return [['text' => $button->getLabel(), 'callback_data' => $button->getPayload()]];
     }
@@ -82,10 +82,11 @@ class TelegramTemplateCompiler extends TemplateCompiler
      * Compile reply button.
      *
      * @param ReplyButton $button
+     * @param array $args
      *
      * @return mixed
      */
-    public function compileReplyButton(ReplyButton $button): array
+    public function compileReplyButton(ReplyButton $button, array $args): array
     {
         return [$button->getLabel()];
     }
@@ -94,36 +95,13 @@ class TelegramTemplateCompiler extends TemplateCompiler
      * Compile url button.
      *
      * @param UrlButton $button
+     * @param array $args
      *
      * @return mixed
      */
-    public function compileUrlButton(UrlButton $button): array
+    public function compileUrlButton(UrlButton $button, array $args): array
     {
         return [['text' => $button->getLabel(), 'url' => $button->getUrl()]];
-    }
-
-    /**
-     * Compile request contact button.
-     *
-     * @param RequestContactButton $button
-     *
-     * @return mixed
-     */
-    public function compileRequestContactButton(RequestContactButton $button): array
-    {
-        return [['text' => $button->getLabel(), 'request_contact' => true]];
-    }
-
-    /**
-     * Compile request location button.
-     *
-     * @param RequestLocationButton $button
-     *
-     * @return mixed
-     */
-    public function compileRequestLocationButton(RequestLocationButton $button): array
-    {
-        return [['text' => $button->getLabel(), 'request_location' => true]];
     }
 
     /**

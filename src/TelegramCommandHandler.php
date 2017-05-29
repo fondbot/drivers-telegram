@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram;
 
-use GuzzleHttp\Client;
-use FondBot\Drivers\Driver;
 use FondBot\Templates\Attachment;
 use FondBot\Drivers\CommandHandler;
 use FondBot\Drivers\Commands\SendMessage;
@@ -14,18 +12,10 @@ use FondBot\Drivers\Commands\SendAttachment;
 
 class TelegramCommandHandler extends CommandHandler
 {
-    private $guzzle;
-
     /** @var TelegramDriver */
     protected $driver;
 
-    public function __construct(Driver $driver, Client $guzzle)
-    {
-        parent::__construct($driver);
-        $this->guzzle = $guzzle;
-    }
-
-    public function handleSendMessage(SendMessage $command): void
+    protected function handleSendMessage(SendMessage $command): void
     {
         $payload = [
             'chat_id' => $command->getChat()->getId(),
@@ -36,10 +26,10 @@ class TelegramCommandHandler extends CommandHandler
             $payload['reply_markup'] = $this->driver->getTemplateCompiler()->compile($command->getTemplate());
         }
 
-        $this->guzzle->post($this->driver->getBaseUrl().'/sendMessage', ['form_params' => $payload]);
+        $this->driver->getHttp()->post($this->driver->getBaseUrl().'/sendMessage', ['form_params' => $payload]);
     }
 
-    public function handleSendAttachment(SendAttachment $command): void
+    protected function handleSendAttachment(SendAttachment $command): void
     {
         switch ($command->getAttachment()->getType()) {
             case Attachment::TYPE_IMAGE:
@@ -73,10 +63,10 @@ class TelegramCommandHandler extends CommandHandler
             ],
         ];
 
-        $this->guzzle->post($this->driver->getBaseUrl().'/'.$endpoint, $payload);
+        $this->driver->getHttp()->post($this->driver->getBaseUrl().'/'.$endpoint, $payload);
     }
 
-    public function handleSendRequest(SendRequest $command): void
+    protected function handleSendRequest(SendRequest $command): void
     {
     }
 }
