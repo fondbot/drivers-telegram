@@ -41,7 +41,7 @@ class TelegramCommandHandlerTest extends TestCase
             'reply_markup' => 'template payload',
         ];
 
-        $guzzle->shouldReceive('post')->with('http://telegram.api/sendMessage', ['form_params' => $payload])->once();
+        $guzzle->shouldReceive('post')->with('http://telegram.api/sendMessage', ['json' => $payload])->once();
 
         (new TelegramCommandHandler($driver, $guzzle))->handle($command);
     }
