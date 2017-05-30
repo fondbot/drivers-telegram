@@ -15,6 +15,11 @@ class TelegramCommandHandler extends CommandHandler
     /** @var TelegramDriver */
     protected $driver;
 
+    /**
+     * Handle send message command.
+     *
+     * @param SendMessage $command
+     */
     protected function handleSendMessage(SendMessage $command): void
     {
         $payload = [
@@ -29,6 +34,11 @@ class TelegramCommandHandler extends CommandHandler
         $this->driver->getHttp()->post($this->driver->getBaseUrl().'/sendMessage', ['json' => $payload]);
     }
 
+    /**
+     * Handle send attachment command.
+     *
+     * @param SendAttachment $command
+     */
     protected function handleSendAttachment(SendAttachment $command): void
     {
         switch ($command->getAttachment()->getType()) {
@@ -58,7 +68,7 @@ class TelegramCommandHandler extends CommandHandler
                 ],
                 [
                     'name' => $type,
-                    'filename' => $command->getAttachment()->getPath(),
+                    'contents' => fopen($command->getAttachment()->getPath(), 'rb'),
                 ],
             ],
         ];
@@ -66,6 +76,11 @@ class TelegramCommandHandler extends CommandHandler
         $this->driver->getHttp()->post($this->driver->getBaseUrl().'/'.$endpoint, $payload);
     }
 
+    /**
+     * Handle send request command.
+     *
+     * @param SendRequest $command
+     */
     protected function handleSendRequest(SendRequest $command): void
     {
     }

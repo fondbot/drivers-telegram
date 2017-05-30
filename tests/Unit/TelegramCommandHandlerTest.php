@@ -81,24 +81,29 @@ class TelegramCommandHandlerTest extends TestCase
 
         $attachment->shouldReceive('getType')->andReturn($genericType)->once();
         $chat->shouldReceive('getId')->andReturn('foo')->once();
-        $attachment->shouldReceive('getPath')->andReturn('path_to_attachment')->once();
+        $attachment->shouldReceive('getPath')->andReturn('https://fondbot.com/images/logo.png')->once();
         $driver->shouldReceive('getHttp')->andReturn($guzzle)->once();
         $driver->shouldReceive('getBaseUrl')->andReturn('http://telegram.api')->once();
 
-        $payload = [
-            'multipart' => [
-                [
-                    'name' => 'chat_id',
-                    'contents' => 'foo',
-                ],
-                [
-                    'name' => $type,
-                    'filename' => 'path_to_attachment',
-                ],
-            ],
-        ];
+        /* @noinspection PhpParamsInspection */
+        $guzzle->shouldReceive('post')
+            ->withArgs(function ($arg1, $arg2) use ($endpoint, $type) {
+                if ($arg1 !== 'http://telegram.api/'.$endpoint) {
+                    return false;
+                }
 
-        $guzzle->shouldReceive('post')->with('http://telegram.api/'.$endpoint, $payload)->once();
+                $multipart = $arg2['multipart'];
+                if ($multipart[0]['name'] !== 'chat_id' || $multipart[0]['contents'] !== 'foo') {
+                    return false;
+                }
+
+                if ($multipart[1]['name'] !== $type || !is_resource($multipart[1]['contents'])) {
+                    return false;
+                }
+
+                return true;
+            })
+            ->once();
 
         (new TelegramCommandHandler($driver, $guzzle))->handle($command);
     }
