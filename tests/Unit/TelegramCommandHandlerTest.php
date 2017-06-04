@@ -8,9 +8,9 @@ use Tests\TestCase;
 use GuzzleHttp\Client;
 use FondBot\Drivers\Chat;
 use FondBot\Drivers\User;
-use FondBot\Drivers\Driver;
 use FondBot\Contracts\Template;
 use FondBot\Templates\Attachment;
+use FondBot\Drivers\AbstractDriver;
 use FondBot\Drivers\TemplateCompiler;
 use FondBot\Drivers\Commands\SendMessage;
 use FondBot\Drivers\Commands\SendAttachment;
@@ -26,7 +26,7 @@ class TelegramCommandHandlerTest extends TestCase
         $text = $this->faker()->text;
         $template = $this->mock(Template::class);
         $templateCompiler = $this->mock(TemplateCompiler::class);
-        $driver = $this->mock(Driver::class);
+        $driver = $this->mock(AbstractDriver::class);
         $command = new SendMessage($chat, $user, $text, $template);
 
         $chat->shouldReceive('getId')->andReturn('foo')->once();
@@ -76,7 +76,7 @@ class TelegramCommandHandlerTest extends TestCase
         $chat = $this->mock(Chat::class);
         $user = $this->mock(User::class);
         $attachment = $this->mock(Attachment::class);
-        $driver = $this->mock(Driver::class);
+        $driver = $this->mock(AbstractDriver::class);
         $command = new SendAttachment($chat, $user, $attachment);
 
         $attachment->shouldReceive('getType')->andReturn($genericType)->once();

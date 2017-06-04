@@ -6,17 +6,38 @@ namespace FondBot\Drivers\Telegram;
 
 use FondBot\Drivers\Chat;
 use FondBot\Drivers\User;
-use FondBot\Drivers\Driver;
+use FondBot\Drivers\AbstractDriver;
 use FondBot\Drivers\CommandHandler;
 use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\TemplateCompiler;
 use FondBot\Drivers\Exceptions\InvalidRequest;
 
-class TelegramDriver extends Driver
+class TelegramDriver extends AbstractDriver
 {
-    public function getBaseUrl(): string
+    /**
+     * Get gateway display name.
+     *
+     * This can be used for various system where human-friendly name is required.
+     *
+     * @return string
+     */
+    public function getName(): string
     {
-        return 'https://api.telegram.org/bot'.$this->getParameter('token');
+        return 'Telegram';
+    }
+
+    /**
+     * Define driver default parameters.
+     *
+     * Example: ['token' => '', 'apiVersion' => '1.0']
+     *
+     * @return array
+     */
+    public function getDefaultParameters(): array
+    {
+        return [
+            'token' => '',
+        ];
     }
 
     /**
@@ -104,8 +125,13 @@ class TelegramDriver extends Driver
     {
         return new TelegramReceivedMessage(
             $this->http,
-            $this->getParameter('token'),
+            $this->parameters->get('token'),
             $this->request->getParameters()
         );
+    }
+
+    public function getBaseUrl(): string
+    {
+        return 'https://api.telegram.org/bot'.$this->parameters->get('token');
     }
 }

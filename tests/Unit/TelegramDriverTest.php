@@ -28,7 +28,7 @@ class TelegramDriverTest extends TestCase
 
         $this->guzzle = $this->mock(Client::class);
 
-        $this->driver = new TelegramDriver($this->guzzle);
+        $this->driver = new TelegramDriver;
         $this->driver->fill($this->parameters = ['token' => Str::random()], new Request([], []));
     }
 
