@@ -27,6 +27,18 @@ class TelegramDriver extends AbstractDriver
     }
 
     /**
+     * Get driver short name.
+     *
+     * This name is used as an alias for configuration.
+     *
+     * @return string
+     */
+    public function getShortName(): string
+    {
+        return 'telegram';
+    }
+
+    /**
      * Define driver default parameters.
      *
      * Example: ['token' => '', 'apiVersion' => '1.0']
@@ -86,7 +98,7 @@ class TelegramDriver extends AbstractDriver
         $chat = $this->request->getParameter('message.chat');
 
         return new Chat(
-            (string) $chat['id'],
+            (string)$chat['id'],
             $chat['title'] ?? '',
             $chat['type']
         );
@@ -110,7 +122,7 @@ class TelegramDriver extends AbstractDriver
         $name = trim($name);
 
         return new User(
-            (string) $from['id'],
+            (string)$from['id'],
             $name,
             $from['username'] ?? null
         );
@@ -132,6 +144,6 @@ class TelegramDriver extends AbstractDriver
 
     public function getBaseUrl(): string
     {
-        return 'https://api.telegram.org/bot'.$this->parameters->get('token');
+        return 'https://api.telegram.org/bot' . $this->parameters->get('token');
     }
 }
