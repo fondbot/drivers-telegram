@@ -31,7 +31,7 @@ class TelegramCommandHandler extends CommandHandler
             $payload['reply_markup'] = $this->driver->getTemplateCompiler()->compile($command->getTemplate());
         }
 
-        $this->driver->getHttp()->post($this->driver->getBaseUrl().'/sendMessage', ['json' => $payload]);
+        $this->driver->post($this->driver->getBaseUrl().'/sendMessage', ['json' => $payload]);
     }
 
     /**
@@ -73,7 +73,7 @@ class TelegramCommandHandler extends CommandHandler
             ],
         ];
 
-        $this->driver->getHttp()->post($this->driver->getBaseUrl().'/'.$endpoint, $payload);
+        $this->driver->post($this->driver->getBaseUrl().'/'.$endpoint, $payload);
     }
 
     /**

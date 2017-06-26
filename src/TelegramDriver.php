@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram;
 
+use FondBot\Helpers\Arr;
 use FondBot\Drivers\Chat;
 use FondBot\Drivers\User;
-use FondBot\Drivers\AbstractDriver;
+use FondBot\Drivers\Driver;
 use FondBot\Drivers\CommandHandler;
 use FondBot\Drivers\ReceivedMessage;
 use FondBot\Drivers\TemplateCompiler;
 use FondBot\Drivers\Exceptions\InvalidRequest;
 
-class TelegramDriver extends AbstractDriver
+class TelegramDriver extends Driver
 {
     /**
      * Get gateway display name.
@@ -79,11 +80,11 @@ class TelegramDriver extends AbstractDriver
      */
     public function verifyRequest(): void
     {
-        if ($this->request->hasParameters('callback_query')) {
+        if (Arr::has($this->getRequestJson(), ['callback_query'])) {
             return;
         }
 
-        if (!$this->request->hasParameters(['message', 'message.from'])) {
+        if (!Arr::has($this->getRequestJson(), ['message', 'message.from'])) {
             throw new InvalidRequest('Invalid payload');
         }
     }
@@ -95,10 +96,10 @@ class TelegramDriver extends AbstractDriver
      */
     public function getChat(): Chat
     {
-        $chat = $this->request->getParameter('message.chat');
+        $chat = Arr::get($this->getRequestJson(), 'message.chat');
 
         return new Chat(
-            (string)$chat['id'],
+            (string) $chat['id'],
             $chat['title'] ?? '',
             $chat['type']
         );
@@ -111,10 +112,10 @@ class TelegramDriver extends AbstractDriver
      */
     public function getUser(): User
     {
-        if ($this->request->hasParameters('callback_query')) {
-            $from = $this->request->getParameter('callback_query.from');
+        if (Arr::has($this->getRequestJson(), ['callback_query'])) {
+            $from = Arr::get($this->getRequestJson(), 'callback_query.from');
         } else {
-            $from = $this->request->getParameter('message.from');
+            $from = Arr::get($this->getRequestJson(), 'message.from');
         }
 
         $name = [$from['first_name'] ?? null, $from['last_name'] ?? null];
@@ -122,7 +123,7 @@ class TelegramDriver extends AbstractDriver
         $name = trim($name);
 
         return new User(
-            (string)$from['id'],
+            (string) $from['id'],
             $name,
             $from['username'] ?? null
         );
@@ -136,14 +137,14 @@ class TelegramDriver extends AbstractDriver
     public function getMessage(): ReceivedMessage
     {
         return new TelegramReceivedMessage(
-            $this->http,
+            $this->httpClient,
             $this->parameters->get('token'),
-            $this->request->getParameters()
+            $this->getRequestJson()
         );
     }
 
     public function getBaseUrl(): string
     {
-        return 'https://api.telegram.org/bot' . $this->parameters->get('token');
+        return 'https://api.telegram.org/bot'.$this->parameters->get('token');
     }
 }
