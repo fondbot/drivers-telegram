@@ -11,7 +11,7 @@
   ],
   "require": {
     "php": "^7.1",
-    "fondbot/framework": "^1.1"
+    "fondbot/framework": "^2.0"
   },
   "require-dev": {
     "fzaninotto/faker": "^1.6",
@@ -34,7 +34,7 @@
         "driver": "FondBot\\Drivers\\Telegram\\TelegramDriver"
     },
     "branch-alias": {
-      "dev-master": "1.1-dev"
+      "dev-master": "2.0-dev"
     }
   },
   "scripts": {

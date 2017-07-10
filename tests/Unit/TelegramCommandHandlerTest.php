@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use FondBot\Drivers\Driver;
 use Tests\TestCase;
 use GuzzleHttp\Client;
 use FondBot\Drivers\Chat;
 use FondBot\Drivers\User;
 use FondBot\Contracts\Template;
 use FondBot\Templates\Attachment;
-use FondBot\Drivers\AbstractDriver;
 use FondBot\Drivers\TemplateCompiler;
 use FondBot\Drivers\Commands\SendMessage;
 use FondBot\Drivers\Commands\SendAttachment;
@@ -26,13 +26,12 @@ class TelegramCommandHandlerTest extends TestCase
         $text = $this->faker()->text;
         $template = $this->mock(Template::class);
         $templateCompiler = $this->mock(TemplateCompiler::class);
-        $driver = $this->mock(AbstractDriver::class);
+        $driver = $this->mock(Driver::class);
         $command = new SendMessage($chat, $user, $text, $template);
 
         $chat->shouldReceive('getId')->andReturn('foo')->once();
         $driver->shouldReceive('getTemplateCompiler')->andReturn($templateCompiler)->once();
         $templateCompiler->shouldReceive('compile')->with($template)->andReturn('template payload')->once();
-        $driver->shouldReceive('getHttp')->andReturn($guzzle)->once();
         $driver->shouldReceive('getBaseUrl')->andReturn('http://telegram.api')->once();
 
         $payload = [
@@ -41,9 +40,9 @@ class TelegramCommandHandlerTest extends TestCase
             'reply_markup' => 'template payload',
         ];
 
-        $guzzle->shouldReceive('post')->with('http://telegram.api/sendMessage', ['json' => $payload])->once();
+        $driver->shouldReceive('post')->with('http://telegram.api/sendMessage', ['json' => $payload])->once();
 
-        (new TelegramCommandHandler($driver, $guzzle))->handle($command);
+        (new TelegramCommandHandler($driver))->handle($command);
     }
 
     /**
@@ -76,36 +75,18 @@ class TelegramCommandHandlerTest extends TestCase
         $chat = $this->mock(Chat::class);
         $user = $this->mock(User::class);
         $attachment = $this->mock(Attachment::class);
-        $driver = $this->mock(AbstractDriver::class);
+        $driver = $this->mock(Driver::class);
         $command = new SendAttachment($chat, $user, $attachment);
 
         $attachment->shouldReceive('getType')->andReturn($genericType)->once();
         $chat->shouldReceive('getId')->andReturn('foo')->once();
         $attachment->shouldReceive('getPath')->andReturn('https://fondbot.com/images/logo.png')->once();
-        $driver->shouldReceive('getHttp')->andReturn($guzzle)->once();
         $driver->shouldReceive('getBaseUrl')->andReturn('http://telegram.api')->once();
 
         /* @noinspection PhpParamsInspection */
-        $guzzle->shouldReceive('post')
-            ->withArgs(function ($arg1, $arg2) use ($endpoint, $type) {
-                if ($arg1 !== 'http://telegram.api/'.$endpoint) {
-                    return false;
-                }
+        $driver->shouldReceive('post')->once();
 
-                $multipart = $arg2['multipart'];
-                if ($multipart[0]['name'] !== 'chat_id' || $multipart[0]['contents'] !== 'foo') {
-                    return false;
-                }
-
-                if ($multipart[1]['name'] !== $type || !is_resource($multipart[1]['contents'])) {
-                    return false;
-                }
-
-                return true;
-            })
-            ->once();
-
-        (new TelegramCommandHandler($driver, $guzzle))->handle($command);
+        (new TelegramCommandHandler($driver))->handle($command);
     }
 
     public function attachmentTypes(): array

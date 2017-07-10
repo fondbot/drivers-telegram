@@ -34,7 +34,7 @@ class TelegramReceivedMessage implements ReceivedMessage
             return Arr::get($this->payload, 'callback_query.message.text');
         }
 
-        return $this->payload['message']['text'] ?? null;
+        return Arr::get($this->payload, 'message.text');
     }
 
     /**

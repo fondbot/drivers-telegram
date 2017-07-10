@@ -1,5 +1,5 @@
+/build
 /vendor
-/tests/Coverage
 
 .DS_Store
 Thumbs.db
@@ -7,14 +7,5 @@ Thumbs.db
 .idea
 .php_cs.cache
 
-clover.xml
 composer.lock
-_ide_helper.php
-_ide_helper_models.php
-.phpstorm.meta.php
 studio.json
-
-*.sublime-project
-*.sublime-workspace
-*.pid
-*.log

@@ -15,6 +15,11 @@ use FondBot\Drivers\Exceptions\InvalidRequest;
 
 class TelegramDriver extends Driver
 {
+    public function getBaseUrl(): string
+    {
+        return 'https://api.telegram.org/bot' . $this->parameters->get('token');
+    }
+
     /**
      * Get gateway display name.
      *
@@ -80,7 +85,7 @@ class TelegramDriver extends Driver
      */
     public function verifyRequest(): void
     {
-        if (Arr::has($this->getRequestJson(), ['callback_query'])) {
+        if (Arr::has($this->getRequestJson(), ['callback_query', 'callback_query.from'])) {
             return;
         }
 
@@ -99,7 +104,7 @@ class TelegramDriver extends Driver
         $chat = Arr::get($this->getRequestJson(), 'message.chat');
 
         return new Chat(
-            (string) $chat['id'],
+            (string)$chat['id'],
             $chat['title'] ?? '',
             $chat['type']
         );
@@ -122,10 +127,7 @@ class TelegramDriver extends Driver
         $name = implode(' ', $name);
         $name = trim($name);
 
-        return new User(
-            (string) $from['id'],
-            $name,
-            $from['username'] ?? null
+        return new User((string)$from['id'], $name, $from['username'] ?? null
         );
     }
 
@@ -137,14 +139,9 @@ class TelegramDriver extends Driver
     public function getMessage(): ReceivedMessage
     {
         return new TelegramReceivedMessage(
-            $this->httpClient,
+            $this->guzzle,
             $this->parameters->get('token'),
             $this->getRequestJson()
         );
-    }
-
-    public function getBaseUrl(): string
-    {
-        return 'https://api.telegram.org/bot'.$this->parameters->get('token');
     }
 }
