@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram;
 
-use FondBot\Helpers\Arr;
-use FondBot\Drivers\Chat;
-use FondBot\Drivers\User;
-use FondBot\Drivers\Driver;
-use FondBot\Drivers\CommandHandler;
-use FondBot\Drivers\ReceivedMessage;
-use FondBot\Drivers\TemplateCompiler;
-use FondBot\Drivers\Exceptions\InvalidRequest;
+use FondBot\Channels\Chat;
+use FondBot\Channels\User;
+use FondBot\Channels\Driver;
+use FondBot\Contracts\Event;
+use Illuminate\Http\Request;
+use FondBot\Contracts\Template;
+use FondBot\Templates\Attachment;
 
 class TelegramDriver extends Driver
 {
     public function getBaseUrl(): string
     {
-        return 'https://api.telegram.org/bot' . $this->parameters->get('token');
+        return 'https://api.telegram.org/bot'.$this->parameters->get('token');
     }
 
     /**
@@ -59,89 +58,95 @@ class TelegramDriver extends Driver
     }
 
     /**
-     * Get template compiler instance.
+     * Create event based on incoming request.
      *
-     * @return TemplateCompiler|null
+     * @param Request $request
+     *
+     * @return Event
      */
-    public function getTemplateCompiler(): ?TemplateCompiler
+    public function createEvent(Request $request): Event
     {
-        return new TelegramTemplateCompiler;
+        //        $event = new MessageReceived();
+        // TODO: Implement createEvent() method.
     }
 
     /**
-     * Get request builder instance.
+     * Send message.
      *
-     * @return CommandHandler
+     * @param Chat $chat
+     * @param User $recipient
+     * @param string $text
+     * @param Template|null $template
      */
-    public function getCommandHandler(): CommandHandler
+    public function sendMessage(Chat $chat, User $recipient, string $text, Template $template = null): void
     {
-        return new TelegramCommandHandler($this);
+        $payload = [
+            'chat_id' => $chat->getId(),
+            'text' => $text,
+        ];
+
+        // TODO templates
+//        if ($command->getTemplate() !== null) {
+//            $payload['reply_markup'] = $this->driver->getTemplateCompiler()->compile($command->getTemplate());
+//        }
+
+//        $this->driver->post($this->driver->getBaseUrl().'/sendMessage', ['json' => $payload]);
     }
 
     /**
-     * Verify incoming request data.
+     * Send attachment.
      *
-     * @throws InvalidRequest
+     * @param Chat $chat
+     * @param User $recipient
+     * @param Attachment $attachment
      */
-    public function verifyRequest(): void
+    public function sendAttachment(Chat $chat, User $recipient, Attachment $attachment): void
     {
-        if (Arr::has($this->getRequestJson(), ['callback_query', 'callback_query.from'])) {
-            return;
+        switch ($attachment->getType()) {
+            case Attachment::TYPE_IMAGE:
+                $type = 'photo';
+                $endpoint = 'sendPhoto';
+                break;
+            case Attachment::TYPE_AUDIO:
+                $type = 'audio';
+                $endpoint = 'sendAudio';
+                break;
+            case Attachment::TYPE_VIDEO:
+                $type = 'video';
+                $endpoint = 'sendVideo';
+                break;
+            default:
+                $type = 'document';
+                $endpoint = 'sendDocument';
+                break;
         }
 
-        if (!Arr::has($this->getRequestJson(), ['message', 'message.from'])) {
-            throw new InvalidRequest('Invalid payload');
-        }
+        $payload = [
+            'multipart' => [
+                [
+                    'name' => 'chat_id',
+                    'contents' => $chat->getId(),
+                ],
+                [
+                    'name' => $type,
+                    'contents' => fopen($attachment->getPath(), 'rb'),
+                ],
+            ],
+        ];
+
+        //        $this->driver->post($this->getBaseUrl().'/'.$endpoint, $payload);
     }
 
     /**
-     * Get chat.
+     * Send low-level request.
      *
-     * @return Chat
+     * @param Chat $chat
+     * @param User $recipient
+     * @param string $endpoint
+     * @param array $parameters
      */
-    public function getChat(): Chat
+    public function sendRequest(Chat $chat, User $recipient, string $endpoint, array $parameters = []): void
     {
-        $chat = Arr::get($this->getRequestJson(), 'message.chat');
-
-        return new Chat(
-            (string)$chat['id'],
-            $chat['title'] ?? '',
-            $chat['type']
-        );
-    }
-
-    /**
-     * Get message sender.
-     *
-     * @return User
-     */
-    public function getUser(): User
-    {
-        if (Arr::has($this->getRequestJson(), ['callback_query'])) {
-            $from = Arr::get($this->getRequestJson(), 'callback_query.from');
-        } else {
-            $from = Arr::get($this->getRequestJson(), 'message.from');
-        }
-
-        $name = [$from['first_name'] ?? null, $from['last_name'] ?? null];
-        $name = implode(' ', $name);
-        $name = trim($name);
-
-        return new User((string)$from['id'], $name, $from['username'] ?? null
-        );
-    }
-
-    /**
-     * Get message received from sender.
-     *
-     * @return ReceivedMessage
-     */
-    public function getMessage(): ReceivedMessage
-    {
-        return new TelegramReceivedMessage(
-            $this->guzzle,
-            $this->parameters->get('token'),
-            $this->getRequestJson()
-        );
+        // TODO: Implement sendRequest() method.
     }
 }

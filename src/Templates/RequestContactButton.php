@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Templates;
 
-use FondBot\Contracts\Arrayable;
 use FondBot\Templates\Keyboard\Button;
+use Illuminate\Contracts\Support\Arrayable;
 
 class RequestContactButton extends Button implements Arrayable
 {
