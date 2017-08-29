@@ -484,4 +484,15 @@ class TelegramClientTest extends TestCase
 
         $this->assertSame($body['result'], $result);
     }
+
+    public function testExportChatInviteLink(): void
+    {
+        $body = ['ok' => true, 'result' => $this->faker()->sha256];
+
+        $this->client->setGuzzle($this->guzzle(new Response(200, [], json_encode($body))));
+
+        $result = $this->client->exportChatInviteLink(str_random());
+
+        $this->assertSame($body['result'], $result);
+    }
 }

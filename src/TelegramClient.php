@@ -621,6 +621,20 @@ class TelegramClient
     }
 
     /**
+     * Use this method to export an invite link to a supergroup or a channel.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * Returns exported invite link as String on success.
+     *
+     * @param string $chatId
+     *
+     * @return string
+     */
+    public function exportChatInviteLink(string $chatId): string
+    {
+        return $this->request('exportChatInviteLink', compact('chatId'));
+    }
+
+    /**
      * Send request.
      *
      * @param string $endpoint
