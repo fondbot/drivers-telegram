@@ -205,7 +205,14 @@ class TelegramClient
         int $replyToMessageId = null,
         $replyMarkup = null
     ): Message {
-        $parameters = compact('chatId', 'document', 'caption', 'disableNotification', 'replyToMessageId', 'replyMarkup');
+        $parameters = compact(
+            'chatId',
+            'document',
+            'caption',
+            'disableNotification',
+            'replyToMessageId',
+            'replyMarkup'
+        );
 
         $response = $this->request('sendDocument', $parameters);
 
@@ -569,6 +576,53 @@ class TelegramClient
     }
 
     /**
+     * Use this method to promote or demote a user in a supergroup or a channel.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * Pass False for all boolean parameters to demote a user.
+     * Returns True on success.
+     *
+     * @param string $chatId
+     * @param int $userId
+     * @param bool|null $canChangeInfo
+     * @param bool|null $canPostMessages
+     * @param bool|null $canEditMessages
+     * @param bool|null $canDeleteMessages
+     * @param bool|null $canInviteUsers
+     * @param bool|null $canRestrictMembers
+     * @param bool|null $canPinMessages
+     * @param bool|null $canPromoteMembers
+     *
+     * @return bool
+     */
+    public function promoteChatMember(
+        string $chatId,
+        int $userId,
+        bool $canChangeInfo = null,
+        bool $canPostMessages = null,
+        bool $canEditMessages = null,
+        bool $canDeleteMessages = null,
+        bool $canInviteUsers = null,
+        bool $canRestrictMembers = null,
+        bool $canPinMessages = null,
+        bool $canPromoteMembers = null
+    ): bool {
+        return $this->request('promoteChatMember', compact(
+            'chatId',
+            'userId',
+            'canChangeInfo',
+            'canPostMessages',
+            'canEditMessages',
+            'canDeleteMessages',
+            'canInviteUsers',
+            'canRestrictMembers',
+            'canPinMessages',
+            'canPromoteMembers'
+        ));
+    }
+
+    /**
+     * Send request.
+     *
      * @param string $endpoint
      * @param array $parameters
      *
