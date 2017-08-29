@@ -638,4 +638,15 @@ class TelegramClientTest extends TestCase
 
         $this->assertSameType(ChatMember::fromJson($body['result'], true), $result);
     }
+
+    public function testGetChatMembersCount(): void
+    {
+        $body = ['ok' => true, 'result' => $this->faker()->numberBetween()];
+
+        $this->client->setGuzzle($this->guzzle(new Response(200, [], json_encode($body))));
+
+        $result = $this->client->getChatMembersCount(str_random());
+
+        $this->assertSame($body['result'], $result);
+    }
 }

@@ -770,6 +770,18 @@ class TelegramClient
     }
 
     /**
+     * Use this method to get the number of members in a chat. Returns Int on success.
+     *
+     * @param string $chatId
+     *
+     * @return int
+     */
+    public function getChatMembersCount(string $chatId): int
+    {
+        return $this->request('getChatMembersCount', compact('chatId'));
+    }
+
+    /**
      * Send request.
      *
      * @param string $endpoint
