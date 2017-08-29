@@ -797,6 +797,32 @@ class TelegramClient
     }
 
     /**
+     * Use this method to send answers to callback queries sent from inline keyboards.
+     * The answer will be displayed to the user as a notification at the top of the chat screen or as an alert.
+     * On success, True is returned.
+     *
+     * @param string $callbackQueryId
+     * @param string|null $text
+     * @param bool|null $showAlert
+     * @param string|null $url
+     * @param int $cacheTime
+     *
+     * @return bool
+     */
+    public function answerCallbackQuery(
+        string $callbackQueryId,
+        string $text = null,
+        bool $showAlert = null,
+        string $url = null,
+        int $cacheTime = null
+    ): bool {
+        return $this->request(
+            'answerCallbackQuery',
+            compact('callbackQueryId', 'text', 'showAlert', 'url', 'cacheTime')
+        );
+    }
+
+    /**
      * Send request.
      *
      * @param string $endpoint
