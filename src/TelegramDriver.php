@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram;
 
+use GuzzleHttp\Client;
 use FondBot\Channels\Chat;
 use FondBot\Channels\User;
+use FondBot\Events\Unknown;
 use FondBot\Channels\Driver;
 use FondBot\Contracts\Event;
 use Illuminate\Http\Request;
 use FondBot\Contracts\Template;
 use FondBot\Templates\Attachment;
+use FondBot\Events\MessageReceived;
+use FondBot\Drivers\Telegram\Types\Update;
 
 class TelegramDriver extends Driver
 {
-    public function getBaseUrl(): string
-    {
-        return 'https://api.telegram.org/bot'.$this->parameters->get('token');
-    }
+    private $client;
 
     /**
      * Get gateway display name.
@@ -66,8 +67,18 @@ class TelegramDriver extends Driver
      */
     public function createEvent(Request $request): Event
     {
-        //        $event = new MessageReceived();
-        // TODO: Implement createEvent() method.
+        $update = Update::fromJson($request->json());
+
+        if ($update->getMessage() !== null) {
+            return new MessageReceived(
+                $update->getMessage()->getText(),
+                $update->getMessage()->getLocation(),
+                null,
+                null
+            );
+        }
+
+        return new Unknown;
     }
 
     /**
@@ -80,17 +91,11 @@ class TelegramDriver extends Driver
      */
     public function sendMessage(Chat $chat, User $recipient, string $text, Template $template = null): void
     {
-        $payload = [
-            'chat_id' => $chat->getId(),
-            'text' => $text,
-        ];
+        if ($template !== null) {
+            $replyMarkup = $this->compileTemplate($template);
+        }
 
-        // TODO templates
-//        if ($command->getTemplate() !== null) {
-//            $payload['reply_markup'] = $this->driver->getTemplateCompiler()->compile($command->getTemplate());
-//        }
-
-//        $this->driver->post($this->driver->getBaseUrl().'/sendMessage', ['json' => $payload]);
+        $this->client()->sendMessage($chat->getId(), $text, null, null, null, null, $replyMarkup ?? null);
     }
 
     /**
@@ -102,6 +107,14 @@ class TelegramDriver extends Driver
      */
     public function sendAttachment(Chat $chat, User $recipient, Attachment $attachment): void
     {
+        $type = $attachment->getType();
+
+        if ($type === 'photo') {
+            $this->client()->sendPhoto($chat->getId(), $photo);
+
+            return;
+        }
+
         switch ($attachment->getType()) {
             case Attachment::TYPE_IMAGE:
                 $type = 'photo';
@@ -133,8 +146,6 @@ class TelegramDriver extends Driver
                 ],
             ],
         ];
-
-        //        $this->driver->post($this->getBaseUrl().'/'.$endpoint, $payload);
     }
 
     /**
@@ -147,6 +158,25 @@ class TelegramDriver extends Driver
      */
     public function sendRequest(Chat $chat, User $recipient, string $endpoint, array $parameters = []): void
     {
-        // TODO: Implement sendRequest() method.
+        $this->client()->request($endpoint, $parameters);
+    }
+
+    private function compileTemplate(Template $template): ?array
+    {
+        return (new TelegramTemplateCompiler)->compile($template);
+    }
+
+    /**
+     * Get Telegram client instance.
+     *
+     * @return TelegramClient
+     */
+    private function client(): TelegramClient
+    {
+        if ($this->client === null) {
+            $this->client = new TelegramClient(new Client, $this->parameters->get('token'));
+        }
+
+        return $this->client;
     }
 }

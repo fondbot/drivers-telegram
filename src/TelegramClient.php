@@ -55,7 +55,7 @@ class TelegramClient
      * Use this method to send text messages.
      * On success, the sent Message is returned.
      *
-     * @param $chatId
+     * @param string $chatId
      * @param string $text
      * @param string|null $parseMode
      * @param bool|null $disableWebPagePreview
@@ -92,7 +92,7 @@ class TelegramClient
     /**
      * Use this method to forward messages of any kind. On success, the sent Message is returned.
      *
-     * @param $chatId
+     * @param string $chatId
      * @param $fromChatId
      * @param int $messageId
      * @param bool|null $disableNotification
@@ -115,7 +115,7 @@ class TelegramClient
     /**
      * Use this method to send photos. On success, the sent Message is returned.
      *
-     * @param int|string $chatId
+     * @param string $chatId
      * @param string $photo
      * @param string|null $caption
      * @param bool|null $disableNotification
@@ -146,7 +146,7 @@ class TelegramClient
      *
      * For sending voice messages, use the sendVoice method instead.
      *
-     * @param $chatId
+     * @param string $chatId
      * @param string $audio
      * @param string|null $caption
      * @param int|null $duration
@@ -190,7 +190,7 @@ class TelegramClient
      * Use this method to send general files. On success, the sent Message is returned.
      * Bots can currently send files of any type of up to 50 MB in size, this limit may be changed in the future.
      *
-     * @param $chatId
+     * @param string $chatId
      * @param string $document
      * @param string|null $caption
      * @param bool|null $disableNotification
@@ -830,7 +830,7 @@ class TelegramClient
      *
      * @return mixed
      */
-    private function request(string $endpoint, array $parameters = [])
+    public function request(string $endpoint, array $parameters = [])
     {
         // Remove parameters with null value
         $parameters = collect($parameters)
