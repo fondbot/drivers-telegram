@@ -506,4 +506,15 @@ class TelegramClientTest extends TestCase
 
         $this->assertSame($body['result'], $result);
     }
+
+    public function testDeleteChatPhoto(): void
+    {
+        $body = ['ok' => true, 'result' => $this->faker()->boolean];
+
+        $this->client->setGuzzle($this->guzzle(new Response(200, [], json_encode($body))));
+
+        $result = $this->client->deleteChatPhoto(str_random());
+
+        $this->assertSame($body['result'], $result);
+    }
 }
