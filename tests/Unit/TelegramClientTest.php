@@ -19,6 +19,7 @@ use FondBot\Drivers\Telegram\Types\Document;
 use FondBot\Drivers\Telegram\Types\Location;
 use FondBot\Drivers\Telegram\Types\PhotoSize;
 use FondBot\Drivers\Telegram\Types\VideoNote;
+use FondBot\Drivers\Telegram\Types\ChatMember;
 
 class TelegramClientTest extends TestCase
 {
@@ -84,7 +85,7 @@ class TelegramClientTest extends TestCase
             $this->guzzle(new Response(200, [], json_encode($body)))
         );
 
-        $message = $this->client->sendMessage((string)$body['result']['chat']['id'], $body['result']['text']);
+        $message = $this->client->sendMessage((string) $body['result']['chat']['id'], $body['result']['text']);
 
         $this->assertSame($body['result']['message_id'], $message->getMessageId());
         $this->assertSameType(User::fromJson($body['result']['from']), $message->getFrom());
@@ -430,7 +431,7 @@ class TelegramClientTest extends TestCase
             'result' => [
                 'file_id' => $this->faker()->sha256,
                 'file_size' => $this->faker()->randomNumber(),
-                'file_path' => $this->faker()->userName . '.' . $this->faker()->fileExtension,
+                'file_path' => $this->faker()->userName.'.'.$this->faker()->fileExtension,
             ],
         ];
 
@@ -597,5 +598,44 @@ class TelegramClientTest extends TestCase
         $result = $this->client->getChat(str_random());
 
         $this->assertSameType(Chat::fromJson($body['result']), $result);
+    }
+
+    public function testGetChatAdministrators(): void
+    {
+        $body = [
+            'ok' => true,
+            'result' => [
+                [
+                    'user' => [
+                        'id' => $this->faker()->randomNumber(),
+                        'is_bot' => $this->faker()->boolean,
+                        'first_name' => $this->faker()->firstName,
+                    ],
+                    'status' => 'administrator',
+                ],
+                [
+                    'user' => [
+                        'id' => $this->faker()->randomNumber(),
+                        'is_bot' => $this->faker()->boolean,
+                        'first_name' => $this->faker()->firstName,
+                    ],
+                    'status' => 'administrator',
+                ],
+                [
+                    'user' => [
+                        'id' => $this->faker()->randomNumber(),
+                        'is_bot' => $this->faker()->boolean,
+                        'first_name' => $this->faker()->firstName,
+                    ],
+                    'status' => 'administrator',
+                ],
+            ],
+        ];
+
+        $this->client->setGuzzle($this->guzzle(new Response(200, [], json_encode($body))));
+
+        $result = $this->client->getChatAdministrators(str_random());
+
+        $this->assertSameType(ChatMember::fromJson($body['result'], true), $result);
     }
 }

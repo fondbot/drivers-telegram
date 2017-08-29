@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class ChatMember
+use FondBot\Drivers\Telegram\Type;
+
+class ChatMember extends Type
 {
     private $user;
     private $status;

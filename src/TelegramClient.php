@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram;
 
-use FondBot\Drivers\Telegram\Types\Chat;
 use RuntimeException;
 use GuzzleHttp\Client;
+use FondBot\Drivers\Telegram\Types\Chat;
 use FondBot\Drivers\Telegram\Types\File;
 use FondBot\Drivers\Telegram\Types\User;
 use FondBot\Drivers\Telegram\Types\Message;
+use FondBot\Drivers\Telegram\Types\ChatMember;
 use FondBot\Drivers\Telegram\Types\ForceReply;
 use FondBot\Drivers\Telegram\Types\UserProfilePhotos;
 use FondBot\Drivers\Telegram\Types\ReplyKeyboardMarkup;
@@ -31,7 +32,7 @@ class TelegramClient
 
     public function getBaseUrl(): string
     {
-        return self::BASE_URL . '/bot' . $this->token;
+        return self::BASE_URL.'/bot'.$this->token;
     }
 
     public function setGuzzle(Client $guzzle): void
@@ -753,6 +754,22 @@ class TelegramClient
     }
 
     /**
+     * Use this method to get a list of administrators in a chat.
+     * On success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots.
+     * If the chat is a group or a supergroup and no administrators were appointed, only the creator will be returned.
+     *
+     * @param string $chatId
+     *
+     * @return ChatMember[]
+     */
+    public function getChatAdministrators(string $chatId): array
+    {
+        $response = $this->request('getChatAdministrators', compact('chatId'));
+
+        return ChatMember::fromJson($response, true);
+    }
+
+    /**
      * Send request.
      *
      * @param string $endpoint
@@ -772,8 +789,8 @@ class TelegramClient
             })
             ->toArray();
 
-        $response = $this->guzzle->get($this->getBaseUrl() . '/' . $endpoint, ['json' => $parameters]);
-        $body = (string)$response->getBody();
+        $response = $this->guzzle->get($this->getBaseUrl().'/'.$endpoint, ['json' => $parameters]);
+        $body = (string) $response->getBody();
         $json = json_decode($body);
 
         if ($json->ok !== true) {

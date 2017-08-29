@@ -48,6 +48,16 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function assertSameType($expected, $actual)
     {
+        if (is_array($expected)) {
+            $this->assertCount(count($expected), $actual);
+
+            for ($i = 0; $i < count($expected); $i++) {
+                $this->assertSameType($expected[$i], $actual[$i]);
+            }
+
+            return;
+        }
+
         $this->assertSame(get_class($expected), get_class($actual));
 
         collect(get_class_methods($actual))

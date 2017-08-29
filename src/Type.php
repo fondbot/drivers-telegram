@@ -18,17 +18,20 @@ abstract class Type implements Arrayable
      *
      * @param stdClass|array $value
      *
-     * @return Type|static|object
+     * @param bool $array
+     *
+     * @return Type|object|static|array
      */
-    public static function fromJson($value)
+    public static function fromJson($value, bool $array = false)
     {
         if (is_array($value)) {
             $value = json_decode(json_encode($value));
         }
 
         $class = static::class;
+        $mapper = new JsonMapper;
 
-        return (new JsonMapper)->map($value, new $class);
+        return $array ? $mapper->mapArray($value, [], $class) : $mapper->map($value, new $class);
     }
 
     /**
