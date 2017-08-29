@@ -782,6 +782,21 @@ class TelegramClient
     }
 
     /**
+     * Use this method to get information about a member of a chat. Returns a ChatMember object on success.
+     *
+     * @param string $chatId
+     * @param int $userId
+     *
+     * @return ChatMember
+     */
+    public function getChatMember(string $chatId, int $userId): ChatMember
+    {
+        return ChatMember::fromJson(
+            $this->request('getChatMember', compact('chatId', 'userId'))
+        );
+    }
+
+    /**
      * Send request.
      *
      * @param string $endpoint
