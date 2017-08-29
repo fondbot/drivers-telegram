@@ -84,7 +84,7 @@ class TelegramClientTest extends TestCase
             $this->guzzle(new Response(200, [], json_encode($body)))
         );
 
-        $message = $this->client->sendMessage((string) $body['result']['chat']['id'], $body['result']['text']);
+        $message = $this->client->sendMessage((string)$body['result']['chat']['id'], $body['result']['text']);
 
         $this->assertSame($body['result']['message_id'], $message->getMessageId());
         $this->assertSameType(User::fromJson($body['result']['from']), $message->getFrom());
@@ -430,7 +430,7 @@ class TelegramClientTest extends TestCase
             'result' => [
                 'file_id' => $this->faker()->sha256,
                 'file_size' => $this->faker()->randomNumber(),
-                'file_path' => $this->faker()->userName.'.'.$this->faker()->fileExtension,
+                'file_path' => $this->faker()->userName . '.' . $this->faker()->fileExtension,
             ],
         ];
 
@@ -571,5 +571,31 @@ class TelegramClientTest extends TestCase
         $result = $this->client->leaveChat(str_random());
 
         $this->assertSame($body['result'], $result);
+    }
+
+    public function testGetChat(): void
+    {
+        $body = [
+            'ok' => true,
+            'result' => [
+                'id' => $this->faker()->numberBetween(),
+                'type' => 'private',
+                'title' => $this->faker()->userName,
+                'username' => $this->faker()->userName,
+                'first_name' => $this->faker()->firstName,
+                'last_name' => $this->faker()->lastName,
+                'all_members_are_administrators' => $this->faker()->boolean,
+                'photo' => null,
+                'description' => $this->faker()->text,
+                'invite_link' => $this->faker()->url,
+                'pinned_message' => null,
+            ],
+        ];
+
+        $this->client->setGuzzle($this->guzzle(new Response(200, [], json_encode($body))));
+
+        $result = $this->client->getChat(str_random());
+
+        $this->assertSameType(Chat::fromJson($body['result']), $result);
     }
 }

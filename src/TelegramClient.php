@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram;
 
+use FondBot\Drivers\Telegram\Types\Chat;
 use RuntimeException;
 use GuzzleHttp\Client;
 use FondBot\Drivers\Telegram\Types\File;
@@ -735,6 +736,20 @@ class TelegramClient
     public function leaveChat(string $chatId): bool
     {
         return $this->request('leaveChat', compact('chatId'));
+    }
+
+    /**
+     * Use this method to get up to date information about the chat (current name of the user for one-on-one conversations, current username of a user, group or channel, etc.).
+     * Returns a Chat object on success.
+     *
+     * @param string $chatId
+     * @return Chat
+     */
+    public function getChat(string $chatId): Chat
+    {
+        return Chat::fromJson(
+            $this->request('getChat', compact('chatId'))
+        );
     }
 
     /**
