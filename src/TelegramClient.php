@@ -72,15 +72,15 @@ class TelegramClient
         int $replyToMessageId = null,
         $replyMarkup = null
     ): Message {
-        $parameters = [
-            'chat_id' => $chatId,
-            'text' => $text,
-            'parse_mode' => $parseMode,
-            'disable_web_page_preview' => $disableWebPagePreview,
-            'disable_notification' => $disableNotification,
-            'reply_to_message_id' => $replyToMessageId,
-            'reply_markup' => $replyMarkup,
-        ];
+        $parameters = compact(
+            'chatId',
+            'text',
+            'parseMode',
+            'disableWebPagePreview',
+            'disableNotification',
+            'replyToMessageId',
+            'replyMarkup'
+        );
 
         $response = $this->request('sendMessage', $parameters);
 
@@ -103,12 +103,7 @@ class TelegramClient
         int $messageId,
         bool $disableNotification = null
     ): Message {
-        $parameters = [
-            'chat_id' => $chatId,
-            'from_chat_id' => $fromChatId,
-            'message_id' => $messageId,
-            'disable_notification' => $disableNotification,
-        ];
+        $parameters = compact('chatId', 'fromChatId', 'messageId', 'disableNotification');
 
         $response = $this->request('forwardMessage', $parameters);
 
@@ -135,14 +130,7 @@ class TelegramClient
         int $replyToMessageId = null,
         $replyMarkup = null
     ): Message {
-        $parameters = [
-            'chat_id' => $chatId,
-            'photo' => $photo,
-            'caption' => $caption,
-            'disable_notification' => $disableNotification,
-            'reply_to_message_id' => $replyToMessageId,
-            'reply_markup' => $replyMarkup,
-        ];
+        $parameters = compact('chatId', 'photo', 'caption', 'disableNotification', 'replyToMessageId', 'replyMarkup');
 
         $response = $this->request('sendPhoto', $parameters);
 
@@ -179,17 +167,17 @@ class TelegramClient
         int $replyToMessageId = null,
         $replyMarkup = null
     ): Message {
-        $parameters = [
-            'chat_id' => $chatId,
-            'audio' => $audio,
-            'caption' => $caption,
-            'duration' => $duration,
-            'performer' => $performer,
-            'title' => $title,
-            'disable_notification' => $disableNotification,
-            'reply_to_message_id' => $replyToMessageId,
-            'reply_markup' => $replyMarkup,
-        ];
+        $parameters = compact(
+            'chatId',
+            'audio',
+            'caption',
+            'duration',
+            'performer',
+            'title',
+            'disableNotification',
+            'replyToMessageId',
+            'replyMarkup'
+        );
 
         $response = $this->request('sendAudio', $parameters);
 
@@ -217,14 +205,7 @@ class TelegramClient
         int $replyToMessageId = null,
         $replyMarkup = null
     ): Message {
-        $parameters = [
-            'chat_id' => $chatId,
-            'document' => $document,
-            'caption' => $caption,
-            'disable_notification' => $disableNotification,
-            'reply_to_message_id' => $replyToMessageId,
-            'reply_markup' => $replyMarkup,
-        ];
+        $parameters = compact('chatId', 'document', 'caption', 'disableNotification', 'replyToMessageId', 'replyMarkup');
 
         $response = $this->request('sendDocument', $parameters);
 
