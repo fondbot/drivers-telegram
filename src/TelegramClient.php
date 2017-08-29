@@ -697,6 +697,22 @@ class TelegramClient
     }
 
     /**
+     * Use this method to pin a message in a supergroup.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * Returns True on success.
+     *
+     * @param string $chatId
+     * @param int $messageId
+     * @param bool|null $disableNotification
+     *
+     * @return bool
+     */
+    public function pinChatMessage(string $chatId, int $messageId, bool $disableNotification = null): bool
+    {
+        return $this->request('pinChatMessage', compact('chatId', 'messageId', 'disableNotification'));
+    }
+
+    /**
      * Send request.
      *
      * @param string $endpoint
