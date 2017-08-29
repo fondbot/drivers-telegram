@@ -550,4 +550,15 @@ class TelegramClientTest extends TestCase
 
         $this->assertSame($body['result'], $result);
     }
+
+    public function testUnpinChatMessage(): void
+    {
+        $body = ['ok' => true, 'result' => $this->faker()->boolean];
+
+        $this->client->setGuzzle($this->guzzle(new Response(200, [], json_encode($body))));
+
+        $result = $this->client->unpinChatMessage(str_random());
+
+        $this->assertSame($body['result'], $result);
+    }
 }

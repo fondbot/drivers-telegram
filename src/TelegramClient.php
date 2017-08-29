@@ -713,6 +713,19 @@ class TelegramClient
     }
 
     /**
+     * Use this method to unpin a message in a supergroup chat.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * Returns True on success.
+     *
+     * @param string $chatId
+     * @return bool
+     */
+    public function unpinChatMessage(string $chatId): bool
+    {
+        return $this->request('unpinChatMessage', compact('chatId'));
+    }
+
+    /**
      * Send request.
      *
      * @param string $endpoint
