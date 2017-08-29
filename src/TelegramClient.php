@@ -30,7 +30,7 @@ class TelegramClient
 
     public function getBaseUrl(): string
     {
-        return self::BASE_URL.'/bot'.$this->token;
+        return self::BASE_URL . '/bot' . $this->token;
     }
 
     public function setGuzzle(Client $guzzle): void
@@ -682,6 +682,21 @@ class TelegramClient
     }
 
     /**
+     * Use this method to change the description of a supergroup or a channel.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * Returns True on success.
+     *
+     * @param string $chatId
+     * @param string $description
+     *
+     * @return bool
+     */
+    public function setChatDescription(string $chatId, string $description = ''): bool
+    {
+        return $this->request('setChatDescription', compact('chatId', 'description'));
+    }
+
+    /**
      * Send request.
      *
      * @param string $endpoint
@@ -701,8 +716,8 @@ class TelegramClient
             })
             ->toArray();
 
-        $response = $this->guzzle->get($this->getBaseUrl().'/'.$endpoint, ['json' => $parameters]);
-        $body = (string) $response->getBody();
+        $response = $this->guzzle->get($this->getBaseUrl() . '/' . $endpoint, ['json' => $parameters]);
+        $body = (string)$response->getBody();
         $json = json_decode($body);
 
         if ($json->ok !== true) {
