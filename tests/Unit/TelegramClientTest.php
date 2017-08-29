@@ -561,4 +561,15 @@ class TelegramClientTest extends TestCase
 
         $this->assertSame($body['result'], $result);
     }
+
+    public function testLeaveChat(): void
+    {
+        $body = ['ok' => true, 'result' => $this->faker()->boolean];
+
+        $this->client->setGuzzle($this->guzzle(new Response(200, [], json_encode($body))));
+
+        $result = $this->client->leaveChat(str_random());
+
+        $this->assertSame($body['result'], $result);
+    }
 }

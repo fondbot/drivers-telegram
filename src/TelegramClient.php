@@ -726,6 +726,18 @@ class TelegramClient
     }
 
     /**
+     * Use this method for your bot to leave a group, supergroup or channel. Returns True on success.
+     *
+     * @param string $chatId
+     *
+     * @return bool
+     */
+    public function leaveChat(string $chatId): bool
+    {
+        return $this->request('leaveChat', compact('chatId'));
+    }
+
+    /**
      * Send request.
      *
      * @param string $endpoint
