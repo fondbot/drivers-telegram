@@ -666,6 +666,22 @@ class TelegramClient
     }
 
     /**
+     * Use this method to change the title of a chat.
+     * Titles can't be changed for private chats.
+     * The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
+     * Returns True on success.
+     *
+     * @param string $chatId
+     * @param string $title
+     *
+     * @return bool
+     */
+    public function setChatTitle(string $chatId, string $title): bool
+    {
+        return $this->request('setChatTitle', compact('chatId', 'title'));
+    }
+
+    /**
      * Send request.
      *
      * @param string $endpoint

@@ -517,4 +517,15 @@ class TelegramClientTest extends TestCase
 
         $this->assertSame($body['result'], $result);
     }
+
+    public function testSetChatTitle(): void
+    {
+        $body = ['ok' => true, 'result' => $this->faker()->boolean];
+
+        $this->client->setGuzzle($this->guzzle(new Response(200, [], json_encode($body))));
+
+        $result = $this->client->setChatTitle(str_random(), $this->faker()->word);
+
+        $this->assertSame($body['result'], $result);
+    }
 }
