@@ -9,7 +9,7 @@ use Illuminate\Support\ServiceProvider;
 
 class TelegramServiceProvider extends ServiceProvider
 {
-    public function register(): void
+    public function boot(): void
     {
         /** @var ChannelManager $manager */
         $manager = $this->app[ChannelManager::class];
