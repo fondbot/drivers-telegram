@@ -13,8 +13,8 @@ use FondBot\Contracts\Event;
 use Illuminate\Http\Request;
 use FondBot\Contracts\Template;
 use FondBot\Templates\Attachment;
-use FondBot\Events\MessageReceived;
 use FondBot\Drivers\Telegram\Types\Update;
+use FondBot\Drivers\Telegram\Factories\MessageReceivedFactory;
 
 class TelegramDriver extends Driver
 {
@@ -67,15 +67,10 @@ class TelegramDriver extends Driver
      */
     public function createEvent(Request $request): Event
     {
-        $update = Update::fromJson($request->json());
+        $update = Update::fromJson($request->all());
 
-        if ($update->getMessage() !== null) {
-            return new MessageReceived(
-                $update->getMessage()->getText(),
-                $update->getMessage()->getLocation(),
-                null,
-                null
-            );
+        if ($message = $update->getMessage()) {
+            return MessageReceivedFactory::create($message);
         }
 
         return new Unknown;
