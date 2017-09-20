@@ -17,7 +17,7 @@ class SetWebhook extends Command
     {
         $options = $channels->getByDriver('telegram')->keys()->toArray();
 
-        $selected = $this->anticipate('Choose channel', $options);
+        $selected = $this->choice('Choose channel', $options);
 
         $channel = $channels->create($selected);
 
