@@ -1,5 +1,5 @@
 {
-  "name": "fondbot/telegram",
+  "name": "fondbot/drivers-telegram",
   "description": "Telegram driver for FondBot",
   "type": "library",
   "license": "MIT",
