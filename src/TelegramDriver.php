@@ -156,22 +156,22 @@ class TelegramDriver extends Driver
         $this->client()->request($endpoint, $parameters);
     }
 
-    private function compileTemplate(Template $template): ?array
-    {
-        return (new TelegramTemplateCompiler)->compile($template);
-    }
-
     /**
      * Get Telegram client instance.
      *
      * @return TelegramClient
      */
-    private function client(): TelegramClient
+    public function client(): TelegramClient
     {
         if ($this->client === null) {
             $this->client = new TelegramClient(new Client, $this->parameters->get('token'));
         }
 
         return $this->client;
+    }
+
+    private function compileTemplate(Template $template): ?array
+    {
+        return (new TelegramTemplateCompiler)->compile($template);
     }
 }

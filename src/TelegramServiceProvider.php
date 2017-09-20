@@ -17,5 +17,11 @@ class TelegramServiceProvider extends ServiceProvider
         $manager->extend('telegram', function () {
             return new TelegramDriver;
         });
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                Commands\SetWebhook::class,
+            ]);
+        }
     }
 }
