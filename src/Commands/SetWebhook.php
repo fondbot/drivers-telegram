@@ -11,7 +11,7 @@ use FondBot\Drivers\Telegram\TelegramDriver;
 class SetWebhook extends Command
 {
     protected $signature = 'telegram:set-webhook';
-    protected $description = 'Set Webhook URL';
+    protected $description = 'Set Webhook URL for a specific channel';
 
     public function handle(Manager $channels): void
     {
