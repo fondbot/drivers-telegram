@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class Invoice
+use FondBot\Drivers\Type;
+
+class Invoice extends Type
 {
     private $title;
     private $description;

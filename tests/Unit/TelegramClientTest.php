@@ -54,7 +54,7 @@ class TelegramClientTest extends TestCase
 
         $user = $this->client->getMe();
 
-        $this->assertSameType(User::fromJson($body['result']), $user);
+        $this->assertSameType(User::createFromJson($body['result']), $user);
     }
 
     public function testSendMessage(): void
@@ -88,8 +88,8 @@ class TelegramClientTest extends TestCase
         $message = $this->client->sendMessage((string) $body['result']['chat']['id'], $body['result']['text']);
 
         $this->assertSame($body['result']['message_id'], $message->getMessageId());
-        $this->assertSameType(User::fromJson($body['result']['from']), $message->getFrom());
-        $this->assertSameType(Chat::fromJson($body['result']['chat']), $message->getChat());
+        $this->assertSameType(User::createFromJson($body['result']['from']), $message->getFrom());
+        $this->assertSameType(Chat::createFromJson($body['result']['chat']), $message->getChat());
         $this->assertSame($body['result']['date'], $message->getDate());
         $this->assertSame($body['result']['text'], $message->getText());
     }
@@ -118,7 +118,7 @@ class TelegramClientTest extends TestCase
 
         $message = $this->client->forwardMessage('foo', 'bar', $this->faker()->randomNumber(), true);
 
-        $this->assertSameType(User::fromJson($body['result']['forward_from']), $message->getForwardFrom());
+        $this->assertSameType(User::createFromJson($body['result']['forward_from']), $message->getForwardFrom());
         $this->assertSame(
             $body['result']['forward_from']['language_code'],
             $message->getForwardFrom()->getLanguageCode()
@@ -161,9 +161,9 @@ class TelegramClientTest extends TestCase
 
         $message = $this->client->sendPhoto('chat-id', 'foo');
 
-        $this->assertSameType(PhotoSize::fromJson($body['result']['photo'][0]), $message->getPhoto()[0]);
-        $this->assertSameType(PhotoSize::fromJson($body['result']['photo'][1]), $message->getPhoto()[1]);
-        $this->assertSameType(PhotoSize::fromJson($body['result']['photo'][2]), $message->getPhoto()[2]);
+        $this->assertSameType(PhotoSize::createFromJson($body['result']['photo'][0]), $message->getPhoto()[0]);
+        $this->assertSameType(PhotoSize::createFromJson($body['result']['photo'][1]), $message->getPhoto()[1]);
+        $this->assertSameType(PhotoSize::createFromJson($body['result']['photo'][2]), $message->getPhoto()[2]);
     }
 
     public function testSendAudio(): void
@@ -188,7 +188,7 @@ class TelegramClientTest extends TestCase
 
         $message = $this->client->sendAudio('chat-id', 'foo');
 
-        $this->assertSameType(Audio::fromJson($body['result']['audio']), $message->getAudio());
+        $this->assertSameType(Audio::createFromJson($body['result']['audio']), $message->getAudio());
     }
 
     public function testSendDocument(): void
@@ -212,7 +212,7 @@ class TelegramClientTest extends TestCase
 
         $message = $this->client->sendDocument('chat-id', 'foo');
 
-        $this->assertSameType(Document::fromJson($body['result']['document']), $message->getDocument());
+        $this->assertSameType(Document::createFromJson($body['result']['document']), $message->getDocument());
     }
 
     public function testSendVideo(): void
@@ -238,7 +238,7 @@ class TelegramClientTest extends TestCase
 
         $message = $this->client->sendVideo('chat-id', 'foo');
 
-        $this->assertSameType(Video::fromJson($body['result']['video']), $message->getVideo());
+        $this->assertSameType(Video::createFromJson($body['result']['video']), $message->getVideo());
     }
 
     public function testSendVoice(): void
@@ -261,7 +261,7 @@ class TelegramClientTest extends TestCase
 
         $message = $this->client->sendVoice('chat-id', 'foo');
 
-        $this->assertSameType(Voice::fromJson($body['result']['voice']), $message->getVoice());
+        $this->assertSameType(Voice::createFromJson($body['result']['voice']), $message->getVoice());
     }
 
     public function testSendVideoNote(): void
@@ -285,7 +285,7 @@ class TelegramClientTest extends TestCase
 
         $message = $this->client->sendVideoNote('chat-id', 'foo');
 
-        $this->assertSameType(VideoNote::fromJson($body['result']['video_note']), $message->getVideoNote());
+        $this->assertSameType(VideoNote::createFromJson($body['result']['video_note']), $message->getVideoNote());
     }
 
     public function testSendLocation(): void
@@ -306,7 +306,7 @@ class TelegramClientTest extends TestCase
 
         $message = $this->client->sendLocation('chat-id', $this->faker()->latitude, $this->faker()->longitude);
 
-        $this->assertSameType(Location::fromJson($body['result']['location']), $message->getLocation());
+        $this->assertSameType(Location::createFromJson($body['result']['location']), $message->getLocation());
     }
 
     public function testSendVenue(): void
@@ -338,7 +338,7 @@ class TelegramClientTest extends TestCase
             $body['result']['venue']['address']
         );
 
-        $this->assertSameType(Venue::fromJson($body['result']['venue']), $message->getVenue());
+        $this->assertSameType(Venue::createFromJson($body['result']['venue']), $message->getVenue());
     }
 
     public function testSendContact(): void
@@ -366,7 +366,7 @@ class TelegramClientTest extends TestCase
             $body['result']['contact']['last_name']
         );
 
-        $this->assertSameType(Contact::fromJson($body['result']['contact']), $message->getContact());
+        $this->assertSameType(Contact::createFromJson($body['result']['contact']), $message->getContact());
     }
 
     public function testSendChatAction(): void
@@ -419,9 +419,9 @@ class TelegramClientTest extends TestCase
 
         $this->assertSame($body['result']['total_count'], $result->getTotalCount());
 
-        $this->assertSameType(PhotoSize::fromJson($body['result']['photos'][0][0]), $result->getPhotos()[0][0]);
-        $this->assertSameType(PhotoSize::fromJson($body['result']['photos'][0][1]), $result->getPhotos()[0][1]);
-        $this->assertSameType(PhotoSize::fromJson($body['result']['photos'][0][2]), $result->getPhotos()[0][2]);
+        $this->assertSameType(PhotoSize::createFromJson($body['result']['photos'][0][0]), $result->getPhotos()[0][0]);
+        $this->assertSameType(PhotoSize::createFromJson($body['result']['photos'][0][1]), $result->getPhotos()[0][1]);
+        $this->assertSameType(PhotoSize::createFromJson($body['result']['photos'][0][2]), $result->getPhotos()[0][2]);
     }
 
     public function testGetFile(): void
@@ -439,7 +439,7 @@ class TelegramClientTest extends TestCase
 
         $result = $this->client->getFile($this->faker()->sha256);
 
-        $this->assertSameType(File::fromJson($body['result']), $result);
+        $this->assertSameType(File::createFromJson($body['result']), $result);
     }
 
     public function testKickChatMember(): void
@@ -597,7 +597,7 @@ class TelegramClientTest extends TestCase
 
         $result = $this->client->getChat(str_random());
 
-        $this->assertSameType(Chat::fromJson($body['result']), $result);
+        $this->assertSameType(Chat::createFromJson($body['result']), $result);
     }
 
     public function testGetChatAdministrators(): void
@@ -636,7 +636,7 @@ class TelegramClientTest extends TestCase
 
         $result = $this->client->getChatAdministrators(str_random());
 
-        $this->assertSameType(ChatMember::fromJson($body['result'], true), $result);
+        $this->assertSameType(ChatMember::createFromJson($body['result'], true), $result);
     }
 
     public function testGetChatMembersCount(): void
@@ -668,7 +668,7 @@ class TelegramClientTest extends TestCase
 
         $result = $this->client->getChatMember(str_random(), $this->faker()->randomNumber());
 
-        $this->assertSameType(ChatMember::fromJson($body['result']), $result);
+        $this->assertSameType(ChatMember::createFromJson($body['result']), $result);
     }
 
     public function testAnswerCallbackQuery(): void

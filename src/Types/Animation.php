@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class Animation
+use FondBot\Drivers\Type;
+
+class Animation extends Type
 {
     private $fileId;
     private $thumb;

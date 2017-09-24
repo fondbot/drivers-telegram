@@ -13,6 +13,7 @@ use FondBot\Contracts\Event;
 use Illuminate\Http\Request;
 use FondBot\Contracts\Template;
 use FondBot\Templates\Attachment;
+use FondBot\Drivers\TemplateCompiler;
 use FondBot\Drivers\Telegram\Types\Update;
 use FondBot\Drivers\Telegram\Factories\MessageReceivedFactory;
 
@@ -58,6 +59,11 @@ class TelegramDriver extends Driver
         ];
     }
 
+    public function getTemplateCompiler(): ?TemplateCompiler
+    {
+        return new TelegramTemplateCompiler;
+    }
+
     /**
      * Create event based on incoming request.
      *
@@ -67,7 +73,7 @@ class TelegramDriver extends Driver
      */
     public function createEvent(Request $request): Event
     {
-        $update = Update::fromJson($request->all());
+        $update = Update::createFromJson($request->all());
 
         if ($message = $update->getMessage()) {
             return MessageReceivedFactory::create($message);
@@ -87,10 +93,18 @@ class TelegramDriver extends Driver
     public function sendMessage(Chat $chat, User $recipient, string $text, Template $template = null): void
     {
         if ($template !== null) {
-            $replyMarkup = $this->compileTemplate($template);
+            $replyMarkup = $this->getTemplateCompiler()->compile($template);
         }
 
-        $this->client()->sendMessage($chat->getId(), $text, null, null, null, null, $replyMarkup ?? null);
+        $this->client()->sendMessage(
+            $chat->getId(),
+            $text,
+            null,
+            null,
+            null,
+            null,
+            $replyMarkup ?? null
+        );
     }
 
     /**
@@ -168,10 +182,5 @@ class TelegramDriver extends Driver
         }
 
         return $this->client;
-    }
-
-    private function compileTemplate(Template $template): ?array
-    {
-        return (new TelegramTemplateCompiler)->compile($template);
     }
 }

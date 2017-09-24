@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class Game
+use FondBot\Drivers\Type;
+
+class Game extends Type
 {
     private $title;
     private $description;

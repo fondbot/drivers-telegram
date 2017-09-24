@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class ShippingAddress
+use FondBot\Drivers\Type;
+
+class ShippingAddress extends Type
 {
     private $countryCode;
     private $state;

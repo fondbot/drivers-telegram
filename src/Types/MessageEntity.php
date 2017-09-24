@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class MessageEntity
+use FondBot\Drivers\Type;
+
+class MessageEntity extends Type
 {
     private $type;
     private $offset;

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class ShippingQuery
+use FondBot\Drivers\Type;
+
+class ShippingQuery extends Type
 {
     private $id;
     private $from;

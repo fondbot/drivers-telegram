@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class ChatPhoto
+use FondBot\Drivers\Type;
+
+class ChatPhoto extends Type
 {
     private $smallFileId;
     private $bigFileId;

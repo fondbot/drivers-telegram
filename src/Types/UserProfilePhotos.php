@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-use FondBot\Drivers\Telegram\Type;
+use FondBot\Drivers\Type;
 
 class UserProfilePhotos extends Type
 {

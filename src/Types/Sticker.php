@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class Sticker
+use FondBot\Drivers\Type;
+
+class Sticker extends Type
 {
     private $fileId;
     private $width;

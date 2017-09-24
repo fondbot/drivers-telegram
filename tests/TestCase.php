@@ -8,9 +8,9 @@ use Mockery;
 use Faker\Factory;
 use Faker\Generator;
 use GuzzleHttp\Client;
+use FondBot\Drivers\Type;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use FondBot\Drivers\Telegram\Type;
 use GuzzleHttp\Handler\MockHandler;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase

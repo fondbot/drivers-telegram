@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class InlineQuery
+use FondBot\Drivers\Type;
+
+class InlineQuery extends Type
 {
     private $id;
     private $from;

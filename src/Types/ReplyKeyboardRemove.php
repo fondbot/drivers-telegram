@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class ReplyKeyboardRemove
+use FondBot\Drivers\Type;
+
+class ReplyKeyboardRemove extends Type
 {
     private $removeKeyboard = true;
     private $selective;

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class ChosenInlineResult
+use FondBot\Drivers\Type;
+
+class ChosenInlineResult extends Type
 {
     private $resultId;
     private $from;

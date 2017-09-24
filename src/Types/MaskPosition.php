@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class MaskPosition
+use FondBot\Drivers\Type;
+
+class MaskPosition extends Type
 {
     private $point;
     private $xShift;

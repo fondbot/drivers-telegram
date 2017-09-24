@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class ForceReply
+use FondBot\Drivers\Type;
+
+class ForceReply extends Type
 {
     private $forceReply = true;
     private $selective;

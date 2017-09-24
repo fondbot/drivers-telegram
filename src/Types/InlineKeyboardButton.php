@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class InlineKeyboardButton
+use FondBot\Drivers\Type;
+use FondBot\Templates\Keyboard\UrlButton;
+use FondBot\Templates\Keyboard\PayloadButton;
+
+class InlineKeyboardButton extends Type
 {
     private $text;
     private $url;
@@ -13,6 +17,33 @@ class InlineKeyboardButton
     private $switchInlineQueryCurrentChat;
     private $callbackGame;
     private $pay;
+
+    /**
+     * @param PayloadButton|UrlButton $button
+     *
+     * @return static
+     */
+    public static function create($button)
+    {
+        if ($button instanceof PayloadButton) {
+            return (new static)
+                ->setText($button->getLabel())
+                ->setUrl($button->getParameters()->get('url'))
+                ->setCallbackData($button->getPayload())
+                ->setSwitchInlineQuery($button->getParameters()->get('switch_inline_query'))
+                ->setSwitchInlineQueryCurrentChat($button->getParameters()->get('switch_inline_query_current_chat'))
+                ->setCallbackGame($button->getParameters()->get('callback_game'))
+                ->setPay($button->getParameters()->get('pay'));
+        }
+
+        if ($button instanceof UrlButton) {
+            return (new static)
+                ->setText($button->getLabel())
+                ->setUrl($button->getUrl());
+        }
+
+        return null;
+    }
 
     public function getText(): string
     {

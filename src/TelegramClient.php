@@ -30,11 +30,21 @@ class TelegramClient
         $this->token = $token;
     }
 
+    /**
+     * Get Telegram API URL.
+     *
+     * @return string
+     */
     public function getBaseUrl(): string
     {
         return self::BASE_URL.'/bot'.$this->token;
     }
 
+    /**
+     * Set Guzzle instance.
+     *
+     * @param Client $guzzle
+     */
     public function setGuzzle(Client $guzzle): void
     {
         $this->guzzle = $guzzle;
@@ -48,7 +58,7 @@ class TelegramClient
      */
     public function getMe(): User
     {
-        return User::fromJson($this->request('getMe'));
+        return User::createFromJson($this->request('getMe'));
     }
 
     /**
@@ -101,7 +111,7 @@ class TelegramClient
 
         $response = $this->request('sendMessage', $parameters);
 
-        return Message::fromJson($response);
+        return Message::createFromJson($response);
     }
 
     /**
@@ -124,7 +134,7 @@ class TelegramClient
 
         $response = $this->request('forwardMessage', $parameters);
 
-        return Message::fromJson($response);
+        return Message::createFromJson($response);
     }
 
     /**
@@ -151,7 +161,7 @@ class TelegramClient
 
         $response = $this->request('sendPhoto', $parameters);
 
-        return Message::fromJson($response);
+        return Message::createFromJson($response);
     }
 
     /**
@@ -198,7 +208,7 @@ class TelegramClient
 
         $response = $this->request('sendAudio', $parameters);
 
-        return Message::fromJson($response);
+        return Message::createFromJson($response);
     }
 
     /**
@@ -233,7 +243,7 @@ class TelegramClient
 
         $response = $this->request('sendDocument', $parameters);
 
-        return Message::fromJson($response);
+        return Message::createFromJson($response);
     }
 
     /**
@@ -277,7 +287,7 @@ class TelegramClient
 
         $response = $this->request('sendVideo', $parameters);
 
-        return Message::fromJson($response);
+        return Message::createFromJson($response);
     }
 
     /**
@@ -317,7 +327,7 @@ class TelegramClient
 
         $response = $this->request('sendVoice', $parameters);
 
-        return Message::fromJson($response);
+        return Message::createFromJson($response);
     }
 
     /**
@@ -355,7 +365,7 @@ class TelegramClient
 
         $response = $this->request('sendVideoNote', $parameters);
 
-        return Message::fromJson($response);
+        return Message::createFromJson($response);
     }
 
     /**
@@ -389,7 +399,7 @@ class TelegramClient
 
         $response = $this->request('sendLocation', $parameters);
 
-        return Message::fromJson($response);
+        return Message::createFromJson($response);
     }
 
     /**
@@ -432,7 +442,7 @@ class TelegramClient
 
         $response = $this->request('sendVenue', $parameters);
 
-        return Message::fromJson($response);
+        return Message::createFromJson($response);
     }
 
     /**
@@ -469,7 +479,7 @@ class TelegramClient
 
         $response = $this->request('sendContact', $parameters);
 
-        return Message::fromJson($response);
+        return Message::createFromJson($response);
     }
 
     /**
@@ -502,7 +512,7 @@ class TelegramClient
     {
         $response = $this->request('getUserProfilePhotos', compact('userId', 'offset', 'limit'));
 
-        return UserProfilePhotos::fromJson($response);
+        return UserProfilePhotos::createFromJson($response);
     }
 
     /**
@@ -521,7 +531,7 @@ class TelegramClient
     {
         $response = $this->request('getFile', compact('fileId'));
 
-        return File::fromJson($response);
+        return File::createFromJson($response);
     }
 
     /** Use this method to kick a user from a group, a supergroup or a channel.
@@ -763,7 +773,7 @@ class TelegramClient
      */
     public function getChat(string $chatId): Chat
     {
-        return Chat::fromJson(
+        return Chat::createFromJson(
             $this->request('getChat', compact('chatId'))
         );
     }
@@ -781,7 +791,7 @@ class TelegramClient
     {
         $response = $this->request('getChatAdministrators', compact('chatId'));
 
-        return ChatMember::fromJson($response, true);
+        return ChatMember::createFromJson($response, true);
     }
 
     /**
@@ -806,7 +816,7 @@ class TelegramClient
      */
     public function getChatMember(string $chatId, int $userId): ChatMember
     {
-        return ChatMember::fromJson(
+        return ChatMember::createFromJson(
             $this->request('getChatMember', compact('chatId', 'userId'))
         );
     }

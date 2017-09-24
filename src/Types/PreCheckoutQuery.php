@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class PreCheckoutQuery
+use FondBot\Drivers\Type;
+
+class PreCheckoutQuery extends Type
 {
     private $id;
     private $from;

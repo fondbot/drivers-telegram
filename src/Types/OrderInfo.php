@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class OrderInfo
+use FondBot\Drivers\Type;
+
+class OrderInfo extends Type
 {
     private $name;
     private $phoneNumber;

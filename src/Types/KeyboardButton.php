@@ -4,11 +4,22 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class KeyboardButton
+use FondBot\Drivers\Type;
+use FondBot\Templates\Keyboard\ReplyButton;
+
+class KeyboardButton extends Type
 {
     private $text;
     private $requestContact;
     private $requestLocation;
+
+    public static function create(ReplyButton $replyButton)
+    {
+        return (new static)
+            ->setText($replyButton->getLabel())
+            ->setRequestContact($replyButton->getParameters()->get('request_contact'))
+            ->setRequestLocation($replyButton->getParameters()->get('request_location'));
+    }
 
     public function getText(): string
     {

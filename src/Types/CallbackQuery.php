@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class CallbackQuery
+use FondBot\Drivers\Type;
+
+class CallbackQuery extends Type
 {
     private $id;
     private $from;

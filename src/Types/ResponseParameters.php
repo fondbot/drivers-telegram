@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class ResponseParameters
+use FondBot\Drivers\Type;
+
+class ResponseParameters extends Type
 {
     private $migrateToChatId;
     private $retryAfter;

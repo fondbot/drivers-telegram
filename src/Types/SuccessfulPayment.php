@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace FondBot\Drivers\Telegram\Types;
 
-class SuccessfulPayment
+use FondBot\Drivers\Type;
+
+class SuccessfulPayment extends Type
 {
     private $currency;
     private $totalAmount;
