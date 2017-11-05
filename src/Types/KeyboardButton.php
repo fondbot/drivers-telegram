@@ -56,4 +56,16 @@ class KeyboardButton extends Type
 
         return $this;
     }
+
+    public function toNative()
+    {
+        return collect([
+            'text' => $this->text,
+            'request_location' => $this->requestLocation,
+            'request_contact' => $this->requestContact,
+        ])
+            ->filter(function ($value) {
+                return $value !== null;
+            });
+    }
 }

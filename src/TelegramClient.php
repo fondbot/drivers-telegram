@@ -6,6 +6,7 @@ namespace FondBot\Drivers\Telegram;
 
 use RuntimeException;
 use GuzzleHttp\Client;
+use FondBot\Drivers\Type;
 use FondBot\Drivers\Telegram\Types\Chat;
 use FondBot\Drivers\Telegram\Types\File;
 use FondBot\Drivers\Telegram\Types\User;
@@ -864,6 +865,17 @@ class TelegramClient
             })
             ->filter(function ($value) {
                 return $value !== null;
+            })
+            ->transform(function ($value) {
+                if ($value instanceof Type) {
+                    try {
+                        return $value->toNative();
+                    } catch (RuntimeException $exception) {
+                        return $value;
+                    }
+                }
+
+                return $value;
             })
             ->toArray();
 

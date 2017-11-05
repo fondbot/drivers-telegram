@@ -21,37 +21,19 @@ class TelegramDriver extends Driver
 {
     private $client;
 
-    /**
-     * Get gateway display name.
-     *
-     * This can be used for various system where human-friendly name is required.
-     *
-     * @return string
-     */
+    /** {@inheritdoc} */
     public function getName(): string
     {
         return 'Telegram';
     }
 
-    /**
-     * Get driver short name.
-     *
-     * This name is used as an alias for configuration.
-     *
-     * @return string
-     */
+    /** {@inheritdoc} */
     public function getShortName(): string
     {
         return 'telegram';
     }
 
-    /**
-     * Define driver default parameters.
-     *
-     * Example: ['token' => '', 'apiVersion' => '1.0']
-     *
-     * @return array
-     */
+    /** {@inheritdoc} */
     public function getDefaultParameters(): array
     {
         return [
@@ -59,18 +41,13 @@ class TelegramDriver extends Driver
         ];
     }
 
+    /** {@inheritdoc} */
     public function getTemplateCompiler(): ?TemplateCompiler
     {
         return new TelegramTemplateCompiler;
     }
 
-    /**
-     * Create event based on incoming request.
-     *
-     * @param Request $request
-     *
-     * @return Event
-     */
+    /** {@inheritdoc} */
     public function createEvent(Request $request): Event
     {
         $update = Update::createFromJson($request->all());
@@ -82,14 +59,7 @@ class TelegramDriver extends Driver
         return new Unknown;
     }
 
-    /**
-     * Send message.
-     *
-     * @param Chat $chat
-     * @param User $recipient
-     * @param string $text
-     * @param Template|null $template
-     */
+    /** {@inheritdoc} */
     public function sendMessage(Chat $chat, User $recipient, string $text, Template $template = null): void
     {
         if ($template !== null) {
@@ -107,13 +77,7 @@ class TelegramDriver extends Driver
         );
     }
 
-    /**
-     * Send attachment.
-     *
-     * @param Chat $chat
-     * @param User $recipient
-     * @param Attachment $attachment
-     */
+    /** {@inheritdoc} */
     public function sendAttachment(Chat $chat, User $recipient, Attachment $attachment): void
     {
         $type = $attachment->getType();
@@ -157,14 +121,7 @@ class TelegramDriver extends Driver
         ];
     }
 
-    /**
-     * Send low-level request.
-     *
-     * @param Chat $chat
-     * @param User $recipient
-     * @param string $endpoint
-     * @param array $parameters
-     */
+    /** {@inheritdoc} */
     public function sendRequest(Chat $chat, User $recipient, string $endpoint, array $parameters = []): void
     {
         $this->client()->request($endpoint, $parameters);

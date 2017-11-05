@@ -78,4 +78,24 @@ class ReplyKeyboardMarkup extends Type
 
         return $this;
     }
+
+    public function toNative()
+    {
+        $keyboard = collect($this->keyboard)
+            ->transform(function (KeyboardButton $value) {
+                return $value->toNative();
+            })
+            ->toArray();
+
+        return collect([
+            'keyboard' => [$keyboard],
+            'resize_keyboard' => $this->resizeKeyboard,
+            'one_time_keyboard' => $this->oneTimeKeyboard,
+            'selective' => $this->selective,
+        ])
+            ->filter(function ($value) {
+                return $value !== null;
+            })
+            ->toArray();
+    }
 }

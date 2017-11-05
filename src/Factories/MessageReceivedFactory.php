@@ -22,8 +22,7 @@ class MessageReceivedFactory
         $from = new User(
             (string) $message->getFrom()->getId(),
             $message->getFrom()->getFirstName(),
-            $message->getFrom()->getUsername(),
-            $message->getFrom()->toArray()
+            $message->getFrom()->getUsername()
         );
 
         return new MessageReceived(
