@@ -37,4 +37,15 @@ class InlineKeyboardMarkup extends Type
 
         return $this;
     }
+
+    public function toNative()
+    {
+        $keyboard = collect($this->inlineKeyboard)
+            ->transform(function (InlineKeyboardButton $value) {
+                return $value->toNative();
+            })
+            ->toArray();
+
+        return ['inline_keyboard' => [$keyboard]];
+    }
 }

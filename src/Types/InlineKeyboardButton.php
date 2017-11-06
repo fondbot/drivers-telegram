@@ -128,4 +128,21 @@ class InlineKeyboardButton extends Type
 
         return $this;
     }
+
+    public function toNative()
+    {
+        return collect([
+            'text' => $this->text,
+            'url' => $this->url,
+            'callback_data' => $this->callbackData,
+            'switch_inline_query' => $this->switchInlineQuery,
+            'switch_inline_query_current_chat' => $this->switchInlineQueryCurrentChat,
+            'callback_game' => $this->callbackGame,
+            'pay' => $this->pay,
+        ])
+            ->filter(function ($value) {
+                return $value !== null;
+            })
+            ->toArray();
+    }
 }
