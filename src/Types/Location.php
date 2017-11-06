@@ -16,7 +16,7 @@ class Location extends Type
         return $this->latitude;
     }
 
-    public function setLatitude(float $latitude): Location
+    public function setLatitude(float $latitude): self
     {
         $this->latitude = $latitude;
 
@@ -28,7 +28,7 @@ class Location extends Type
         return $this->longitude;
     }
 
-    public function setLongitude(float $longitude): Location
+    public function setLongitude(float $longitude): self
     {
         $this->longitude = $longitude;
 

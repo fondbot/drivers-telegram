@@ -21,7 +21,7 @@ class SuccessfulPayment extends Type
         return $this->currency;
     }
 
-    public function setCurrency(string $currency): SuccessfulPayment
+    public function setCurrency(string $currency): self
     {
         $this->currency = $currency;
 
@@ -33,7 +33,7 @@ class SuccessfulPayment extends Type
         return $this->totalAmount;
     }
 
-    public function setTotalAmount(int $totalAmount): SuccessfulPayment
+    public function setTotalAmount(int $totalAmount): self
     {
         $this->totalAmount = $totalAmount;
 
@@ -45,7 +45,7 @@ class SuccessfulPayment extends Type
         return $this->invoicePayload;
     }
 
-    public function setInvoicePayload(string $invoicePayload): SuccessfulPayment
+    public function setInvoicePayload(string $invoicePayload): self
     {
         $this->invoicePayload = $invoicePayload;
 
@@ -57,7 +57,7 @@ class SuccessfulPayment extends Type
         return $this->shippingOptionId;
     }
 
-    public function setShippingOptionId(?string $shippingOptionId): SuccessfulPayment
+    public function setShippingOptionId(?string $shippingOptionId): self
     {
         $this->shippingOptionId = $shippingOptionId;
 
@@ -69,7 +69,7 @@ class SuccessfulPayment extends Type
         return $this->orderInfo;
     }
 
-    public function setOrderInfo(?OrderInfo $orderInfo): SuccessfulPayment
+    public function setOrderInfo(?OrderInfo $orderInfo): self
     {
         $this->orderInfo = $orderInfo;
 
@@ -81,7 +81,7 @@ class SuccessfulPayment extends Type
         return $this->telegramPaymentChargeId;
     }
 
-    public function setTelegramPaymentChargeId(string $telegramPaymentChargeId): SuccessfulPayment
+    public function setTelegramPaymentChargeId(string $telegramPaymentChargeId): self
     {
         $this->telegramPaymentChargeId = $telegramPaymentChargeId;
 
@@ -93,7 +93,7 @@ class SuccessfulPayment extends Type
         return $this->providerPaymentChargeId;
     }
 
-    public function setProviderPaymentChargeId(string $providerPaymentChargeId): SuccessfulPayment
+    public function setProviderPaymentChargeId(string $providerPaymentChargeId): self
     {
         $this->providerPaymentChargeId = $providerPaymentChargeId;
 

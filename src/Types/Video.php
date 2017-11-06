@@ -21,7 +21,7 @@ class Video extends Type
         return $this->fileId;
     }
 
-    public function setFileId(string $fileId): Video
+    public function setFileId(string $fileId): self
     {
         $this->fileId = $fileId;
 
@@ -33,7 +33,7 @@ class Video extends Type
         return $this->width;
     }
 
-    public function setWidth(int $width): Video
+    public function setWidth(int $width): self
     {
         $this->width = $width;
 
@@ -45,7 +45,7 @@ class Video extends Type
         return $this->height;
     }
 
-    public function setHeight(int $height): Video
+    public function setHeight(int $height): self
     {
         $this->height = $height;
 
@@ -57,7 +57,7 @@ class Video extends Type
         return $this->duration;
     }
 
-    public function setDuration(int $duration): Video
+    public function setDuration(int $duration): self
     {
         $this->duration = $duration;
 
@@ -69,7 +69,7 @@ class Video extends Type
         return $this->thumb;
     }
 
-    public function setThumb(?PhotoSize $thumb): Video
+    public function setThumb(?PhotoSize $thumb): self
     {
         $this->thumb = $thumb;
 
@@ -81,7 +81,7 @@ class Video extends Type
         return $this->mimeType;
     }
 
-    public function setMimeType(?string $mimeType): Video
+    public function setMimeType(?string $mimeType): self
     {
         $this->mimeType = $mimeType;
 
@@ -93,7 +93,7 @@ class Video extends Type
         return $this->fileSize;
     }
 
-    public function setFileSize(?int $fileSize): Video
+    public function setFileSize(?int $fileSize): self
     {
         $this->fileSize = $fileSize;
 

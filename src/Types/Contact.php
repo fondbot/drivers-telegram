@@ -18,7 +18,7 @@ class Contact extends Type
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(string $phoneNumber): Contact
+    public function setPhoneNumber(string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
 
@@ -30,7 +30,7 @@ class Contact extends Type
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): Contact
+    public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -42,7 +42,7 @@ class Contact extends Type
         return $this->lastName;
     }
 
-    public function setLastName(?string $lastName): Contact
+    public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
 
@@ -54,7 +54,7 @@ class Contact extends Type
         return $this->userId;
     }
 
-    public function setUserId(?int $userId): Contact
+    public function setUserId(?int $userId): self
     {
         $this->userId = $userId;
 

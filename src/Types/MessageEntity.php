@@ -19,7 +19,7 @@ class MessageEntity extends Type
         return $this->type;
     }
 
-    public function setType(string $type): MessageEntity
+    public function setType(string $type): self
     {
         $this->type = $type;
 
@@ -31,7 +31,7 @@ class MessageEntity extends Type
         return $this->offset;
     }
 
-    public function setOffset(int $offset): MessageEntity
+    public function setOffset(int $offset): self
     {
         $this->offset = $offset;
 
@@ -43,7 +43,7 @@ class MessageEntity extends Type
         return $this->length;
     }
 
-    public function setLength(int $length): MessageEntity
+    public function setLength(int $length): self
     {
         $this->length = $length;
 
@@ -55,7 +55,7 @@ class MessageEntity extends Type
         return $this->url;
     }
 
-    public function setUrl(?string $url): MessageEntity
+    public function setUrl(?string $url): self
     {
         $this->url = $url;
 
@@ -67,7 +67,7 @@ class MessageEntity extends Type
         return $this->user;
     }
 
-    public function setUser(?User $user): MessageEntity
+    public function setUser(?User $user): self
     {
         $this->user = $user;
 

@@ -20,7 +20,7 @@ class Audio extends Type
         return $this->fileId;
     }
 
-    public function setFileId(string $fileId): Audio
+    public function setFileId(string $fileId): self
     {
         $this->fileId = $fileId;
 
@@ -32,7 +32,7 @@ class Audio extends Type
         return $this->duration;
     }
 
-    public function setDuration(int $duration): Audio
+    public function setDuration(int $duration): self
     {
         $this->duration = $duration;
 
@@ -44,7 +44,7 @@ class Audio extends Type
         return $this->performer;
     }
 
-    public function setPerformer(?string $performer): Audio
+    public function setPerformer(?string $performer): self
     {
         $this->performer = $performer;
 
@@ -56,7 +56,7 @@ class Audio extends Type
         return $this->title;
     }
 
-    public function setTitle(?string $title): Audio
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -68,7 +68,7 @@ class Audio extends Type
         return $this->mimeType;
     }
 
-    public function setMimeType(?string $mimeType): Audio
+    public function setMimeType(?string $mimeType): self
     {
         $this->mimeType = $mimeType;
 
@@ -80,7 +80,7 @@ class Audio extends Type
         return $this->fileSize;
     }
 
-    public function setFileSize(?int $fileSize): Audio
+    public function setFileSize(?int $fileSize): self
     {
         $this->fileSize = $fileSize;
 

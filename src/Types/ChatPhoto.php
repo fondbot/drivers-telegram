@@ -16,7 +16,7 @@ class ChatPhoto extends Type
         return $this->smallFileId;
     }
 
-    public function setSmallFileId(string $smallFileId): ChatPhoto
+    public function setSmallFileId(string $smallFileId): self
     {
         $this->smallFileId = $smallFileId;
 
@@ -28,7 +28,7 @@ class ChatPhoto extends Type
         return $this->bigFileId;
     }
 
-    public function setBigFileId(string $bigFileId): ChatPhoto
+    public function setBigFileId(string $bigFileId): self
     {
         $this->bigFileId = $bigFileId;
 

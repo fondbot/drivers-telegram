@@ -20,7 +20,7 @@ class ShippingAddress extends Type
         return $this->countryCode;
     }
 
-    public function setCountryCode(string $countryCode): ShippingAddress
+    public function setCountryCode(string $countryCode): self
     {
         $this->countryCode = $countryCode;
 
@@ -32,7 +32,7 @@ class ShippingAddress extends Type
         return $this->state;
     }
 
-    public function setState(string $state): ShippingAddress
+    public function setState(string $state): self
     {
         $this->state = $state;
 
@@ -44,7 +44,7 @@ class ShippingAddress extends Type
         return $this->city;
     }
 
-    public function setCity(string $city): ShippingAddress
+    public function setCity(string $city): self
     {
         $this->city = $city;
 
@@ -56,7 +56,7 @@ class ShippingAddress extends Type
         return $this->streetLine1;
     }
 
-    public function setStreetLine1(string $streetLine1): ShippingAddress
+    public function setStreetLine1(string $streetLine1): self
     {
         $this->streetLine1 = $streetLine1;
 
@@ -68,7 +68,7 @@ class ShippingAddress extends Type
         return $this->streetLine2;
     }
 
-    public function setStreetLine2(string $streetLine2): ShippingAddress
+    public function setStreetLine2(string $streetLine2): self
     {
         $this->streetLine2 = $streetLine2;
 
@@ -80,7 +80,7 @@ class ShippingAddress extends Type
         return $this->postCode;
     }
 
-    public function setPostCode(string $postCode): ShippingAddress
+    public function setPostCode(string $postCode): self
     {
         $this->postCode = $postCode;
 

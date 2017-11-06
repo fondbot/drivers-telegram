@@ -31,7 +31,7 @@ class InlineKeyboardMarkup extends Type
      *
      * @return InlineKeyboardMarkup
      */
-    public function setInlineKeyboard($inlineKeyboard): InlineKeyboardMarkup
+    public function setInlineKeyboard($inlineKeyboard): self
     {
         $this->inlineKeyboard = $inlineKeyboard;
 

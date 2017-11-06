@@ -24,7 +24,7 @@ class Update extends Type
         return $this->updateId;
     }
 
-    public function setUpdateId(int $updateId): Update
+    public function setUpdateId(int $updateId): self
     {
         $this->updateId = $updateId;
 
@@ -36,7 +36,7 @@ class Update extends Type
         return $this->message;
     }
 
-    public function setMessage(?Message $message): Update
+    public function setMessage(?Message $message): self
     {
         $this->message = $message;
 
@@ -48,7 +48,7 @@ class Update extends Type
         return $this->editedMessage;
     }
 
-    public function setEditedMessage(?Message $editedMessage): Update
+    public function setEditedMessage(?Message $editedMessage): self
     {
         $this->editedMessage = $editedMessage;
 
@@ -60,7 +60,7 @@ class Update extends Type
         return $this->channelPost;
     }
 
-    public function setChannelPost(?Message $channelPost): Update
+    public function setChannelPost(?Message $channelPost): self
     {
         $this->channelPost = $channelPost;
 
@@ -72,7 +72,7 @@ class Update extends Type
         return $this->editedChannelPost;
     }
 
-    public function setEditedChannelPost(?Message $editedChannelPost): Update
+    public function setEditedChannelPost(?Message $editedChannelPost): self
     {
         $this->editedChannelPost = $editedChannelPost;
 
@@ -84,7 +84,7 @@ class Update extends Type
         return $this->inlineQuery;
     }
 
-    public function setInlineQuery(?InlineQuery $inlineQuery): Update
+    public function setInlineQuery(?InlineQuery $inlineQuery): self
     {
         $this->inlineQuery = $inlineQuery;
 
@@ -96,7 +96,7 @@ class Update extends Type
         return $this->chosenInlineResult;
     }
 
-    public function setChosenInlineResult(?ChosenInlineResult $chosenInlineResult): Update
+    public function setChosenInlineResult(?ChosenInlineResult $chosenInlineResult): self
     {
         $this->chosenInlineResult = $chosenInlineResult;
 
@@ -108,7 +108,7 @@ class Update extends Type
         return $this->callbackQuery;
     }
 
-    public function setCallbackQuery(?CallbackQuery $callbackQuery): Update
+    public function setCallbackQuery(?CallbackQuery $callbackQuery): self
     {
         $this->callbackQuery = $callbackQuery;
 
@@ -120,7 +120,7 @@ class Update extends Type
         return $this->shippingQuery;
     }
 
-    public function setShippingQuery(?ShippingQuery $shippingQuery): Update
+    public function setShippingQuery(?ShippingQuery $shippingQuery): self
     {
         $this->shippingQuery = $shippingQuery;
 
@@ -132,7 +132,7 @@ class Update extends Type
         return $this->preCheckoutQuery;
     }
 
-    public function setPreCheckoutQuery(?PreCheckoutQuery $preCheckoutQuery): Update
+    public function setPreCheckoutQuery(?PreCheckoutQuery $preCheckoutQuery): self
     {
         $this->preCheckoutQuery = $preCheckoutQuery;
 

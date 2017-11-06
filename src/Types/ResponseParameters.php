@@ -16,7 +16,7 @@ class ResponseParameters extends Type
         return $this->migrateToChatId;
     }
 
-    public function setMigrateToChatId(?int $migrateToChatId): ResponseParameters
+    public function setMigrateToChatId(?int $migrateToChatId): self
     {
         $this->migrateToChatId = $migrateToChatId;
 
@@ -28,7 +28,7 @@ class ResponseParameters extends Type
         return $this->retryAfter;
     }
 
-    public function setRetryAfter(?int $retryAfter): ResponseParameters
+    public function setRetryAfter(?int $retryAfter): self
     {
         $this->retryAfter = $retryAfter;
 

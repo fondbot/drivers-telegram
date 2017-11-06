@@ -20,7 +20,7 @@ class User extends Type
         return $this->id;
     }
 
-    public function setId(int $id): User
+    public function setId(int $id): self
     {
         $this->id = $id;
 
@@ -32,7 +32,7 @@ class User extends Type
         return $this->isBot;
     }
 
-    public function setIsBot(bool $isBot): User
+    public function setIsBot(bool $isBot): self
     {
         $this->isBot = $isBot;
 
@@ -44,7 +44,7 @@ class User extends Type
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): User
+    public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -56,7 +56,7 @@ class User extends Type
         return $this->lastName;
     }
 
-    public function setLastName(?string $lastName): User
+    public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
 
@@ -68,7 +68,7 @@ class User extends Type
         return $this->username;
     }
 
-    public function setUsername(?string $username): User
+    public function setUsername(?string $username): self
     {
         $this->username = $username;
 
@@ -80,7 +80,7 @@ class User extends Type
         return $this->languageCode;
     }
 
-    public function setLanguageCode(?string $languageCode): User
+    public function setLanguageCode(?string $languageCode): self
     {
         $this->languageCode = $languageCode;
 

@@ -16,7 +16,7 @@ class UserProfilePhotos extends Type
         return $this->totalCount;
     }
 
-    public function setTotalCount(int $totalCount): UserProfilePhotos
+    public function setTotalCount(int $totalCount): self
     {
         $this->totalCount = $totalCount;
 
@@ -36,7 +36,7 @@ class UserProfilePhotos extends Type
      *
      * @return UserProfilePhotos
      */
-    public function setPhotos(array $photos): UserProfilePhotos
+    public function setPhotos(array $photos): self
     {
         $this->photos = $photos;
 

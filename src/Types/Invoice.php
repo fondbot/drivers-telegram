@@ -19,7 +19,7 @@ class Invoice extends Type
         return $this->title;
     }
 
-    public function setTitle(string $title): Invoice
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -31,7 +31,7 @@ class Invoice extends Type
         return $this->description;
     }
 
-    public function setDescription(string $description): Invoice
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
@@ -43,7 +43,7 @@ class Invoice extends Type
         return $this->startParameter;
     }
 
-    public function setStartParameter(string $startParameter): Invoice
+    public function setStartParameter(string $startParameter): self
     {
         $this->startParameter = $startParameter;
 
@@ -55,7 +55,7 @@ class Invoice extends Type
         return $this->currency;
     }
 
-    public function setCurrency(string $currency): Invoice
+    public function setCurrency(string $currency): self
     {
         $this->currency = $currency;
 
@@ -67,7 +67,7 @@ class Invoice extends Type
         return $this->totalAmount;
     }
 
-    public function setTotalAmount(int $totalAmount): Invoice
+    public function setTotalAmount(int $totalAmount): self
     {
         $this->totalAmount = $totalAmount;
 

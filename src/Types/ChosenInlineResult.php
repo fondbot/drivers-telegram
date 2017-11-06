@@ -19,7 +19,7 @@ class ChosenInlineResult extends Type
         return $this->resultId;
     }
 
-    public function setResultId(string $resultId): ChosenInlineResult
+    public function setResultId(string $resultId): self
     {
         $this->resultId = $resultId;
 
@@ -31,7 +31,7 @@ class ChosenInlineResult extends Type
         return $this->from;
     }
 
-    public function setFrom(User $from): ChosenInlineResult
+    public function setFrom(User $from): self
     {
         $this->from = $from;
 
@@ -43,7 +43,7 @@ class ChosenInlineResult extends Type
         return $this->location;
     }
 
-    public function setLocation(?Location $location): ChosenInlineResult
+    public function setLocation(?Location $location): self
     {
         $this->location = $location;
 
@@ -55,7 +55,7 @@ class ChosenInlineResult extends Type
         return $this->inlineMessageId;
     }
 
-    public function setInlineMessageId(?string $inlineMessageId): ChosenInlineResult
+    public function setInlineMessageId(?string $inlineMessageId): self
     {
         $this->inlineMessageId = $inlineMessageId;
 
@@ -67,7 +67,7 @@ class ChosenInlineResult extends Type
         return $this->query;
     }
 
-    public function setQuery(string $query): ChosenInlineResult
+    public function setQuery(string $query): self
     {
         $this->query = $query;
 

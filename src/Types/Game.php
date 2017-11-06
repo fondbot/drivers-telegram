@@ -20,7 +20,7 @@ class Game extends Type
         return $this->title;
     }
 
-    public function setTitle(string $title): Game
+    public function setTitle(string $title): self
     {
         $this->title = $title;
 
@@ -32,7 +32,7 @@ class Game extends Type
         return $this->description;
     }
 
-    public function setDescription(string $description): Game
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
@@ -52,7 +52,7 @@ class Game extends Type
      *
      * @return Game
      */
-    public function setPhoto(array $photo): Game
+    public function setPhoto(array $photo): self
     {
         $this->photo = $photo;
 
@@ -64,7 +64,7 @@ class Game extends Type
         return $this->text;
     }
 
-    public function setText(?string $text): Game
+    public function setText(?string $text): self
     {
         $this->text = $text;
 
@@ -84,7 +84,7 @@ class Game extends Type
      *
      * @return Game
      */
-    public function setTextEntities(array $textEntities): Game
+    public function setTextEntities(array $textEntities): self
     {
         $this->textEntities = $textEntities;
 
@@ -96,7 +96,7 @@ class Game extends Type
         return $this->animation;
     }
 
-    public function setAnimation(?Animation $animation): Game
+    public function setAnimation(?Animation $animation): self
     {
         $this->animation = $animation;
 

@@ -18,7 +18,7 @@ class PhotoSize extends Type
         return $this->fileId;
     }
 
-    public function setFileId(string $fileId): PhotoSize
+    public function setFileId(string $fileId): self
     {
         $this->fileId = $fileId;
 
@@ -30,7 +30,7 @@ class PhotoSize extends Type
         return $this->width;
     }
 
-    public function setWidth(int $width): PhotoSize
+    public function setWidth(int $width): self
     {
         $this->width = $width;
 
@@ -42,7 +42,7 @@ class PhotoSize extends Type
         return $this->height;
     }
 
-    public function setHeight(int $height): PhotoSize
+    public function setHeight(int $height): self
     {
         $this->height = $height;
 
@@ -54,7 +54,7 @@ class PhotoSize extends Type
         return $this->fileSize;
     }
 
-    public function setFileSize(?int $fileSize): PhotoSize
+    public function setFileSize(?int $fileSize): self
     {
         $this->fileSize = $fileSize;
 

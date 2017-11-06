@@ -36,7 +36,7 @@ class ReplyKeyboardMarkup extends Type
      *
      * @return ReplyKeyboardMarkup
      */
-    public function setKeyboard(array $keyboard): ReplyKeyboardMarkup
+    public function setKeyboard(array $keyboard): self
     {
         $this->keyboard = $keyboard;
 
@@ -48,7 +48,7 @@ class ReplyKeyboardMarkup extends Type
         return $this->resizeKeyboard;
     }
 
-    public function setResizeKeyboard(?bool $resizeKeyboard): ReplyKeyboardMarkup
+    public function setResizeKeyboard(?bool $resizeKeyboard): self
     {
         $this->resizeKeyboard = $resizeKeyboard;
 
@@ -60,7 +60,7 @@ class ReplyKeyboardMarkup extends Type
         return $this->oneTimeKeyboard;
     }
 
-    public function setOneTimeKeyboard(?bool $oneTimeKeyboard): ReplyKeyboardMarkup
+    public function setOneTimeKeyboard(?bool $oneTimeKeyboard): self
     {
         $this->oneTimeKeyboard = $oneTimeKeyboard;
 
@@ -72,7 +72,7 @@ class ReplyKeyboardMarkup extends Type
         return $this->selective;
     }
 
-    public function setSelective(?bool $selective): ReplyKeyboardMarkup
+    public function setSelective(?bool $selective): self
     {
         $this->selective = $selective;
 

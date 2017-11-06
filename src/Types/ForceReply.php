@@ -16,7 +16,7 @@ class ForceReply extends Type
         return $this->forceReply;
     }
 
-    public function setForceReply(bool $forceReply): ForceReply
+    public function setForceReply(bool $forceReply): self
     {
         $this->forceReply = $forceReply;
 
@@ -28,7 +28,7 @@ class ForceReply extends Type
         return $this->selective;
     }
 
-    public function setSelective(?bool $selective): ForceReply
+    public function setSelective(?bool $selective): self
     {
         $this->selective = $selective;
 

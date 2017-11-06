@@ -19,7 +19,7 @@ class InlineQuery extends Type
         return $this->id;
     }
 
-    public function setId(string $id): InlineQuery
+    public function setId(string $id): self
     {
         $this->id = $id;
 
@@ -31,7 +31,7 @@ class InlineQuery extends Type
         return $this->from;
     }
 
-    public function setFrom(User $from): InlineQuery
+    public function setFrom(User $from): self
     {
         $this->from = $from;
 
@@ -43,7 +43,7 @@ class InlineQuery extends Type
         return $this->location;
     }
 
-    public function setLocation(?Location $location): InlineQuery
+    public function setLocation(?Location $location): self
     {
         $this->location = $location;
 
@@ -55,7 +55,7 @@ class InlineQuery extends Type
         return $this->query;
     }
 
-    public function setQuery(string $query): InlineQuery
+    public function setQuery(string $query): self
     {
         $this->query = $query;
 
@@ -67,7 +67,7 @@ class InlineQuery extends Type
         return $this->offset;
     }
 
-    public function setOffset(string $offset): InlineQuery
+    public function setOffset(string $offset): self
     {
         $this->offset = $offset;
 

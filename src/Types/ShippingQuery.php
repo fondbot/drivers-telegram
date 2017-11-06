@@ -18,7 +18,7 @@ class ShippingQuery extends Type
         return $this->id;
     }
 
-    public function setId(string $id): ShippingQuery
+    public function setId(string $id): self
     {
         $this->id = $id;
 
@@ -30,7 +30,7 @@ class ShippingQuery extends Type
         return $this->from;
     }
 
-    public function setFrom(User $from): ShippingQuery
+    public function setFrom(User $from): self
     {
         $this->from = $from;
 
@@ -42,7 +42,7 @@ class ShippingQuery extends Type
         return $this->invoicePayload;
     }
 
-    public function setInvoicePayload(string $invoicePayload): ShippingQuery
+    public function setInvoicePayload(string $invoicePayload): self
     {
         $this->invoicePayload = $invoicePayload;
 
@@ -54,7 +54,7 @@ class ShippingQuery extends Type
         return $this->shippingAddress;
     }
 
-    public function setShippingAddress(ShippingAddress $shippingAddress): ShippingQuery
+    public function setShippingAddress(ShippingAddress $shippingAddress): self
     {
         $this->shippingAddress = $shippingAddress;
 

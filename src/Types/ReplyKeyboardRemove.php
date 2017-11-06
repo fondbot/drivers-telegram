@@ -16,7 +16,7 @@ class ReplyKeyboardRemove extends Type
         return $this->removeKeyboard;
     }
 
-    public function setRemoveKeyboard(bool $removeKeyboard): ReplyKeyboardRemove
+    public function setRemoveKeyboard(bool $removeKeyboard): self
     {
         $this->removeKeyboard = $removeKeyboard;
 
@@ -28,7 +28,7 @@ class ReplyKeyboardRemove extends Type
         return $this->selective;
     }
 
-    public function setSelective(?bool $selective): ReplyKeyboardRemove
+    public function setSelective(?bool $selective): self
     {
         $this->selective = $selective;
 

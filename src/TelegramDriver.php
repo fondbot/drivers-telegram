@@ -13,9 +13,9 @@ use FondBot\Contracts\Event;
 use Illuminate\Http\Request;
 use FondBot\Contracts\Template;
 use FondBot\Templates\Attachment;
+use FondBot\Events\MessageReceived;
 use FondBot\Drivers\TemplateCompiler;
 use FondBot\Drivers\Telegram\Types\Update;
-use FondBot\Drivers\Telegram\Factories\MessageReceivedFactory;
 
 class TelegramDriver extends Driver
 {
@@ -53,7 +53,33 @@ class TelegramDriver extends Driver
         $update = Update::createFromJson($request->all());
 
         if ($message = $update->getMessage()) {
-            return MessageReceivedFactory::create($message);
+            $chat = Chat::create((string) $message->getChat()->getId(), $message->getChat()->getTitle(), $message->getChat()->getType());
+            $from = User::create((string) $message->getFrom()->getId(), $message->getFrom()->getFirstName(), $message->getFrom()->getUsername());
+
+            return new MessageReceived(
+                $chat,
+                $from,
+                $message->getText(),
+                $message->getLocation(),
+                null,
+                optional($update->getCallbackQuery())->getData()
+            );
+        }
+
+        if ($callbackQuery = $update->getCallbackQuery()) {
+            $message = $callbackQuery->getMessage();
+
+            $chat = Chat::create((string) $message->getChat()->getId(), $message->getChat()->getTitle(), $message->getChat()->getType());
+            $from = User::create((string) $message->getFrom()->getId(), $message->getFrom()->getFirstName(), $message->getFrom()->getUsername());
+
+            return new MessageReceived(
+                $chat,
+                $from,
+                $message->getText(),
+                $message->getLocation(),
+                null,
+                $callbackQuery->getData()
+            );
         }
 
         return new Unknown;

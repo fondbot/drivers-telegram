@@ -18,7 +18,7 @@ class Voice extends Type
         return $this->fileId;
     }
 
-    public function setFileId(string $fileId): Voice
+    public function setFileId(string $fileId): self
     {
         $this->fileId = $fileId;
 
@@ -30,7 +30,7 @@ class Voice extends Type
         return $this->duration;
     }
 
-    public function setDuration(int $duration): Voice
+    public function setDuration(int $duration): self
     {
         $this->duration = $duration;
 
@@ -42,7 +42,7 @@ class Voice extends Type
         return $this->mimeType;
     }
 
-    public function setMimeType(?string $mimeType): Voice
+    public function setMimeType(?string $mimeType): self
     {
         $this->mimeType = $mimeType;
 
@@ -54,7 +54,7 @@ class Voice extends Type
         return $this->fileSize;
     }
 
-    public function setFileSize(?int $fileSize): Voice
+    public function setFileSize(?int $fileSize): self
     {
         $this->fileSize = $fileSize;
 

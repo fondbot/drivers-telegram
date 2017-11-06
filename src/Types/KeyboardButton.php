@@ -26,7 +26,7 @@ class KeyboardButton extends Type
         return $this->text;
     }
 
-    public function setText(string $text): KeyboardButton
+    public function setText(string $text): self
     {
         $this->text = $text;
 
@@ -38,7 +38,7 @@ class KeyboardButton extends Type
         return $this->requestContact;
     }
 
-    public function setRequestContact(?bool $requestContact): KeyboardButton
+    public function setRequestContact(?bool $requestContact): self
     {
         $this->requestContact = $requestContact;
 
@@ -50,7 +50,7 @@ class KeyboardButton extends Type
         return $this->requestLocation;
     }
 
-    public function setRequestLocation(?bool $requestLocation): KeyboardButton
+    public function setRequestLocation(?bool $requestLocation): self
     {
         $this->requestLocation = $requestLocation;
 

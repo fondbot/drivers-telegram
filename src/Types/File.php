@@ -17,7 +17,7 @@ class File extends Type
         return $this->fileId;
     }
 
-    public function setFileId(string $fileId): File
+    public function setFileId(string $fileId): self
     {
         $this->fileId = $fileId;
 
@@ -29,7 +29,7 @@ class File extends Type
         return $this->fileSize;
     }
 
-    public function setFileSize(?int $fileSize): File
+    public function setFileSize(?int $fileSize): self
     {
         $this->fileSize = $fileSize;
 
@@ -41,7 +41,7 @@ class File extends Type
         return $this->filePath;
     }
 
-    public function setFilePath(?string $filePath): File
+    public function setFilePath(?string $filePath): self
     {
         $this->filePath = $filePath;
 

@@ -18,7 +18,7 @@ class OrderInfo extends Type
         return $this->name;
     }
 
-    public function setName(?string $name): OrderInfo
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -30,7 +30,7 @@ class OrderInfo extends Type
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(?string $phoneNumber): OrderInfo
+    public function setPhoneNumber(?string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
 
@@ -42,7 +42,7 @@ class OrderInfo extends Type
         return $this->email;
     }
 
-    public function setEmail(?string $email): OrderInfo
+    public function setEmail(?string $email): self
     {
         $this->email = $email;
 
@@ -54,7 +54,7 @@ class OrderInfo extends Type
         return $this->shippingAddress;
     }
 
-    public function setShippingAddress(?ShippingAddress $shippingAddress): OrderInfo
+    public function setShippingAddress(?ShippingAddress $shippingAddress): self
     {
         $this->shippingAddress = $shippingAddress;
 

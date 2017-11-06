@@ -22,7 +22,7 @@ class Sticker extends Type
         return $this->fileId;
     }
 
-    public function setFileId(string $fileId): Sticker
+    public function setFileId(string $fileId): self
     {
         $this->fileId = $fileId;
 
@@ -34,7 +34,7 @@ class Sticker extends Type
         return $this->width;
     }
 
-    public function setWidth(int $width): Sticker
+    public function setWidth(int $width): self
     {
         $this->width = $width;
 
@@ -46,7 +46,7 @@ class Sticker extends Type
         return $this->height;
     }
 
-    public function setHeight(int $height): Sticker
+    public function setHeight(int $height): self
     {
         $this->height = $height;
 
@@ -58,7 +58,7 @@ class Sticker extends Type
         return $this->thumb;
     }
 
-    public function setThumb(?PhotoSize $thumb): Sticker
+    public function setThumb(?PhotoSize $thumb): self
     {
         $this->thumb = $thumb;
 
@@ -70,7 +70,7 @@ class Sticker extends Type
         return $this->emoji;
     }
 
-    public function setEmoji(?string $emoji): Sticker
+    public function setEmoji(?string $emoji): self
     {
         $this->emoji = $emoji;
 
@@ -82,7 +82,7 @@ class Sticker extends Type
         return $this->setName;
     }
 
-    public function setSetName(?string $setName): Sticker
+    public function setSetName(?string $setName): self
     {
         $this->setName = $setName;
 
@@ -94,7 +94,7 @@ class Sticker extends Type
         return $this->maskPosition;
     }
 
-    public function setMaskPosition(?MaskPosition $maskPosition): Sticker
+    public function setMaskPosition(?MaskPosition $maskPosition): self
     {
         $this->maskPosition = $maskPosition;
 
@@ -106,7 +106,7 @@ class Sticker extends Type
         return $this->fileSize;
     }
 
-    public function setFileSize(?int $fileSize): Sticker
+    public function setFileSize(?int $fileSize): self
     {
         $this->fileSize = $fileSize;
 

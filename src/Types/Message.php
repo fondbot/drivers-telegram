@@ -54,7 +54,7 @@ class Message extends Type
         return $this->messageId;
     }
 
-    public function setMessageId(int $messageId): Message
+    public function setMessageId(int $messageId): self
     {
         $this->messageId = $messageId;
 
@@ -66,7 +66,7 @@ class Message extends Type
         return $this->from;
     }
 
-    public function setFrom(?User $from): Message
+    public function setFrom(?User $from): self
     {
         $this->from = $from;
 
@@ -78,7 +78,7 @@ class Message extends Type
         return $this->date;
     }
 
-    public function setDate(int $date): Message
+    public function setDate(int $date): self
     {
         $this->date = $date;
 
@@ -90,7 +90,7 @@ class Message extends Type
         return $this->chat;
     }
 
-    public function setChat(Chat $chat): Message
+    public function setChat(Chat $chat): self
     {
         $this->chat = $chat;
 
@@ -102,7 +102,7 @@ class Message extends Type
         return $this->forwardFrom;
     }
 
-    public function setForwardFrom(?User $forwardFrom): Message
+    public function setForwardFrom(?User $forwardFrom): self
     {
         $this->forwardFrom = $forwardFrom;
 
@@ -114,7 +114,7 @@ class Message extends Type
         return $this->forwardFromChat;
     }
 
-    public function setForwardFromChat(?Chat $forwardFromChat): Message
+    public function setForwardFromChat(?Chat $forwardFromChat): self
     {
         $this->forwardFromChat = $forwardFromChat;
 
@@ -126,7 +126,7 @@ class Message extends Type
         return $this->forwardFromMessageId;
     }
 
-    public function setForwardFromMessageId(?int $forwardFromMessageId): Message
+    public function setForwardFromMessageId(?int $forwardFromMessageId): self
     {
         $this->forwardFromMessageId = $forwardFromMessageId;
 
@@ -138,7 +138,7 @@ class Message extends Type
         return $this->forwardSignature;
     }
 
-    public function setForwardSignature(?string $forwardSignature): Message
+    public function setForwardSignature(?string $forwardSignature): self
     {
         $this->forwardSignature = $forwardSignature;
 
@@ -150,19 +150,19 @@ class Message extends Type
         return $this->forwardDate;
     }
 
-    public function setForwardDate(?int $forwardDate): Message
+    public function setForwardDate(?int $forwardDate): self
     {
         $this->forwardDate = $forwardDate;
 
         return $this;
     }
 
-    public function getReplyToMessage(): ?Message
+    public function getReplyToMessage(): ?self
     {
         return $this->replyToMessage;
     }
 
-    public function setReplyToMessage(?Message $replyToMessage): Message
+    public function setReplyToMessage(?self $replyToMessage): self
     {
         $this->replyToMessage = $replyToMessage;
 
@@ -174,7 +174,7 @@ class Message extends Type
         return $this->editDate;
     }
 
-    public function setEditDate(?int $editDate): Message
+    public function setEditDate(?int $editDate): self
     {
         $this->editDate = $editDate;
 
@@ -186,7 +186,7 @@ class Message extends Type
         return $this->authorSignature;
     }
 
-    public function setAuthorSignature(?string $authorSignature): Message
+    public function setAuthorSignature(?string $authorSignature): self
     {
         $this->authorSignature = $authorSignature;
 
@@ -198,7 +198,7 @@ class Message extends Type
         return $this->text;
     }
 
-    public function setText(?string $text): Message
+    public function setText(?string $text): self
     {
         $this->text = $text;
 
@@ -218,7 +218,7 @@ class Message extends Type
      *
      * @return Message
      */
-    public function setEntities(?array $entities): Message
+    public function setEntities(?array $entities): self
     {
         $this->entities = $entities;
 
@@ -230,7 +230,7 @@ class Message extends Type
         return $this->audio;
     }
 
-    public function setAudio(?Audio $audio): Message
+    public function setAudio(?Audio $audio): self
     {
         $this->audio = $audio;
 
@@ -242,7 +242,7 @@ class Message extends Type
         return $this->document;
     }
 
-    public function setDocument(?Document $document): Message
+    public function setDocument(?Document $document): self
     {
         $this->document = $document;
 
@@ -254,7 +254,7 @@ class Message extends Type
         return $this->game;
     }
 
-    public function setGame(?Game $game): Message
+    public function setGame(?Game $game): self
     {
         $this->game = $game;
 
@@ -273,7 +273,7 @@ class Message extends Type
      * @param PhotoSize[] $photo
      * @return Message
      */
-    public function setPhoto(?array $photo): Message
+    public function setPhoto(?array $photo): self
     {
         $this->photo = $photo;
 
@@ -285,7 +285,7 @@ class Message extends Type
         return $this->sticker;
     }
 
-    public function setSticker(?Sticker $sticker): Message
+    public function setSticker(?Sticker $sticker): self
     {
         $this->sticker = $sticker;
 
@@ -297,7 +297,7 @@ class Message extends Type
         return $this->video;
     }
 
-    public function setVideo(?Video $video): Message
+    public function setVideo(?Video $video): self
     {
         $this->video = $video;
 
@@ -309,7 +309,7 @@ class Message extends Type
         return $this->voice;
     }
 
-    public function setVoice(?Voice $voice): Message
+    public function setVoice(?Voice $voice): self
     {
         $this->voice = $voice;
 
@@ -321,7 +321,7 @@ class Message extends Type
         return $this->videoNote;
     }
 
-    public function setVideoNote(?VideoNote $videoNote): Message
+    public function setVideoNote(?VideoNote $videoNote): self
     {
         $this->videoNote = $videoNote;
 
@@ -340,7 +340,7 @@ class Message extends Type
      * @param User[] $newChatMembers
      * @return Message
      */
-    public function setNewChatMembers(?array $newChatMembers): Message
+    public function setNewChatMembers(?array $newChatMembers): self
     {
         $this->newChatMembers = $newChatMembers;
 
@@ -352,7 +352,7 @@ class Message extends Type
         return $this->caption;
     }
 
-    public function setCaption(?string $caption): Message
+    public function setCaption(?string $caption): self
     {
         $this->caption = $caption;
 
@@ -364,7 +364,7 @@ class Message extends Type
         return $this->contact;
     }
 
-    public function setContact(?Contact $contact): Message
+    public function setContact(?Contact $contact): self
     {
         $this->contact = $contact;
 
@@ -376,7 +376,7 @@ class Message extends Type
         return $this->location;
     }
 
-    public function setLocation(?Location $location): Message
+    public function setLocation(?Location $location): self
     {
         $this->location = $location;
 
@@ -388,7 +388,7 @@ class Message extends Type
         return $this->venue;
     }
 
-    public function setVenue(?Venue $venue): Message
+    public function setVenue(?Venue $venue): self
     {
         $this->venue = $venue;
 
@@ -400,7 +400,7 @@ class Message extends Type
         return $this->newChatMember;
     }
 
-    public function setNewChatMember(?User $newChatMember): Message
+    public function setNewChatMember(?User $newChatMember): self
     {
         $this->newChatMember = $newChatMember;
 
@@ -412,7 +412,7 @@ class Message extends Type
         return $this->leftChatMember;
     }
 
-    public function setLeftChatMember(?User $leftChatMember): Message
+    public function setLeftChatMember(?User $leftChatMember): self
     {
         $this->leftChatMember = $leftChatMember;
 
@@ -424,7 +424,7 @@ class Message extends Type
         return $this->newChatTitle;
     }
 
-    public function setNewChatTitle(?string $newChatTitle): Message
+    public function setNewChatTitle(?string $newChatTitle): self
     {
         $this->newChatTitle = $newChatTitle;
 
@@ -444,7 +444,7 @@ class Message extends Type
      *
      * @return Message
      */
-    public function setNewChatPhoto(?array $newChatPhoto): Message
+    public function setNewChatPhoto(?array $newChatPhoto): self
     {
         $this->newChatPhoto = $newChatPhoto;
 
@@ -456,7 +456,7 @@ class Message extends Type
         return $this->deleteChatPhoto;
     }
 
-    public function setDeleteChatPhoto(?bool $deleteChatPhoto): Message
+    public function setDeleteChatPhoto(?bool $deleteChatPhoto): self
     {
         $this->deleteChatPhoto = $deleteChatPhoto;
 
@@ -468,7 +468,7 @@ class Message extends Type
         return $this->groupChatCreated;
     }
 
-    public function setGroupChatCreated(?bool $groupChatCreated): Message
+    public function setGroupChatCreated(?bool $groupChatCreated): self
     {
         $this->groupChatCreated = $groupChatCreated;
 
@@ -480,7 +480,7 @@ class Message extends Type
         return $this->supergroupChatCreated;
     }
 
-    public function setSupergroupChatCreated(?bool $supergroupChatCreated): Message
+    public function setSupergroupChatCreated(?bool $supergroupChatCreated): self
     {
         $this->supergroupChatCreated = $supergroupChatCreated;
 
@@ -492,7 +492,7 @@ class Message extends Type
         return $this->channelChatCreated;
     }
 
-    public function setChannelChatCreated(?bool $channelChatCreated): Message
+    public function setChannelChatCreated(?bool $channelChatCreated): self
     {
         $this->channelChatCreated = $channelChatCreated;
 
@@ -504,7 +504,7 @@ class Message extends Type
         return $this->migrateToChatId;
     }
 
-    public function setMigrateToChatId(?int $migrateToChatId): Message
+    public function setMigrateToChatId(?int $migrateToChatId): self
     {
         $this->migrateToChatId = $migrateToChatId;
 
@@ -516,19 +516,19 @@ class Message extends Type
         return $this->migrateFromChatId;
     }
 
-    public function setMigrateFromChatId(?int $migrateFromChatId): Message
+    public function setMigrateFromChatId(?int $migrateFromChatId): self
     {
         $this->migrateFromChatId = $migrateFromChatId;
 
         return $this;
     }
 
-    public function getPinnedMessage(): ?Message
+    public function getPinnedMessage(): ?self
     {
         return $this->pinnedMessage;
     }
 
-    public function setPinnedMessage(?Message $pinnedMessage): Message
+    public function setPinnedMessage(?self $pinnedMessage): self
     {
         $this->pinnedMessage = $pinnedMessage;
 
@@ -540,7 +540,7 @@ class Message extends Type
         return $this->invoice;
     }
 
-    public function setInvoice(?Invoice $invoice): Message
+    public function setInvoice(?Invoice $invoice): self
     {
         $this->invoice = $invoice;
 
@@ -556,7 +556,7 @@ class Message extends Type
      * @param mixed $successfulPayment
      * @return Message
      */
-    public function setSuccessfulPayment(?SuccessfulPayment $successfulPayment): Message
+    public function setSuccessfulPayment(?SuccessfulPayment $successfulPayment): self
     {
         $this->successfulPayment = $successfulPayment;
 

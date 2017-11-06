@@ -25,7 +25,7 @@ class Chat extends Type
         return $this->id;
     }
 
-    public function setId(int $id): Chat
+    public function setId(int $id): self
     {
         $this->id = $id;
 
@@ -37,7 +37,7 @@ class Chat extends Type
         return $this->type;
     }
 
-    public function setType(string $type): Chat
+    public function setType(string $type): self
     {
         $this->type = $type;
 
@@ -49,7 +49,7 @@ class Chat extends Type
         return $this->title;
     }
 
-    public function setTitle(?string $title): Chat
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -61,7 +61,7 @@ class Chat extends Type
         return $this->username;
     }
 
-    public function setUsername(?string $username): Chat
+    public function setUsername(?string $username): self
     {
         $this->username = $username;
 
@@ -73,7 +73,7 @@ class Chat extends Type
         return $this->firstName;
     }
 
-    public function setFirstName(?string $firstName): Chat
+    public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -85,7 +85,7 @@ class Chat extends Type
         return $this->lastName;
     }
 
-    public function setLastName(?string $lastName): Chat
+    public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
 
@@ -97,7 +97,7 @@ class Chat extends Type
         return $this->allMembersAreAdministrators;
     }
 
-    public function setAllMembersAreAdministrators(?bool $allMembersAreAdministrators): Chat
+    public function setAllMembersAreAdministrators(?bool $allMembersAreAdministrators): self
     {
         $this->allMembersAreAdministrators = $allMembersAreAdministrators;
 
@@ -109,7 +109,7 @@ class Chat extends Type
         return $this->photo;
     }
 
-    public function setPhoto(?ChatPhoto $photo): Chat
+    public function setPhoto(?ChatPhoto $photo): self
     {
         $this->photo = $photo;
 
@@ -121,7 +121,7 @@ class Chat extends Type
         return $this->description;
     }
 
-    public function setDescription(?string $description): Chat
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -133,7 +133,7 @@ class Chat extends Type
         return $this->inviteLink;
     }
 
-    public function setInviteLink(?string $inviteLink): Chat
+    public function setInviteLink(?string $inviteLink): self
     {
         $this->inviteLink = $inviteLink;
 
@@ -145,7 +145,7 @@ class Chat extends Type
         return $this->pinnedMessage;
     }
 
-    public function setPinnedMessage(?Message $pinnedMessage): Chat
+    public function setPinnedMessage(?Message $pinnedMessage): self
     {
         $this->pinnedMessage = $pinnedMessage;
 

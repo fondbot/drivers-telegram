@@ -19,7 +19,7 @@ class Animation extends Type
         return $this->fileId;
     }
 
-    public function setFileId(string $fileId): Animation
+    public function setFileId(string $fileId): self
     {
         $this->fileId = $fileId;
 
@@ -31,7 +31,7 @@ class Animation extends Type
         return $this->thumb;
     }
 
-    public function setThumb(?PhotoSize $thumb): Animation
+    public function setThumb(?PhotoSize $thumb): self
     {
         $this->thumb = $thumb;
 
@@ -43,7 +43,7 @@ class Animation extends Type
         return $this->fileName;
     }
 
-    public function setFileName(?string $fileName): Animation
+    public function setFileName(?string $fileName): self
     {
         $this->fileName = $fileName;
 
@@ -55,7 +55,7 @@ class Animation extends Type
         return $this->mimeType;
     }
 
-    public function setMimeType(?string $mimeType): Animation
+    public function setMimeType(?string $mimeType): self
     {
         $this->mimeType = $mimeType;
 
@@ -67,7 +67,7 @@ class Animation extends Type
         return $this->fileSize;
     }
 
-    public function setFileSize(?int $fileSize): Animation
+    public function setFileSize(?int $fileSize): self
     {
         $this->fileSize = $fileSize;
 

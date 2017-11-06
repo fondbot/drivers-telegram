@@ -30,7 +30,7 @@ class ChatMember extends Type
         return $this->user;
     }
 
-    public function setUser(User $user): ChatMember
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
@@ -42,7 +42,7 @@ class ChatMember extends Type
         return $this->status;
     }
 
-    public function setStatus(string $status): ChatMember
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 
@@ -54,7 +54,7 @@ class ChatMember extends Type
         return $this->untilDate;
     }
 
-    public function setUntilDate(?int $untilDate): ChatMember
+    public function setUntilDate(?int $untilDate): self
     {
         $this->untilDate = $untilDate;
 
@@ -66,7 +66,7 @@ class ChatMember extends Type
         return $this->canBeEdited;
     }
 
-    public function setCanBeEdited(?bool $canBeEdited): ChatMember
+    public function setCanBeEdited(?bool $canBeEdited): self
     {
         $this->canBeEdited = $canBeEdited;
 
@@ -78,7 +78,7 @@ class ChatMember extends Type
         return $this->canChangeInfo;
     }
 
-    public function setCanChangeInfo(?bool $canChangeInfo): ChatMember
+    public function setCanChangeInfo(?bool $canChangeInfo): self
     {
         $this->canChangeInfo = $canChangeInfo;
 
@@ -90,7 +90,7 @@ class ChatMember extends Type
         return $this->canPostMessages;
     }
 
-    public function setCanPostMessages(?bool $canPostMessages): ChatMember
+    public function setCanPostMessages(?bool $canPostMessages): self
     {
         $this->canPostMessages = $canPostMessages;
 
@@ -102,7 +102,7 @@ class ChatMember extends Type
         return $this->canEditMessages;
     }
 
-    public function setCanEditMessages(?bool $canEditMessages): ChatMember
+    public function setCanEditMessages(?bool $canEditMessages): self
     {
         $this->canEditMessages = $canEditMessages;
 
@@ -114,7 +114,7 @@ class ChatMember extends Type
         return $this->canDeleteMessages;
     }
 
-    public function setCanDeleteMessages(?bool $canDeleteMessages): ChatMember
+    public function setCanDeleteMessages(?bool $canDeleteMessages): self
     {
         $this->canDeleteMessages = $canDeleteMessages;
 
@@ -126,7 +126,7 @@ class ChatMember extends Type
         return $this->canInviteUsers;
     }
 
-    public function setCanInviteUsers(?bool $canInviteUsers): ChatMember
+    public function setCanInviteUsers(?bool $canInviteUsers): self
     {
         $this->canInviteUsers = $canInviteUsers;
 
@@ -138,7 +138,7 @@ class ChatMember extends Type
         return $this->canRestrictMembers;
     }
 
-    public function setCanRestrictMembers(?bool $canRestrictMembers): ChatMember
+    public function setCanRestrictMembers(?bool $canRestrictMembers): self
     {
         $this->canRestrictMembers = $canRestrictMembers;
 
@@ -150,7 +150,7 @@ class ChatMember extends Type
         return $this->canPinMessages;
     }
 
-    public function setCanPinMessages(?bool $canPinMessages): ChatMember
+    public function setCanPinMessages(?bool $canPinMessages): self
     {
         $this->canPinMessages = $canPinMessages;
 
@@ -162,7 +162,7 @@ class ChatMember extends Type
         return $this->canPromoteMembers;
     }
 
-    public function setCanPromoteMembers(?bool $canPromoteMembers): ChatMember
+    public function setCanPromoteMembers(?bool $canPromoteMembers): self
     {
         $this->canPromoteMembers = $canPromoteMembers;
 
@@ -174,7 +174,7 @@ class ChatMember extends Type
         return $this->canSendMessages;
     }
 
-    public function setCanSendMessages(?bool $canSendMessages): ChatMember
+    public function setCanSendMessages(?bool $canSendMessages): self
     {
         $this->canSendMessages = $canSendMessages;
 
@@ -186,7 +186,7 @@ class ChatMember extends Type
         return $this->canSendMediaMessages;
     }
 
-    public function setCanSendMediaMessages(?bool $canSendMediaMessages): ChatMember
+    public function setCanSendMediaMessages(?bool $canSendMediaMessages): self
     {
         $this->canSendMediaMessages = $canSendMediaMessages;
 
@@ -198,7 +198,7 @@ class ChatMember extends Type
         return $this->canSendOtherMessages;
     }
 
-    public function setCanSendOtherMessages(?bool $canSendOtherMessages): ChatMember
+    public function setCanSendOtherMessages(?bool $canSendOtherMessages): self
     {
         $this->canSendOtherMessages = $canSendOtherMessages;
 
@@ -210,7 +210,7 @@ class ChatMember extends Type
         return $this->canAddWebPagePreviews;
     }
 
-    public function setCanAddWebPagePreviews(?bool $canAddWebPagePreviews): ChatMember
+    public function setCanAddWebPagePreviews(?bool $canAddWebPagePreviews): self
     {
         $this->canAddWebPagePreviews = $canAddWebPagePreviews;
 

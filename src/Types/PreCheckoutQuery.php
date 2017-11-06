@@ -21,7 +21,7 @@ class PreCheckoutQuery extends Type
         return $this->id;
     }
 
-    public function setId(string $id): PreCheckoutQuery
+    public function setId(string $id): self
     {
         $this->id = $id;
 
@@ -33,7 +33,7 @@ class PreCheckoutQuery extends Type
         return $this->from;
     }
 
-    public function setFrom(User $from): PreCheckoutQuery
+    public function setFrom(User $from): self
     {
         $this->from = $from;
 
@@ -45,7 +45,7 @@ class PreCheckoutQuery extends Type
         return $this->currency;
     }
 
-    public function setCurrency(string $currency): PreCheckoutQuery
+    public function setCurrency(string $currency): self
     {
         $this->currency = $currency;
 
@@ -57,7 +57,7 @@ class PreCheckoutQuery extends Type
         return $this->totalAmount;
     }
 
-    public function setTotalAmount(int $totalAmount): PreCheckoutQuery
+    public function setTotalAmount(int $totalAmount): self
     {
         $this->totalAmount = $totalAmount;
 
@@ -69,7 +69,7 @@ class PreCheckoutQuery extends Type
         return $this->invoicePayload;
     }
 
-    public function setInvoicePayload(string $invoicePayload): PreCheckoutQuery
+    public function setInvoicePayload(string $invoicePayload): self
     {
         $this->invoicePayload = $invoicePayload;
 
@@ -81,7 +81,7 @@ class PreCheckoutQuery extends Type
         return $this->shippingOptionId;
     }
 
-    public function setShippingOptionId(?string $shippingOptionId): PreCheckoutQuery
+    public function setShippingOptionId(?string $shippingOptionId): self
     {
         $this->shippingOptionId = $shippingOptionId;
 
@@ -93,7 +93,7 @@ class PreCheckoutQuery extends Type
         return $this->orderInfo;
     }
 
-    public function setOrderInfo(?OrderInfo $orderInfo): PreCheckoutQuery
+    public function setOrderInfo(?OrderInfo $orderInfo): self
     {
         $this->orderInfo = $orderInfo;
 

@@ -18,7 +18,7 @@ class MaskPosition extends Type
         return $this->point;
     }
 
-    public function setPoint(string $point): MaskPosition
+    public function setPoint(string $point): self
     {
         $this->point = $point;
 
@@ -30,7 +30,7 @@ class MaskPosition extends Type
         return $this->xShift;
     }
 
-    public function setXShift(float $xShift): MaskPosition
+    public function setXShift(float $xShift): self
     {
         $this->xShift = $xShift;
 
@@ -42,7 +42,7 @@ class MaskPosition extends Type
         return $this->yShift;
     }
 
-    public function setYShift(float $yShift): MaskPosition
+    public function setYShift(float $yShift): self
     {
         $this->yShift = $yShift;
 
@@ -54,7 +54,7 @@ class MaskPosition extends Type
         return $this->scale;
     }
 
-    public function setScale(float $scale): MaskPosition
+    public function setScale(float $scale): self
     {
         $this->scale = $scale;
 

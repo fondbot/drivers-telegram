@@ -50,7 +50,7 @@ class InlineKeyboardButton extends Type
         return $this->text;
     }
 
-    public function setText(string $text): InlineKeyboardButton
+    public function setText(string $text): self
     {
         $this->text = $text;
 
@@ -62,7 +62,7 @@ class InlineKeyboardButton extends Type
         return $this->url;
     }
 
-    public function setUrl(?string $url): InlineKeyboardButton
+    public function setUrl(?string $url): self
     {
         $this->url = $url;
 
@@ -74,7 +74,7 @@ class InlineKeyboardButton extends Type
         return $this->callbackData;
     }
 
-    public function setCallbackData(?string $callbackData): InlineKeyboardButton
+    public function setCallbackData(?string $callbackData): self
     {
         $this->callbackData = $callbackData;
 
@@ -86,7 +86,7 @@ class InlineKeyboardButton extends Type
         return $this->switchInlineQuery;
     }
 
-    public function setSwitchInlineQuery(?string $switchInlineQuery): InlineKeyboardButton
+    public function setSwitchInlineQuery(?string $switchInlineQuery): self
     {
         $this->switchInlineQuery = $switchInlineQuery;
 
@@ -98,7 +98,7 @@ class InlineKeyboardButton extends Type
         return $this->switchInlineQueryCurrentChat;
     }
 
-    public function setSwitchInlineQueryCurrentChat(?string $switchInlineQueryCurrentChat): InlineKeyboardButton
+    public function setSwitchInlineQueryCurrentChat(?string $switchInlineQueryCurrentChat): self
     {
         $this->switchInlineQueryCurrentChat = $switchInlineQueryCurrentChat;
 
@@ -110,7 +110,7 @@ class InlineKeyboardButton extends Type
         return $this->callbackGame;
     }
 
-    public function setCallbackGame(?CallbackGame $callbackGame): InlineKeyboardButton
+    public function setCallbackGame(?CallbackGame $callbackGame): self
     {
         $this->callbackGame = $callbackGame;
 
@@ -122,7 +122,7 @@ class InlineKeyboardButton extends Type
         return $this->pay;
     }
 
-    public function setPay(?bool $pay): InlineKeyboardButton
+    public function setPay(?bool $pay): self
     {
         $this->pay = $pay;
 

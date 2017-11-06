@@ -19,7 +19,7 @@ class VideoNote extends Type
         return $this->fileId;
     }
 
-    public function setFileId(string $fileId): VideoNote
+    public function setFileId(string $fileId): self
     {
         $this->fileId = $fileId;
 
@@ -31,7 +31,7 @@ class VideoNote extends Type
         return $this->length;
     }
 
-    public function setLength(int $length): VideoNote
+    public function setLength(int $length): self
     {
         $this->length = $length;
 
@@ -43,7 +43,7 @@ class VideoNote extends Type
         return $this->duration;
     }
 
-    public function setDuration(int $duration): VideoNote
+    public function setDuration(int $duration): self
     {
         $this->duration = $duration;
 
@@ -55,7 +55,7 @@ class VideoNote extends Type
         return $this->thumb;
     }
 
-    public function setThumb(?PhotoSize $thumb): VideoNote
+    public function setThumb(?PhotoSize $thumb): self
     {
         $this->thumb = $thumb;
 
@@ -67,7 +67,7 @@ class VideoNote extends Type
         return $this->fileSize;
     }
 
-    public function setFileSize(?int $fileSize): VideoNote
+    public function setFileSize(?int $fileSize): self
     {
         $this->fileSize = $fileSize;
 
