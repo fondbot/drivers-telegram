@@ -7,12 +7,14 @@ namespace FondBot\Drivers\Telegram;
 use RuntimeException;
 use GuzzleHttp\Client;
 use FondBot\Drivers\Type;
+use Psr\Http\Message\ResponseInterface;
 use FondBot\Drivers\Telegram\Types\Chat;
 use FondBot\Drivers\Telegram\Types\File;
 use FondBot\Drivers\Telegram\Types\User;
 use FondBot\Drivers\Telegram\Types\Message;
 use FondBot\Drivers\Telegram\Types\ChatMember;
 use FondBot\Drivers\Telegram\Types\ForceReply;
+use FondBot\Channels\Exceptions\DriverException;
 use FondBot\Drivers\Telegram\Types\UserProfilePhotos;
 use FondBot\Drivers\Telegram\Types\ReplyKeyboardMarkup;
 use FondBot\Drivers\Telegram\Types\ReplyKeyboardRemove;
@@ -59,7 +61,7 @@ class TelegramClient
      */
     public function getMe(): User
     {
-        return User::createFromJson($this->request('getMe'));
+        return User::createFromJson($this->post('getMe'));
     }
 
     /**
@@ -74,7 +76,7 @@ class TelegramClient
      */
     public function setWebhook(string $url): bool
     {
-        return $this->request('setWebhook', compact('url'));
+        return $this->post('setWebhook', compact('url'));
     }
 
     /**
@@ -110,7 +112,7 @@ class TelegramClient
             'replyMarkup'
         );
 
-        $response = $this->request('sendMessage', $parameters);
+        $response = $this->post('sendMessage', $parameters);
 
         return Message::createFromJson($response);
     }
@@ -133,7 +135,7 @@ class TelegramClient
     ): Message {
         $parameters = compact('chatId', 'fromChatId', 'messageId', 'disableNotification');
 
-        $response = $this->request('forwardMessage', $parameters);
+        $response = $this->post('forwardMessage', $parameters);
 
         return Message::createFromJson($response);
     }
@@ -160,7 +162,7 @@ class TelegramClient
     ): Message {
         $parameters = compact('chatId', 'photo', 'caption', 'disableNotification', 'replyToMessageId', 'replyMarkup');
 
-        $response = $this->request('sendPhoto', $parameters);
+        $response = file_exists($photo) ? $this->postMultipart('sendPhoto', 'photo', $parameters) : $this->post('sendPhoto', $parameters);
 
         return Message::createFromJson($response);
     }
@@ -207,7 +209,7 @@ class TelegramClient
             'replyMarkup'
         );
 
-        $response = $this->request('sendAudio', $parameters);
+        $response = file_exists($audio) ? $this->postMultipart('sendAudio', 'audio', $parameters) : $this->post('sendAudio', $parameters);
 
         return Message::createFromJson($response);
     }
@@ -242,7 +244,7 @@ class TelegramClient
             'replyMarkup'
         );
 
-        $response = $this->request('sendDocument', $parameters);
+        $response = file_exists($document) ? $this->postMultipart('sendDocument', 'document', $parameters) : $this->post('sendDocument', $parameters);
 
         return Message::createFromJson($response);
     }
@@ -286,7 +288,7 @@ class TelegramClient
             'replyMarkup'
         );
 
-        $response = $this->request('sendVideo', $parameters);
+        $response = file_exists($video) ? $this->postMultipart('sendVideo', 'video', $parameters) : $this->post('sendVideo', $parameters);
 
         return Message::createFromJson($response);
     }
@@ -326,7 +328,7 @@ class TelegramClient
             'replyMarkup'
         );
 
-        $response = $this->request('sendVoice', $parameters);
+        $response = file_exists($voice) ? $this->postMultipart('sendVoice', 'voice', $parameters) : $this->post('sendVoice', $parameters);
 
         return Message::createFromJson($response);
     }
@@ -364,7 +366,7 @@ class TelegramClient
             'replyMarkup'
         );
 
-        $response = $this->request('sendVideoNote', $parameters);
+        $response = file_exists($videoNote) ? $this->postMultipart('sendVideoNote', 'video_note', $parameters) : $this->post('sendVideoNote', $parameters);
 
         return Message::createFromJson($response);
     }
@@ -398,7 +400,7 @@ class TelegramClient
             'replyMarkup'
         );
 
-        $response = $this->request('sendLocation', $parameters);
+        $response = $this->post('sendLocation', $parameters);
 
         return Message::createFromJson($response);
     }
@@ -441,7 +443,7 @@ class TelegramClient
             'replyMarkup'
         );
 
-        $response = $this->request('sendVenue', $parameters);
+        $response = $this->post('sendVenue', $parameters);
 
         return Message::createFromJson($response);
     }
@@ -478,7 +480,7 @@ class TelegramClient
             'replyMarkup'
         );
 
-        $response = $this->request('sendContact', $parameters);
+        $response = $this->post('sendContact', $parameters);
 
         return Message::createFromJson($response);
     }
@@ -497,7 +499,7 @@ class TelegramClient
      */
     public function sendChatAction(string $chatId, string $action): bool
     {
-        return $this->request('sendChatAction', compact('chatId', 'action'));
+        return $this->post('sendChatAction', compact('chatId', 'action'));
     }
 
     /**
@@ -511,7 +513,7 @@ class TelegramClient
      */
     public function getUserProfilePhotos(int $userId, int $offset = null, int $limit = null): UserProfilePhotos
     {
-        $response = $this->request('getUserProfilePhotos', compact('userId', 'offset', 'limit'));
+        $response = $this->post('getUserProfilePhotos', compact('userId', 'offset', 'limit'));
 
         return UserProfilePhotos::createFromJson($response);
     }
@@ -530,7 +532,7 @@ class TelegramClient
      */
     public function getFile(string $fileId): File
     {
-        $response = $this->request('getFile', compact('fileId'));
+        $response = $this->post('getFile', compact('fileId'));
 
         return File::createFromJson($response);
     }
@@ -548,7 +550,7 @@ class TelegramClient
      */
     public function kickChatMember(string $chatId, int $userId, int $untilDate = null): bool
     {
-        return $this->request('kickChatMember', compact('chatId', 'userId', 'untilDate'));
+        return $this->post('kickChatMember', compact('chatId', 'userId', 'untilDate'));
     }
 
     /**
@@ -564,7 +566,7 @@ class TelegramClient
      */
     public function unbanChatMember(string $chatId, int $userId): bool
     {
-        return $this->request('unbanChatMember', compact('chatId', 'userId'));
+        return $this->post('unbanChatMember', compact('chatId', 'userId'));
     }
 
     /**
@@ -592,7 +594,7 @@ class TelegramClient
         bool $canSendOtherMessages = null,
         bool $canAddWebPagePreviews = null
     ): bool {
-        return $this->request('restrictChatMember', compact(
+        return $this->post('restrictChatMember', compact(
             'chatId',
             'userId',
             'untilDate',
@@ -634,7 +636,7 @@ class TelegramClient
         bool $canPinMessages = null,
         bool $canPromoteMembers = null
     ): bool {
-        return $this->request('promoteChatMember', compact(
+        return $this->post('promoteChatMember', compact(
             'chatId',
             'userId',
             'canChangeInfo',
@@ -659,7 +661,7 @@ class TelegramClient
      */
     public function exportChatInviteLink(string $chatId): string
     {
-        return $this->request('exportChatInviteLink', compact('chatId'));
+        return $this->post('exportChatInviteLink', compact('chatId'));
     }
 
     /**
@@ -675,7 +677,7 @@ class TelegramClient
      */
     public function setChatPhoto(string $chatId, string $photo): bool
     {
-        return $this->request('setChatPhoto', compact('chatId', 'photo'));
+        return $this->post('setChatPhoto', compact('chatId', 'photo'));
     }
 
     /**
@@ -690,7 +692,7 @@ class TelegramClient
      */
     public function deleteChatPhoto(string $chatId): bool
     {
-        return $this->request('deleteChatPhoto', compact('chatId'));
+        return $this->post('deleteChatPhoto', compact('chatId'));
     }
 
     /**
@@ -706,7 +708,7 @@ class TelegramClient
      */
     public function setChatTitle(string $chatId, string $title): bool
     {
-        return $this->request('setChatTitle', compact('chatId', 'title'));
+        return $this->post('setChatTitle', compact('chatId', 'title'));
     }
 
     /**
@@ -721,7 +723,7 @@ class TelegramClient
      */
     public function setChatDescription(string $chatId, string $description = ''): bool
     {
-        return $this->request('setChatDescription', compact('chatId', 'description'));
+        return $this->post('setChatDescription', compact('chatId', 'description'));
     }
 
     /**
@@ -737,7 +739,7 @@ class TelegramClient
      */
     public function pinChatMessage(string $chatId, int $messageId, bool $disableNotification = null): bool
     {
-        return $this->request('pinChatMessage', compact('chatId', 'messageId', 'disableNotification'));
+        return $this->post('pinChatMessage', compact('chatId', 'messageId', 'disableNotification'));
     }
 
     /**
@@ -750,7 +752,7 @@ class TelegramClient
      */
     public function unpinChatMessage(string $chatId): bool
     {
-        return $this->request('unpinChatMessage', compact('chatId'));
+        return $this->post('unpinChatMessage', compact('chatId'));
     }
 
     /**
@@ -762,7 +764,7 @@ class TelegramClient
      */
     public function leaveChat(string $chatId): bool
     {
-        return $this->request('leaveChat', compact('chatId'));
+        return $this->post('leaveChat', compact('chatId'));
     }
 
     /**
@@ -775,7 +777,7 @@ class TelegramClient
     public function getChat(string $chatId): Chat
     {
         return Chat::createFromJson(
-            $this->request('getChat', compact('chatId'))
+            $this->post('getChat', compact('chatId'))
         );
     }
 
@@ -790,7 +792,7 @@ class TelegramClient
      */
     public function getChatAdministrators(string $chatId): array
     {
-        $response = $this->request('getChatAdministrators', compact('chatId'));
+        $response = $this->post('getChatAdministrators', compact('chatId'));
 
         return ChatMember::createFromJson($response, true);
     }
@@ -804,7 +806,7 @@ class TelegramClient
      */
     public function getChatMembersCount(string $chatId): int
     {
-        return $this->request('getChatMembersCount', compact('chatId'));
+        return $this->post('getChatMembersCount', compact('chatId'));
     }
 
     /**
@@ -818,7 +820,7 @@ class TelegramClient
     public function getChatMember(string $chatId, int $userId): ChatMember
     {
         return ChatMember::createFromJson(
-            $this->request('getChatMember', compact('chatId', 'userId'))
+            $this->post('getChatMember', compact('chatId', 'userId'))
         );
     }
 
@@ -842,7 +844,7 @@ class TelegramClient
         string $url = null,
         int $cacheTime = null
     ): bool {
-        return $this->request(
+        return $this->post(
             'answerCallbackQuery',
             compact('callbackQueryId', 'text', 'showAlert', 'url', 'cacheTime')
         );
@@ -853,10 +855,11 @@ class TelegramClient
      *
      * @param string $endpoint
      * @param array $parameters
-     *
      * @return mixed
+     *
+     * @throws DriverException
      */
-    public function request(string $endpoint, array $parameters = [])
+    public function post(string $endpoint, array $parameters = [])
     {
         // Remove parameters with null value
         $parameters = collect($parameters)
@@ -879,12 +882,42 @@ class TelegramClient
             })
             ->toArray();
 
-        $response = $this->guzzle->get($this->getBaseUrl().'/'.$endpoint, ['json' => $parameters]);
+        $response = $this->guzzle->request('POST', $this->getBaseUrl().'/'.$endpoint, ['json' => $parameters]);
+
+        return $this->parseResponse($response);
+    }
+
+    public function postMultipart(string $endpoint, string $file = null, array $parameters = [])
+    {
+        $parameters = collect($parameters)
+            ->mapWithKeys(function ($value, $key) {
+                return [snake_case($key) => $value];
+            })
+            ->filter(function ($value) {
+                return $value !== null;
+            })
+            ->transform(function ($contents, $name) use ($file) {
+                if ($file === $name) {
+                    $contents = fopen($contents, 'rb');
+                }
+
+                return compact('name', 'contents');
+            })
+            ->values()
+            ->toArray();
+
+        $response = $this->guzzle->request('POST', $this->getBaseUrl().'/'.$endpoint, ['multipart' => $parameters]);
+
+        return $this->parseResponse($response);
+    }
+
+    private function parseResponse(ResponseInterface $response)
+    {
         $body = (string) $response->getBody();
         $json = json_decode($body);
 
         if ($json->ok !== true) {
-            throw new RuntimeException($body);
+            throw new DriverException($body);
         }
 
         return $json->result;

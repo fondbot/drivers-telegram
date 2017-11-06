@@ -82,49 +82,63 @@ class TelegramDriver extends Driver
     {
         $type = $attachment->getType();
 
-        if ($type === 'photo') {
-            $this->client()->sendPhoto($chat->getId(), $photo);
+        switch ($type) {
+            case Attachment::TYPE_FILE:
+                $this->client()->sendDocument(
+                    $chat->getId(),
+                    $attachment->getPath(),
+                    $attachment->getParameters()->get('caption'),
+                    $attachment->getParameters()->get('disable_notification'),
+                    $attachment->getParameters()->get('reply_to_message_id'),
+                    $attachment->getParameters()->get('reply_markup')
+                );
+                break;
 
-            return;
-        }
-
-        switch ($attachment->getType()) {
             case Attachment::TYPE_IMAGE:
-                $type = 'photo';
-                $endpoint = 'sendPhoto';
+                $this->client()->sendPhoto(
+                    $chat->getId(),
+                    $attachment->getPath(),
+                    $attachment->getParameters()->get('caption'),
+                    $attachment->getParameters()->get('disable_notification'),
+                    $attachment->getParameters()->get('reply_to_message_id'),
+                    $attachment->getParameters()->get('reply_markup')
+                );
                 break;
+
             case Attachment::TYPE_AUDIO:
-                $type = 'audio';
-                $endpoint = 'sendAudio';
+                $this->client()->sendAudio(
+                    $chat->getId(),
+                    $attachment->getPath(),
+                    $attachment->getParameters()->get('caption'),
+                    $attachment->getParameters()->get('duration'),
+                    $attachment->getParameters()->get('performer'),
+                    $attachment->getParameters()->get('title'),
+                    $attachment->getParameters()->get('disable_notification'),
+                    $attachment->getParameters()->get('reply_to_message_id'),
+                    $attachment->getParameters()->get('reply_markup')
+                );
                 break;
+
             case Attachment::TYPE_VIDEO:
-                $type = 'video';
-                $endpoint = 'sendVideo';
-                break;
-            default:
-                $type = 'document';
-                $endpoint = 'sendDocument';
+                $this->client()->sendVideo(
+                    $chat->getId(),
+                    $attachment->getPath(),
+                    $attachment->getParameters()->get('duration'),
+                    $attachment->getParameters()->get('width'),
+                    $attachment->getParameters()->get('height'),
+                    $attachment->getParameters()->get('caption'),
+                    $attachment->getParameters()->get('disable_notification'),
+                    $attachment->getParameters()->get('reply_to_message_id'),
+                    $attachment->getParameters()->get('reply_markup')
+                );
                 break;
         }
-
-        $payload = [
-            'multipart' => [
-                [
-                    'name' => 'chat_id',
-                    'contents' => $chat->getId(),
-                ],
-                [
-                    'name' => $type,
-                    'contents' => fopen($attachment->getPath(), 'rb'),
-                ],
-            ],
-        ];
     }
 
     /** {@inheritdoc} */
     public function sendRequest(Chat $chat, User $recipient, string $endpoint, array $parameters = []): void
     {
-        $this->client()->request($endpoint, $parameters);
+        $this->client()->post($endpoint, $parameters);
     }
 
     /**
