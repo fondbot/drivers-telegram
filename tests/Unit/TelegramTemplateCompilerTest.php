@@ -29,12 +29,16 @@ class TelegramTemplateCompilerTest extends TestCase
         /** @var ReplyKeyboardMarkup $result */
         $result = (new TelegramTemplateCompiler)->compile($keyboard);
 
-        $this->assertInstanceOf(ReplyKeyboardMarkup::class, $result);
-        $this->assertCount(1, $result->getKeyboard());
-        $this->assertSame('Hello!', $result->getKeyboard()[0]->getText());
-        $this->assertFalse($result->getResizeKeyboard());
-        $this->assertFalse($result->getOneTimeKeyboard());
-        $this->assertTrue($result->getSelective());
+        $this->assertSame([
+            'keyboard' => [
+                [
+                    ['text' => 'Hello!'],
+                ],
+            ],
+            'resize_keyboard' => false,
+            'one_time_keyboard' => false,
+            'selective' => true,
+        ], $result);
     }
 
     public function testCompileInlineKeyboard(): void
@@ -48,10 +52,16 @@ class TelegramTemplateCompilerTest extends TestCase
         /** @var InlineKeyboardMarkup $result */
         $result = (new TelegramTemplateCompiler)->compile($keyboard);
 
-        $this->assertInstanceOf(InlineKeyboardMarkup::class, $result);
-        $this->assertCount(1, $result->getInlineKeyboard());
-        $this->assertSame('Hello!', $result->getInlineKeyboard()[0]->getText());
-        $this->assertSame('foo', $result->getInlineKeyboard()[0]->getCallbackData());
-        $this->assertSame('http://app', $result->getInlineKeyboard()[0]->getUrl());
+        $this->assertSame([
+            'inline_keyboard' => [
+                [
+                    [
+                        'text' => 'Hello!',
+                        'url' => 'http://app',
+                        'callback_data' => 'foo',
+                    ],
+                ],
+            ],
+        ], $result);
     }
 }
