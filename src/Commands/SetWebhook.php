@@ -24,7 +24,7 @@ class SetWebhook extends Command
         /** @var TelegramDriver $driver */
         $driver = $channel->getDriver();
 
-        $result = $driver->client()->setWebhook($channel->getWebhookUrl());
+        $result = $driver->getClient()->setWebhook($channel->getWebhookUrl());
 
         if (!$result) {
             $this->error('Webhook set failed.');

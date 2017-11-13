@@ -48,6 +48,16 @@ class TelegramDriver extends Driver
     }
 
     /** {@inheritdoc} */
+    public function getClient(): TelegramClient
+    {
+        if ($this->client === null) {
+            $this->client = new TelegramClient(new Client, $this->parameters->get('token'));
+        }
+
+        return $this->client;
+    }
+
+    /** {@inheritdoc} */
     public function createEvent(Request $request): Event
     {
         $update = Update::createFromJson($request->all());
@@ -92,7 +102,7 @@ class TelegramDriver extends Driver
             $replyMarkup = $this->getTemplateCompiler()->compile($template);
         }
 
-        $this->client()->sendMessage(
+        $this->getClient()->sendMessage(
             $chat->getId(),
             $text,
             null,
@@ -110,7 +120,7 @@ class TelegramDriver extends Driver
 
         switch ($type) {
             case Attachment::TYPE_FILE:
-                $this->client()->sendDocument(
+                $this->getClient()->sendDocument(
                     $chat->getId(),
                     $attachment->getPath(),
                     $attachment->getParameters()->get('caption'),
@@ -121,7 +131,7 @@ class TelegramDriver extends Driver
                 break;
 
             case Attachment::TYPE_IMAGE:
-                $this->client()->sendPhoto(
+                $this->getClient()->sendPhoto(
                     $chat->getId(),
                     $attachment->getPath(),
                     $attachment->getParameters()->get('caption'),
@@ -132,7 +142,7 @@ class TelegramDriver extends Driver
                 break;
 
             case Attachment::TYPE_AUDIO:
-                $this->client()->sendAudio(
+                $this->getClient()->sendAudio(
                     $chat->getId(),
                     $attachment->getPath(),
                     $attachment->getParameters()->get('caption'),
@@ -146,7 +156,7 @@ class TelegramDriver extends Driver
                 break;
 
             case Attachment::TYPE_VIDEO:
-                $this->client()->sendVideo(
+                $this->getClient()->sendVideo(
                     $chat->getId(),
                     $attachment->getPath(),
                     $attachment->getParameters()->get('duration'),
@@ -164,20 +174,6 @@ class TelegramDriver extends Driver
     /** {@inheritdoc} */
     public function sendRequest(Chat $chat, User $recipient, string $endpoint, array $parameters = []): void
     {
-        $this->client()->post($endpoint, $parameters);
-    }
-
-    /**
-     * Get Telegram client instance.
-     *
-     * @return TelegramClient
-     */
-    public function client(): TelegramClient
-    {
-        if ($this->client === null) {
-            $this->client = new TelegramClient(new Client, $this->parameters->get('token'));
-        }
-
-        return $this->client;
+        $this->getClient()->post($endpoint, $parameters);
     }
 }
