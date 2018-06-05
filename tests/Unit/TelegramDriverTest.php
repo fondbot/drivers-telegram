@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
-use FondBot\Drivers\Chat;
 use Tests\TestCase;
 use GuzzleHttp\Client;
 use FondBot\Helpers\Str;
+use FondBot\Drivers\Chat;
 use FondBot\Drivers\User;
 use FondBot\Http\Request;
 use FondBot\Templates\Location;
@@ -95,7 +95,7 @@ class TelegramDriverTest extends TestCase
                     'chat' => $response = [
                         'id' => Str::random(),
                         'title' => $this->faker()->name,
-                        'type' => Chat::TYPE_PRIVATE
+                        'type' => Chat::TYPE_PRIVATE,
                     ],
                 ],
             ], [])
