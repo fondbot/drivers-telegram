@@ -62,7 +62,11 @@ class TelegramDriver extends Driver
      */
     public function getChat(): Chat
     {
-        $chat = $this->request->getParameter('message.chat');
+        if ($this->request->hasParameters('callback_query')) {
+            $chat = $this->request->getParameter('callback_query.message.chat');
+        } else {
+            $chat = $this->request->getParameter('message.chat');
+        }
 
         return new Chat(
             (string) $chat['id'],
