@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit;
 
+use FondBot\Drivers\Chat;
 use Tests\TestCase;
 use GuzzleHttp\Client;
 use FondBot\Helpers\Str;
@@ -83,6 +84,28 @@ class TelegramDriverTest extends TestCase
         $this->assertSame($response['id'], $sender->getId());
         $this->assertSame($response['first_name'].' '.$response['last_name'], $sender->getName());
         $this->assertSame($response['username'], $sender->getUsername());
+    }
+
+    public function test_getChat(): void
+    {
+        $this->driver->fill(
+            $this->parameters,
+            new Request([
+                'message' => [
+                    'chat' => $response = [
+                        'id' => Str::random(),
+                        'title' => $this->faker()->name,
+                        'type' => Chat::TYPE_PRIVATE
+                    ],
+                ],
+            ], [])
+        );
+
+        $chat = $this->driver->getChat();
+        $this->assertInstanceOf(Chat::class, $chat);
+        $this->assertSame($response['id'], $chat->getId());
+        $this->assertSame($response['title'], $chat->getTitle());
+        $this->assertSame($response['type'], $chat->getType());
     }
 
     public function test_getMessage(): void
