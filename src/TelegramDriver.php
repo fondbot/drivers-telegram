@@ -14,12 +14,13 @@ use Illuminate\Http\Request;
 use FondBot\Contracts\Template;
 use FondBot\Templates\Attachment;
 use FondBot\Events\MessageReceived;
-use FondBot\Drivers\TemplateCompiler;
+use FondBot\Drivers\TemplateRenderer;
 use FondBot\Drivers\Telegram\Types\Update;
 
 class TelegramDriver extends Driver
 {
-    private $client;
+    protected $token;
+    protected $client;
 
     /** {@inheritdoc} */
     public function getName(): string
@@ -34,24 +35,16 @@ class TelegramDriver extends Driver
     }
 
     /** {@inheritdoc} */
-    public function getDefaultParameters(): array
+    public function getTemplateRenderer(): ?TemplateRenderer
     {
-        return [
-            'token' => '',
-        ];
-    }
-
-    /** {@inheritdoc} */
-    public function getTemplateCompiler(): ?TemplateCompiler
-    {
-        return new TelegramTemplateCompiler;
+        return new TelegramTemplateRenderer;
     }
 
     /** {@inheritdoc} */
     public function getClient(): TelegramClient
     {
         if ($this->client === null) {
-            $this->client = new TelegramClient(new Client, $this->parameters->get('token'));
+            $this->client = new TelegramClient(new Client, $this->token);
         }
 
         return $this->client;
@@ -99,7 +92,7 @@ class TelegramDriver extends Driver
     public function sendMessage(Chat $chat, User $recipient, string $text, Template $template = null): void
     {
         if ($template !== null) {
-            $replyMarkup = $this->getTemplateCompiler()->compile($template);
+            $replyMarkup = $this->getTemplateRenderer()->compile($template);
         }
 
         $this->getClient()->sendMessage(

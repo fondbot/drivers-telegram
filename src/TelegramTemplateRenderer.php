@@ -6,22 +6,22 @@ namespace FondBot\Drivers\Telegram;
 
 use FondBot\Drivers\Type;
 use FondBot\Templates\Keyboard;
-use FondBot\Drivers\TemplateCompiler;
+use FondBot\Drivers\TemplateRenderer;
 use FondBot\Templates\Keyboard\UrlButton;
 use FondBot\Templates\Keyboard\PayloadButton;
 use FondBot\Drivers\Telegram\Types\ReplyKeyboardMarkup;
 use FondBot\Drivers\Telegram\Types\InlineKeyboardMarkup;
 
-class TelegramTemplateCompiler extends TemplateCompiler
+class TelegramTemplateRenderer extends TemplateRenderer
 {
     /**
-     * Compile keyboard.
+     * Render keyboard.
      *
      * @param Keyboard $keyboard
      *
      * @return Type|null
      */
-    protected function compileKeyboard(Keyboard $keyboard): ?Type
+    protected function renderKeyboard(Keyboard $keyboard): ?Type
     {
         $firstButton = collect($keyboard->getButtons())->first();
 

@@ -11,7 +11,7 @@
   ],
   "require": {
     "php": ">=7.1",
-    "fondbot/framework": "^2.0",
+    "fondbot/framework": "^3.0",
     "netresearch/jsonmapper": "^1.3"
   },
   "require-dev": {

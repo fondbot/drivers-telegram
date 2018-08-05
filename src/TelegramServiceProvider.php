@@ -20,7 +20,7 @@ class TelegramServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                Commands\SetWebhook::class,
+                Commands\SetWebhookCommand::class,
             ]);
         }
     }

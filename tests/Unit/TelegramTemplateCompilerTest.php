@@ -6,7 +6,7 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use FondBot\Templates\Keyboard;
-use FondBot\Drivers\Telegram\TelegramTemplateCompiler;
+use FondBot\Drivers\Telegram\TelegramTemplateRenderer;
 use FondBot\Drivers\Telegram\Types\ReplyKeyboardMarkup;
 use FondBot\Drivers\Telegram\Types\InlineKeyboardMarkup;
 
@@ -27,7 +27,7 @@ class TelegramTemplateCompilerTest extends TestCase
         $keyboard = new Keyboard($buttons, $parameters);
 
         /** @var ReplyKeyboardMarkup $result */
-        $result = (new TelegramTemplateCompiler)->compile($keyboard);
+        $result = (new TelegramTemplateRenderer)->compile($keyboard);
 
         $this->assertSame([
             'keyboard' => [
@@ -50,7 +50,7 @@ class TelegramTemplateCompilerTest extends TestCase
         $keyboard = new Keyboard($buttons);
 
         /** @var InlineKeyboardMarkup $result */
-        $result = (new TelegramTemplateCompiler)->compile($keyboard);
+        $result = (new TelegramTemplateRenderer)->compile($keyboard);
 
         $this->assertSame([
             'inline_keyboard' => [

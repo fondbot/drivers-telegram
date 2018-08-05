@@ -56,6 +56,7 @@ class TelegramClient
      * Returns basic information about the bot in form of a User object.
      *
      * @return User
+     * @throws DriverException
      */
     public function getMe(): User
     {
@@ -71,6 +72,7 @@ class TelegramClient
      * @param string $url
      *
      * @return bool
+     * @throws DriverException
      */
     public function setWebhook(string $url): bool
     {
@@ -90,6 +92,7 @@ class TelegramClient
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $replyMarkup
      *
      * @return Message
+     * @throws DriverException
      */
     public function sendMessage(
         string $chatId,
@@ -124,6 +127,7 @@ class TelegramClient
      * @param bool|null $disableNotification
      *
      * @return Message
+     * @throws DriverException
      */
     public function forwardMessage(
         string $chatId,
@@ -149,6 +153,7 @@ class TelegramClient
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $replyMarkup
      *
      * @return Message
+     * @throws DriverException
      */
     public function sendPhoto(
         string $chatId,
@@ -183,6 +188,7 @@ class TelegramClient
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $replyMarkup
      *
      * @return Message
+     * @throws DriverException
      */
     public function sendAudio(
         string $chatId,
@@ -224,6 +230,7 @@ class TelegramClient
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $replyMarkup
      *
      * @return Message
+     * @throws DriverException
      */
     public function sendDocument(
         string $chatId,
@@ -262,6 +269,7 @@ class TelegramClient
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $replyMarkup
      *
      * @return Message
+     * @throws DriverException
      */
     public function sendVideo(
         string $chatId,
@@ -306,6 +314,7 @@ class TelegramClient
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $replyMarkup
      *
      * @return Message
+     * @throws DriverException
      */
     public function sendVoice(
         string $chatId,
@@ -344,6 +353,7 @@ class TelegramClient
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $replyMarkup
      *
      * @return Message
+     * @throws DriverException
      */
     public function sendVideoNote(
         string $chatId,
@@ -380,6 +390,7 @@ class TelegramClient
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $replyMarkup
      *
      * @return Message
+     * @throws DriverException
      */
     public function sendLocation(
         string $chatId,
@@ -417,6 +428,7 @@ class TelegramClient
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $replyMarkup
      *
      * @return Message
+     * @throws DriverException
      */
     public function sendVenue(
         string $chatId,
@@ -458,6 +470,7 @@ class TelegramClient
      * @param InlineKeyboardMarkup|ReplyKeyboardMarkup|ReplyKeyboardRemove|ForceReply $replyMarkup
      *
      * @return Message
+     * @throws DriverException
      */
     public function sendContact(
         string $chatId,
@@ -494,6 +507,7 @@ class TelegramClient
      * @param string $action
      *
      * @return bool
+     * @throws DriverException
      */
     public function sendChatAction(string $chatId, string $action): bool
     {
@@ -508,6 +522,7 @@ class TelegramClient
      * @param int|null $limit
      *
      * @return UserProfilePhotos
+     * @throws DriverException
      */
     public function getUserProfilePhotos(int $userId, int $offset = null, int $limit = null): UserProfilePhotos
     {
@@ -527,6 +542,7 @@ class TelegramClient
      * @param string $fileId
      *
      * @return File
+     * @throws DriverException
      */
     public function getFile(string $fileId): File
     {
@@ -545,6 +561,7 @@ class TelegramClient
      * @param int|null $untilDate
      *
      * @return bool
+     * @throws DriverException
      */
     public function kickChatMember(string $chatId, int $userId, int $untilDate = null): bool
     {
@@ -561,6 +578,7 @@ class TelegramClient
      * @param int $userId
      *
      * @return bool
+     * @throws DriverException
      */
     public function unbanChatMember(string $chatId, int $userId): bool
     {
@@ -582,6 +600,7 @@ class TelegramClient
      * @param bool|null $canAddWebPagePreviews
      *
      * @return bool
+     * @throws DriverException
      */
     public function restrictChatMember(
         string $chatId,
@@ -621,6 +640,7 @@ class TelegramClient
      * @param bool|null $canPromoteMembers
      *
      * @return bool
+     * @throws DriverException
      */
     public function promoteChatMember(
         string $chatId,
@@ -656,6 +676,7 @@ class TelegramClient
      * @param string $chatId
      *
      * @return string
+     * @throws DriverException
      */
     public function exportChatInviteLink(string $chatId): string
     {
@@ -672,6 +693,7 @@ class TelegramClient
      * @param string $photo
      *
      * @return bool
+     * @throws DriverException
      */
     public function setChatPhoto(string $chatId, string $photo): bool
     {
@@ -687,6 +709,7 @@ class TelegramClient
      * @param string $chatId
      *
      * @return bool
+     * @throws DriverException
      */
     public function deleteChatPhoto(string $chatId): bool
     {
@@ -703,6 +726,7 @@ class TelegramClient
      * @param string $title
      *
      * @return bool
+     * @throws DriverException
      */
     public function setChatTitle(string $chatId, string $title): bool
     {
@@ -718,6 +742,7 @@ class TelegramClient
      * @param string $description
      *
      * @return bool
+     * @throws DriverException
      */
     public function setChatDescription(string $chatId, string $description = ''): bool
     {
@@ -734,6 +759,7 @@ class TelegramClient
      * @param bool|null $disableNotification
      *
      * @return bool
+     * @throws DriverException
      */
     public function pinChatMessage(string $chatId, int $messageId, bool $disableNotification = null): bool
     {
@@ -747,6 +773,7 @@ class TelegramClient
      *
      * @param string $chatId
      * @return bool
+     * @throws DriverException
      */
     public function unpinChatMessage(string $chatId): bool
     {
@@ -759,6 +786,7 @@ class TelegramClient
      * @param string $chatId
      *
      * @return bool
+     * @throws DriverException
      */
     public function leaveChat(string $chatId): bool
     {
@@ -771,6 +799,7 @@ class TelegramClient
      *
      * @param string $chatId
      * @return Chat
+     * @throws DriverException
      */
     public function getChat(string $chatId): Chat
     {
@@ -787,6 +816,7 @@ class TelegramClient
      * @param string $chatId
      *
      * @return ChatMember[]
+     * @throws DriverException
      */
     public function getChatAdministrators(string $chatId): array
     {
@@ -801,6 +831,7 @@ class TelegramClient
      * @param string $chatId
      *
      * @return int
+     * @throws DriverException
      */
     public function getChatMembersCount(string $chatId): int
     {
@@ -814,6 +845,7 @@ class TelegramClient
      * @param int $userId
      *
      * @return ChatMember
+     * @throws DriverException
      */
     public function getChatMember(string $chatId, int $userId): ChatMember
     {
@@ -834,6 +866,7 @@ class TelegramClient
      * @param int $cacheTime
      *
      * @return bool
+     * @throws DriverException
      */
     public function answerCallbackQuery(
         string $callbackQueryId,

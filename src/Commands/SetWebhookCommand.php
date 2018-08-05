@@ -8,9 +8,9 @@ use Illuminate\Console\Command;
 use FondBot\Contracts\Channels\Manager;
 use FondBot\Drivers\Telegram\TelegramDriver;
 
-class SetWebhook extends Command
+class SetWebhookCommand extends Command
 {
-    protected $signature = 'telegram:set-webhook';
+    protected $signature = 'fondbot:drivers:telegram:set-webhook';
     protected $description = 'Set Webhook URL for a specific channel';
 
     public function handle(Manager $channels): void
