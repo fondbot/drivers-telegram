@@ -28,9 +28,4 @@ class TelegramDriverTest extends TestCase
     {
         $this->assertSame('telegram', $this->driver->getShortName());
     }
-
-    public function testGetDefaultParameters(): void
-    {
-        $this->assertSame(['token' => ''], $this->driver->getDefaultParameters());
-    }
 }

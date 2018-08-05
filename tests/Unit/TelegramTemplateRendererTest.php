@@ -10,9 +10,9 @@ use FondBot\Drivers\Telegram\TelegramTemplateRenderer;
 use FondBot\Drivers\Telegram\Types\ReplyKeyboardMarkup;
 use FondBot\Drivers\Telegram\Types\InlineKeyboardMarkup;
 
-class TelegramTemplateCompilerTest extends TestCase
+class TelegramTemplateRendererTest extends TestCase
 {
-    public function testCompileReplyKeyboard(): void
+    public function testRenderReplyKeyboard(): void
     {
         $buttons = [
             Keyboard\ReplyButton::create('Hello!'),
@@ -27,7 +27,7 @@ class TelegramTemplateCompilerTest extends TestCase
         $keyboard = new Keyboard($buttons, $parameters);
 
         /** @var ReplyKeyboardMarkup $result */
-        $result = (new TelegramTemplateRenderer)->compile($keyboard);
+        $result = (new TelegramTemplateRenderer)->render($keyboard);
 
         $this->assertSame([
             'keyboard' => [
@@ -41,7 +41,7 @@ class TelegramTemplateCompilerTest extends TestCase
         ], $result);
     }
 
-    public function testCompileInlineKeyboard(): void
+    public function testRenderInlineKeyboard(): void
     {
         $buttons = [
             Keyboard\PayloadButton::create('Hello!', 'foo', ['url' => 'http://app']),
@@ -50,7 +50,7 @@ class TelegramTemplateCompilerTest extends TestCase
         $keyboard = new Keyboard($buttons);
 
         /** @var InlineKeyboardMarkup $result */
-        $result = (new TelegramTemplateRenderer)->compile($keyboard);
+        $result = (new TelegramTemplateRenderer)->render($keyboard);
 
         $this->assertSame([
             'inline_keyboard' => [
