@@ -92,7 +92,7 @@ class TelegramDriver extends Driver
     public function sendMessage(Chat $chat, User $recipient, string $text, Template $template = null): void
     {
         if ($template !== null) {
-            $replyMarkup = $this->getTemplateRenderer()->compile($template);
+            $replyMarkup = $this->getTemplateRenderer()->render($template);
         }
 
         $this->getClient()->sendMessage(
