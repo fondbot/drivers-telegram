@@ -56,8 +56,8 @@ class TelegramDriver extends Driver
         $update = Update::createFromJson($request->all());
 
         if ($message = $update->getMessage()) {
-            $chat = Chat::create((string) $message->getChat()->getId(), $message->getChat()->getTitle(), $message->getChat()->getType());
-            $from = User::create((string) $message->getFrom()->getId(), $message->getFrom()->getFirstName(), $message->getFrom()->getUsername());
+            $chat = new Chat((string) $message->getChat()->getId(), $message->getChat()->getTitle(), $message->getChat()->getType());
+            $from = new User((string) $message->getFrom()->getId(), $message->getFrom()->getFirstName(), $message->getFrom()->getUsername());
 
             return new MessageReceived(
                 $chat,
@@ -72,8 +72,8 @@ class TelegramDriver extends Driver
         if ($callbackQuery = $update->getCallbackQuery()) {
             $message = $callbackQuery->getMessage();
 
-            $chat = Chat::create((string) $message->getChat()->getId(), $message->getChat()->getTitle(), $message->getChat()->getType());
-            $from = User::create((string) $message->getFrom()->getId(), $message->getFrom()->getFirstName(), $message->getFrom()->getUsername());
+            $chat = new Chat((string) $message->getChat()->getId(), $message->getChat()->getTitle(), $message->getChat()->getType());
+            $from = new User((string) $message->getFrom()->getId(), $message->getFrom()->getFirstName(), $message->getFrom()->getUsername());
 
             return new MessageReceived(
                 $chat,
