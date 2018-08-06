@@ -15,7 +15,7 @@ class TelegramTemplateRendererTest extends TestCase
     public function testRenderReplyKeyboard(): void
     {
         $buttons = [
-            Keyboard\ReplyButton::create('Hello!'),
+            Keyboard\ReplyButton::make('Hello!'),
         ];
 
         $parameters = [
@@ -44,7 +44,7 @@ class TelegramTemplateRendererTest extends TestCase
     public function testRenderInlineKeyboard(): void
     {
         $buttons = [
-            Keyboard\PayloadButton::create('Hello!', 'foo', ['url' => 'http://app']),
+            Keyboard\PayloadButton::make('Hello!', 'foo', ['url' => 'http://app']),
         ];
 
         $keyboard = new Keyboard($buttons);
