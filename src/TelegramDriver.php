@@ -53,7 +53,11 @@ class TelegramDriver extends Driver
     /** {@inheritdoc} */
     public function createEvent(Request $request): Event
     {
-        $update = Update::createFromJson($request->all());
+        if(empty($request->input())) {
+            return new Unknown();
+        }
+
+        $update = Update::createFromJson($request->input());
 
         if ($message = $update->getMessage()) {
             $chat = new Chat((string) $message->getChat()->getId(), $message->getChat()->getTitle(), $message->getChat()->getType());
@@ -73,7 +77,7 @@ class TelegramDriver extends Driver
             $message = $callbackQuery->getMessage();
 
             $chat = new Chat((string) $message->getChat()->getId(), $message->getChat()->getTitle(), $message->getChat()->getType());
-            $from = new User((string) $message->getFrom()->getId(), $message->getFrom()->getFirstName(), $message->getFrom()->getUsername());
+            $from = new User((string) $message->getChat()->getId(), $message->getFrom()->getFirstName(), $message->getFrom()->getUsername());
 
             return new MessageReceived(
                 $chat,
@@ -85,7 +89,7 @@ class TelegramDriver extends Driver
             );
         }
 
-        return new Unknown;
+        return new Unknown();
     }
 
     /** {@inheritdoc} */
