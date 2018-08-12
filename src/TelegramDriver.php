@@ -17,10 +17,12 @@ use FondBot\Events\MessageReceived;
 use FondBot\Drivers\TemplateRenderer;
 use FondBot\Drivers\Telegram\Types\Update;
 
+/**
+ * @method TelegramClient getClient()
+ */
 class TelegramDriver extends Driver
 {
     protected $token;
-    protected $client;
 
     /** {@inheritdoc} */
     public function getName(): string
@@ -40,20 +42,20 @@ class TelegramDriver extends Driver
         return new TelegramTemplateRenderer;
     }
 
-    /** {@inheritdoc} */
-    public function getClient(): TelegramClient
+    /**
+     * Create API client.
+     *
+     * @return mixed
+     */
+    public function createClient()
     {
-        if ($this->client === null) {
-            $this->client = new TelegramClient(new Client, $this->token);
-        }
-
-        return $this->client;
+        return new TelegramClient(new Client, $this->token);
     }
 
     /** {@inheritdoc} */
     public function createEvent(Request $request): Event
     {
-        if(empty($request->input())) {
+        if (empty($request->input())) {
             return new Unknown();
         }
 
