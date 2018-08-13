@@ -68,7 +68,7 @@ class TelegramDriver extends Driver
      *
      * @return TelegramTemplateCompiler
      */
-    public function getTemplateRenderer(): ?TemplateCompiler
+    public function getTemplateCompiler(): ?TemplateCompiler
     {
         return new TelegramTemplateCompiler;
     }
@@ -147,7 +147,7 @@ class TelegramDriver extends Driver
         $sendMessage = new SendMessage();
 
         if ($template !== null) {
-            $sendMessage->reply_markup = $this->getTemplateRenderer()->compile($template);
+            $sendMessage->reply_markup = $this->getTemplateCompiler()->compile($template);
         }
 
         $sendMessage->chat_id = $chat->getId();
