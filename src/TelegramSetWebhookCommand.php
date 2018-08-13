@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace FondBot\Drivers\Telegram\Commands;
+namespace FondBot\Drivers\Telegram;
 
 use Illuminate\Console\Command;
 use FondBot\Contracts\Channels\Manager;
-use FondBot\Drivers\Telegram\TelegramDriver;
+use unreal4u\TelegramAPI\Telegram\Methods\SetWebhook;
 
-class SetWebhookCommand extends Command
+class TelegramSetWebhookCommand extends Command
 {
-    protected $signature = 'fondbot:drivers:telegram:set-webhook';
-    protected $description = 'Set Webhook URL for a specific channel';
+    protected $signature = 'fondbot:driver:telegram:set-webhook';
+    protected $description = 'Set Telegram webhook';
 
     public function handle(Manager $channels): void
     {
@@ -24,14 +24,17 @@ class SetWebhookCommand extends Command
         /** @var TelegramDriver $driver */
         $driver = $channel->getDriver();
 
-        $result = $driver->getClient()->setWebhook($channel->getWebhookUrl());
+        $request = new SetWebhook();
+        $request->url = $channel->getWebhookUrl();
+
+        $result = $driver->getClient()->performApiRequest($request);
 
         if (!$result) {
-            $this->error('Webhook set failed.');
+            $this->error('Webhook update failed.');
 
             exit(0);
         }
 
-        $this->info('Webhook set success.');
+        $this->info('Webhook updated.');
     }
 }

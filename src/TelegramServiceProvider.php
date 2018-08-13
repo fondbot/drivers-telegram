@@ -20,7 +20,8 @@ class TelegramServiceProvider extends ServiceProvider
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                Commands\SetWebhookCommand::class,
+                \FondBot\Drivers\Telegram\TelegramSetWebhookCommand::class,
+                \FondBot\Drivers\Telegram\TelegramDeleteWebhookCommand::class,
             ]);
         }
     }
