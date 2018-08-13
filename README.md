@@ -1,4 +1,4 @@
-<img src="https://fondbot.io/images/logo.png" width="200px">
+<img src="https://fondbot.io/logo.svg" width="200px">
 
 ## FondBot Telegram Driver
 
