@@ -16,7 +16,6 @@ use unreal4u\TelegramAPI\TgLog;
 use FondBot\Templates\Attachment;
 use React\EventLoop\LoopInterface;
 use FondBot\Events\MessageReceived;
-use FondBot\Drivers\TemplateCompiler;
 use unreal4u\TelegramAPI\Telegram\Types\Update;
 use unreal4u\TelegramAPI\HttpClientRequestHandler;
 use unreal4u\TelegramAPI\Telegram\Methods\SendAudio;
@@ -61,16 +60,6 @@ class TelegramDriver extends Driver
     public function getShortName(): string
     {
         return 'telegram';
-    }
-
-    /**
-     * Get template compiler instance.
-     *
-     * @return TelegramTemplateCompiler
-     */
-    public function getTemplateCompiler(): ?TemplateCompiler
-    {
-        return new TelegramTemplateCompiler;
     }
 
     /**
@@ -147,7 +136,7 @@ class TelegramDriver extends Driver
         $sendMessage = new SendMessage();
 
         if ($template !== null) {
-            $sendMessage->reply_markup = $this->getTemplateCompiler()->compile($template);
+            $sendMessage->reply_markup = $this->templateCompiler->compile($template);
         }
 
         $sendMessage->chat_id = $chat->getId();
