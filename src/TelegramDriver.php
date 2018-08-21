@@ -100,7 +100,8 @@ class TelegramDriver extends Driver
                 $message->text,
                 $message->location,
                 null,
-                optional($update->callback_query)->data
+                optional($update->callback_query)->data,
+                $update
             );
         }
 
@@ -116,7 +117,8 @@ class TelegramDriver extends Driver
                 $message->text,
                 $message->location,
                 null,
-                $callbackQuery->data
+                $callbackQuery->data,
+                $update
             );
         }
 
