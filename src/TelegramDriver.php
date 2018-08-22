@@ -150,6 +150,7 @@ class TelegramDriver extends Driver
         $sendMessage->text = $text;
 
         $this->client->performApiRequest($sendMessage);
+        $this->loop->run();
     }
 
     /**
@@ -203,6 +204,7 @@ class TelegramDriver extends Driver
             $request->reply_markup = $attachment->getParameters()->get('reply_markup');
 
             $this->client->performApiRequest($request);
+            $this->loop->run();
         }
     }
 
