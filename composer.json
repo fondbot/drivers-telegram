@@ -11,7 +11,7 @@
   ],
   "require": {
     "php": "^7.1",
-    "fondbot/framework": "^3.0",
+    "fondbot/framework": "^4.0",
     "unreal4u/telegram-api": "^3.3"
   },
   "require-dev": {
@@ -32,7 +32,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "3.1-dev"
+      "dev-master": "4.0-dev"
     },
     "laravel": {
       "providers": [
