@@ -16,7 +16,6 @@ use unreal4u\TelegramAPI\TgLog;
 use FondBot\Templates\Attachment;
 use React\EventLoop\LoopInterface;
 use FondBot\Events\MessageReceived;
-use FondBot\Drivers\TemplateCompiler;
 use unreal4u\TelegramAPI\Telegram\Types\Update;
 use unreal4u\TelegramAPI\HttpClientRequestHandler;
 use unreal4u\TelegramAPI\Telegram\Methods\SendAudio;
@@ -25,6 +24,7 @@ use unreal4u\TelegramAPI\Telegram\Methods\SendVideo;
 use unreal4u\TelegramAPI\Telegram\Methods\SendMessage;
 use unreal4u\TelegramAPI\Telegram\Methods\SendDocument;
 use unreal4u\TelegramAPI\Telegram\Types\Custom\InputFile;
+use unreal4u\TelegramAPI\Telegram\Methods\EditMessageReplyMarkup;
 
 /**
  * @method TgLog getClient()
@@ -38,6 +38,9 @@ class TelegramDriver extends Driver
 
     /** @var LoopInterface */
     private $loop;
+
+    /** @var Update|null */
+    private $update;
 
     /**
      * Get gateway display name.
@@ -61,16 +64,6 @@ class TelegramDriver extends Driver
     public function getShortName(): string
     {
         return 'telegram';
-    }
-
-    /**
-     * Get template compiler instance.
-     *
-     * @return TelegramTemplateCompiler
-     */
-    public function getTemplateRenderer(): ?TemplateCompiler
-    {
-        return new TelegramTemplateCompiler;
     }
 
     /**
@@ -100,6 +93,7 @@ class TelegramDriver extends Driver
         }
 
         $update = new Update($request->input());
+        $this->update = $update;
 
         if ($message = $update->message) {
             $chat = new Chat((string) $message->chat->id, $message->chat->title, $message->chat->type);
@@ -111,7 +105,8 @@ class TelegramDriver extends Driver
                 $message->text,
                 $message->location,
                 null,
-                optional($update->callback_query)->data
+                optional($update->callback_query)->data,
+                $update
             );
         }
 
@@ -127,7 +122,8 @@ class TelegramDriver extends Driver
                 $message->text,
                 $message->location,
                 null,
-                $callbackQuery->data
+                $callbackQuery->data,
+                $update
             );
         }
 
@@ -147,13 +143,14 @@ class TelegramDriver extends Driver
         $sendMessage = new SendMessage();
 
         if ($template !== null) {
-            $sendMessage->reply_markup = $this->getTemplateRenderer()->compile($template);
+            $sendMessage->reply_markup = $this->templateCompiler->compile($template);
         }
 
         $sendMessage->chat_id = $chat->getId();
         $sendMessage->text = $text;
 
         $this->client->performApiRequest($sendMessage);
+        $this->loop->run();
     }
 
     /**
@@ -207,12 +204,23 @@ class TelegramDriver extends Driver
             $request->reply_markup = $attachment->getParameters()->get('reply_markup');
 
             $this->client->performApiRequest($request);
+            $this->loop->run();
         }
     }
 
     public function __destruct()
     {
         if ($this->loop) {
+            // Remove inline keyboard markup after user replied
+            if ($this->update && $this->update->callback_query) {
+                $request = new EditMessageReplyMarkup();
+                $request->chat_id = $this->update->callback_query->message->chat->id;
+                $request->message_id = $this->update->callback_query->message->message_id;
+                $request->reply_markup = [];
+
+                $this->client->performApiRequest($request);
+            }
+
             $this->loop->run();
         }
     }

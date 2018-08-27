@@ -61,7 +61,7 @@ class TelegramTemplateCompiler extends TemplateCompiler
     protected function compileReplyKeyboard(Keyboard $keyboard): ReplyKeyboardMarkup
     {
         $replyKeyboardMarkup = new ReplyKeyboardMarkup();
-        $replyKeyboardMarkup->resize_keyboard = $keyboard->getParameters()->get('resize_keyboard', false);
+        $replyKeyboardMarkup->resize_keyboard = $keyboard->getParameters()->get('resize_keyboard', true);
         $replyKeyboardMarkup->one_time_keyboard = $keyboard->getParameters()->get('one_time_keyboard', true);
 
         foreach ($keyboard->getButtons() as $button) {

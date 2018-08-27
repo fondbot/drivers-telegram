@@ -15,13 +15,15 @@ class TelegramServiceProvider extends ServiceProvider
         $manager = $this->app[ChannelManager::class];
 
         $manager->extend('telegram', function () {
-            return new TelegramDriver;
+            return new TelegramDriver(
+                new TelegramTemplateCompiler()
+            );
         });
 
         if ($this->app->runningInConsole()) {
             $this->commands([
-                \FondBot\Drivers\Telegram\TelegramSetWebhookCommand::class,
-                \FondBot\Drivers\Telegram\TelegramDeleteWebhookCommand::class,
+                TelegramSetWebhookCommand::class,
+                TelegramDeleteWebhookCommand::class,
             ]);
         }
     }
